@@ -10,17 +10,24 @@ import User from "./User";
 const StyledHeader = styled.header`
   ${(props) => `border-bottom: 1px solid ${props.theme.light}`};
 `;
-
+const FlexGroup = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+`;
 const Header = () => {
   return (
     <StyledHeader>
-      <Container direction="row">
+      <Container direction="row" justifyContent="space-between">
         <Logo />
         <DropDownSearch />
         <AddPropertyButton />
-        <MessagesIcon />
-        <NotificationsIcon />
-        <User />
+        <FlexGroup>
+          <MessagesIcon />
+          <NotificationsIcon />
+          <User />
+        </FlexGroup>
       </Container>
     </StyledHeader>
   );

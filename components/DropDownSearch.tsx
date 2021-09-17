@@ -9,7 +9,6 @@ const DropDownSearchContainer = styled.div`
   width: 24.9rem;
   height: 2.93rem;
   border-radius: 0.5rem;
-  margin-left: 5rem;
   cursor: pointer;
   padding: 0.7rem;
   box-sizing: border-box;
