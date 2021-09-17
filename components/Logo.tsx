@@ -7,7 +7,7 @@ const LogoHeader = styled.h1`
   text-transform: uppercase;
   font-weight: 700;
   position: relative;
-  color: ${(props) => props.theme.primary};
+  color: ${(props) => props.theme.dark};
 `;
 const Link = styled.a`
   color: inherit;
@@ -18,7 +18,7 @@ const Link = styled.a`
   :hover,
   :focus {
     text-decoration: none;
-    color: ${(props) => lighten(0.2, props.theme.primary)};
+    color: ${(props) => lighten(0.2, props.theme.dark)};
   }
 `;
 const Logo = () => {
