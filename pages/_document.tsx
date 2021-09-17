@@ -18,8 +18,12 @@ class MyDocument extends Document {
           />
           <link
             rel="stylesheet"
-            href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-          ></link>
+            href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+          />
+          <link
+            rel="stylesheet"
+            href="https://use.fontawesome.com/releases/v5.15.4/css/v4-shims.css"
+          />
         </Head>
         <body>
           <Main />
