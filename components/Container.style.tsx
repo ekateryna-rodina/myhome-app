@@ -1,29 +1,42 @@
 import React from "react";
 import styled from "styled-components";
 
-const StyledContainer = styled.div<{
-  direction: string;
-  justifyContent: string;
-}>`
-  width: 94%;
-  margin: auto;
-  padding: 0.5rem;
+const StyledContainer = styled.div<Partial<ContainerProps>>`
+  padding: ${(props) => `${props.paddingVertical}rem 0`};
+  width: ${({ width }) => width ?? "95%"};
+  margin: 0 auto;
+  ${({ direction, justifyContent, alignItems }) =>
+    direction &&
+    `
   display: flex;
-  flex-direction: ${(props) => props.direction};
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: ${direction};
+  justify-content: ${justifyContent};
+  align-items: ${alignItems};
+  `}
 `;
 interface ContainerProps {
   direction: string;
   justifyContent: string;
+  paddingVertical: string;
+  alignItems: string;
+  width: string;
 }
-const Container: React.FC<ContainerProps> = ({
+const Container: React.FC<Partial<ContainerProps>> = ({
   children,
   direction,
   justifyContent,
+  paddingVertical,
+  alignItems,
+  width,
 }) => {
   return (
-    <StyledContainer direction={direction} justifyContent={justifyContent}>
+    <StyledContainer
+      direction={direction}
+      justifyContent={justifyContent}
+      paddingVertical={paddingVertical}
+      alignItems={alignItems}
+      width={width}
+    >
       {children}
     </StyledContainer>
   );
