@@ -96,7 +96,7 @@ const Track = styled.div`
   border-radius: 3px;
   height: 3px;
   position: absolute;
-  background-color: yellow;
+  background-color: ${(props) => props.theme.light};
   width: 100%;
   z-index: 1;
 `;
@@ -104,7 +104,7 @@ const Range = styled.div`
   border-radius: 3px;
   height: 3px;
   position: absolute;
-  background-color: green;
+  background-color: ${(props) => props.theme.secondary};
   z-index: 2;
 `;
 type SliderRangeProps = {

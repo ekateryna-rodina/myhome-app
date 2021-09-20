@@ -27,6 +27,7 @@ const FiltersContainer = styled.div<{ media: Partial<IMediaQuery> }>`
 const Title = styled.span`
   color: ${(props) => props.theme.dark};
   margin-top: 1rem;
+  font-weight: 700;
 `;
 const Categories = styled.div`
   width: 100%;
