@@ -69,6 +69,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     if (mediaMap["isMobile"]) return "65%";
     if (mediaMap["isTablet"]) return "75%";
     if (mediaMap["isLaptop"]) return "85%";
+    if (mediaMap["isBigDesktop"]) return "90%";
     return "100%";
   };
   return (

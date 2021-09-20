@@ -16,10 +16,7 @@ const CategoryContainer = styled.div<{
   justify-content: center;
   align-items: center;
 
-  flex-grow: ${({ media }) =>
-    media["isTablet"] || media["isDesktop"] || media["isBigDesktop"]
-      ? "1"
-      : "0"};
+  flex-grow: ${({ media }) => (media["isTablet"] ? "1" : "0")};
 `;
 const Label = styled.span<{ isSelected: boolean }>`
   color: ${(props) => (props.isSelected ? props.theme.dark : props.theme.gray)};

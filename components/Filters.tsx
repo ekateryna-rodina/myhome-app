@@ -4,12 +4,13 @@ import { Context } from "../pages/_app";
 import { IMediaQuery } from "../types/media";
 import Category from "./Category";
 import Container from "./Container.style";
+import { Slider } from "./Slider";
 
 const FiltersContainer = styled.div<{ media: Partial<IMediaQuery> }>`
   height: 100%;
   position: absolute;
   left: 0;
-  max-width: inherit;
+  max-width: 15rem;
   right: ${({ media }) =>
     media["isSmallMobile"] || media["isMobile"] || media["isTablet"]
       ? "0"
@@ -22,16 +23,10 @@ const FiltersContainer = styled.div<{ media: Partial<IMediaQuery> }>`
       ? "none"
       : `1px solid ${props.theme.light}`};
   overflow-y: auto;
-  ${(props) =>
-    (props.media["isLaptop"] ||
-      props.media["isDesktop"] ||
-      props.media["isBigDesktop"]) &&
-    `
-  max-width: 15rem;
-  `}
 `;
 const Title = styled.span`
   color: ${(props) => props.theme.dark};
+  margin-top: 1rem;
 `;
 const Categories = styled.div`
   width: 100%;
@@ -67,6 +62,8 @@ const Filters = () => {
             <Category key={c[0]} name={c[0]} isSelected={c[1]} index={index} />
           ))}
         </Categories>
+        <Title>Price Range</Title>
+        <Slider />
       </Container>
     </FiltersContainer>
   );
