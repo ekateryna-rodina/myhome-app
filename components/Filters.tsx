@@ -1,9 +1,12 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
 import { Context } from "../pages/_app";
+import { Unit } from "../types/enums";
 import { IMediaQuery } from "../types/media";
 import Category from "./Category";
+import CheckboxGroup from "./CheckboxGroup";
 import Container from "./Container.style";
+import RoomsDropDown from "./RoomsDropDown";
 import { Slider } from "./Slider";
 
 const FiltersContainer = styled.div<{ media: Partial<IMediaQuery> }>`
@@ -39,6 +42,14 @@ const Categories = styled.div`
   justify-content: flex-start;
   align-items: center;
 `;
+const RoomsContainer = styled.div`
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 85%;
+`;
 const Filters = () => {
   const categories = [
     ["house", true],
@@ -46,6 +57,7 @@ const Filters = () => {
     ["office", false],
     ["landplot", false],
   ];
+  const additionalData = ["pets friendly", "furnished", "parking"];
   const mediaMap: Partial<IMediaQuery> = useContext(Context);
   console.log(mediaMap);
   return (
@@ -64,7 +76,16 @@ const Filters = () => {
           ))}
         </Categories>
         <Title>Price Range</Title>
-        <Slider />
+        <Slider min={0} max={300} unit={Unit.USD} />
+        <Title>Property Size</Title>
+        <Slider min={0} max={5000} unit={Unit.SQFT} />
+        <Title>Rooms</Title>
+        <RoomsContainer>
+          <RoomsDropDown type="bed" onSelected={() => null} />
+          <RoomsDropDown type="bath" onSelected={() => null} />
+        </RoomsContainer>
+        <Title>Additional</Title>
+        <CheckboxGroup data={additionalData} onSelected={() => null} />
       </Container>
     </FiltersContainer>
   );

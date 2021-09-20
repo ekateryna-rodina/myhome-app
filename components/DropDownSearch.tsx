@@ -3,6 +3,7 @@ import React, { useContext } from "react";
 import styled from "styled-components";
 import { Context } from "../pages/_app";
 import { IMediaQuery } from "../types/media";
+import Caret from "./Caret.style";
 
 // shared
 const DropDownSearchContainer = styled.div`
@@ -39,14 +40,7 @@ const Selected = styled.span`
   font-weight: bold;
   color: ${(props) => props.theme.dark};
 `;
-const CaretIcon = styled.div`
-  color: ${(props) => props.theme.gray};
-  :after {
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    content: "\f0d7";
-  }
-`;
+
 // search
 const SeachContainer = styled.div<{ media: Partial<IMediaQuery> }>`
   flex: 4;
@@ -107,7 +101,7 @@ const DropDownSearch = () => {
     <DropDownSearchContainer>
       <DropDownContainer media={mediaMap}>
         <Selected>Rent</Selected>
-        <CaretIcon />
+        <Caret />
       </DropDownContainer>
       <SeachContainer media={mediaMap}>
         <MarkerIcon />

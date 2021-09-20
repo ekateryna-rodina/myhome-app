@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
 import styled from "styled-components";
+import { Unit } from "../types/enums";
 import SliderRange from "./SliderRange";
 
 const Container = styled.div`
@@ -20,10 +21,15 @@ const MinMaxLabels = styled.div`
 const Label = styled.span`
   font-weight: bold;
   color: ${(props) => props.theme.dark};
+  font-size: 0.7rem;
 `;
-export const Slider = () => {
-  let min = 0;
-  let max = 200;
+interface SliderProps {
+  min: number;
+  max: number;
+  unit: Unit;
+}
+export const Slider = (props: SliderProps) => {
+  const { min, max, unit } = props;
   const barsData = useMemo(
     () =>
       new Array(150)
@@ -55,8 +61,16 @@ export const Slider = () => {
     <Container>
       <SliderRange {...sliderProps}></SliderRange>
       <MinMaxLabels>
-        <Label>${minValue}</Label>
-        <Label>${maxValue}</Label>
+        <Label>
+          {unit === Unit.USD ? Unit.USD.toString() : ""}
+          {minValue}
+          {unit === Unit.USD ? "" : " " + Unit.SQFT.toString()}
+        </Label>
+        <Label>
+          {unit === Unit.USD ? Unit.USD.toString() : ""}
+          {maxValue}
+          {unit === Unit.USD ? "" : " " + Unit.SQFT.toString()}
+        </Label>
       </MinMaxLabels>
     </Container>
   );
