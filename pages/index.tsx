@@ -15,7 +15,9 @@ const Main = styled.main`
   overflow-y: auto;
   margin-top: 5rem;
 `;
+
 const Home: NextPage = () => {
+  const key: string = process.env.NEXT_PUBLIC_GMAP_KEY || "";
   const [winReady, setwinReady] = useState(false);
   useEffect(() => {
     setwinReady(true);
@@ -26,12 +28,21 @@ const Home: NextPage = () => {
       <Container>
         <Main>
           <Filters />
-          <Map />
+          <Map secret={key} />
           <MobileMenu />
         </Main>
       </Container>
     </>
   );
+};
+
+Home.getInitialProps = async (ctx) => {
+  let key = process.env.NEXT_PUBLIC_GMAP_KEY;
+  return {
+    props: {
+      key,
+    },
+  };
 };
 
 export default Home;
