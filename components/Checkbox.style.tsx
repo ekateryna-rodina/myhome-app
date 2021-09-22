@@ -13,6 +13,7 @@ const StyledCheckbox = styled.input`
   border: 0.5px solid white;
   border-radius: 3px;
   border: 0.5px solid rgba(0, 0, 0, 0.3);
+  margin-left: 0;
 
   :hover {
     filter: brightness(110%);
