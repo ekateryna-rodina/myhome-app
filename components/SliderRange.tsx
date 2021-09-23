@@ -18,7 +18,7 @@ const StyledThumbLeft = styled.input<{ zIndex: string }>`
   pointer-events: none;
   position: absolute;
   height: 0;
-  width: 175px;
+  width: 100%;
   outline: none;
   z-index: ${(props) => props.zIndex};
 
@@ -58,7 +58,7 @@ const StyledThumbRight = styled.input`
   pointer-events: none;
   position: absolute;
   height: 0;
-  width: 175px;
+  width: 100%;
   outline: none;
   z-index: 4;
 
@@ -90,20 +90,21 @@ const StyledThumbRight = styled.input`
 `;
 const StyledSlider = styled.div`
   position: relative;
-  width: 175px;
+  width: 100%;
 `;
 const Track = styled.div`
   border-radius: 3px;
   height: 3px;
+  width: 100%;
   position: absolute;
   background-color: ${(props) => props.theme.light};
-  width: 100%;
   z-index: 1;
 `;
 const Range = styled.div`
   border-radius: 3px;
   height: 3px;
   position: absolute;
+  width: 100%;
   background-color: ${(props) => props.theme.secondary};
   z-index: 2;
 `;

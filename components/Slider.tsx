@@ -5,10 +5,18 @@ import { Unit } from "../types/enums";
 import { IMediaQuery } from "../types/media";
 import SliderRange from "./SliderRange";
 
-const Container = styled.div<{ media: Partial<IMediaQuery> }>`
+const Container = styled.div<{
+  media: Partial<IMediaQuery>;
+}>`
   width: 80%;
   height: 3.2rem;
   position: relative;
+  ${({ media }) =>
+    media["isTablet"]
+      ? `margin-left: auto;
+    margin-right: .2rem;
+    `
+      : ""}
 `;
 const MinMaxLabels = styled.div`
   display: flex;

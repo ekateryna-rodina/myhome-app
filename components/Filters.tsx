@@ -32,9 +32,14 @@ const FiltersContainer = styled.div<{ media: Partial<IMediaQuery> }>`
   `
       : ""}
 `;
-const Title = styled.span`
+const Title = styled.span<{
+  media?: Partial<IMediaQuery>;
+  pushRight?: boolean;
+}>`
   color: ${(props) => props.theme.dark};
   margin-top: 1rem;
+  margin-left: ${({ pushRight, media }) =>
+    pushRight && media["isTablet"] ? "20%" : "0"};
   font-weight: 700;
 `;
 const Categories = styled.div`
@@ -83,6 +88,7 @@ const Filters = () => {
   const additionalData = ["pets friendly", "furnished", "parking"];
   const mediaMap: Partial<IMediaQuery> = useContext(Context);
   console.log(mediaMap);
+
   return (
     <FiltersContainer media={mediaMap}>
       <Container
@@ -104,7 +110,9 @@ const Filters = () => {
             <Slider min={0} max={300} unit={Unit.USD} />
           </PriceRange>
           <PropertySize>
-            <Title>Property Size</Title>
+            <Title media={mediaMap} pushRight={true}>
+              Property Size
+            </Title>
             <Slider min={0} max={5000} unit={Unit.SQFT} />
           </PropertySize>
         </FlexibleRangeContainer>
