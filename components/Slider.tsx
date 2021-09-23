@@ -1,10 +1,12 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useContext, useMemo, useState } from "react";
 import styled from "styled-components";
+import { Context } from "../pages/_app";
 import { Unit } from "../types/enums";
+import { IMediaQuery } from "../types/media";
 import SliderRange from "./SliderRange";
 
-const Container = styled.div`
-  width: 175px;
+const Container = styled.div<{ media: Partial<IMediaQuery> }>`
+  width: 80%;
   height: 3.2rem;
   position: relative;
 `;
@@ -13,6 +15,7 @@ const MinMaxLabels = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  margin-top: auto;
   position: absolute;
   left: 0;
   right: 0;
@@ -57,8 +60,9 @@ export const Slider = (props: SliderProps) => {
     //eslint-disable-next-line
     [minValue, maxValue]
   );
+  const mediaMap = useContext(Context);
   return (
-    <Container>
+    <Container media={mediaMap}>
       <SliderRange {...sliderProps}></SliderRange>
       <MinMaxLabels>
         <Label>

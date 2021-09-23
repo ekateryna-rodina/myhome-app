@@ -13,7 +13,6 @@ const FiltersContainer = styled.div<{ media: Partial<IMediaQuery> }>`
   height: 100%;
   position: absolute;
   left: 0;
-  max-width: 15rem;
   right: ${({ media }) =>
     media["isSmallMobile"] || media["isMobile"] || media["isTablet"]
       ? "0"
@@ -26,6 +25,12 @@ const FiltersContainer = styled.div<{ media: Partial<IMediaQuery> }>`
       ? "none"
       : `1px solid ${props.theme.light}`};
   overflow-y: auto;
+  ${({ media }) =>
+    media["isDesktop"] || media["isBigDesktop"]
+      ? `
+  max-width: 15rem;
+  `
+      : ""}
 `;
 const Title = styled.span`
   color: ${(props) => props.theme.dark};
@@ -42,13 +47,30 @@ const Categories = styled.div`
   justify-content: flex-start;
   align-items: center;
 `;
-const RoomsContainer = styled.div`
+const RoomsContainer = styled.div<{ media: Partial<IMediaQuery> }>`
   margin-top: 1rem;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: ${(props) =>
+    props.media["isTablet"] ? "flex-start" : "space-between;"}
   align-items: center;
   width: 85%;
+`;
+const FlexibleRangeContainer = styled.div<{ media: Partial<IMediaQuery> }>`
+  width: 100%;
+  display: flex;
+  flex-direction: ${({ media }) => (media["isTablet"] ? "row" : "column")};
+  margin-top: 1rem;
+  justify-content: ${({ media }) =>
+    media["isTablet"] ? "space-around" : "center"};
+`;
+const PriceRange = styled.div`
+  flex: 1;
+  flex-grow: 2;
+`;
+const PropertySize = styled.div`
+  flex: 1;
+  flex-grow: 2;
 `;
 const Filters = () => {
   const categories = [
@@ -57,6 +79,7 @@ const Filters = () => {
     ["office", false],
     ["landplot", false],
   ];
+
   const additionalData = ["pets friendly", "furnished", "parking"];
   const mediaMap: Partial<IMediaQuery> = useContext(Context);
   console.log(mediaMap);
@@ -75,12 +98,18 @@ const Filters = () => {
             <Category key={c[0]} name={c[0]} isSelected={c[1]} index={index} />
           ))}
         </Categories>
-        <Title>Price Range</Title>
-        <Slider min={0} max={300} unit={Unit.USD} />
-        <Title>Property Size</Title>
-        <Slider min={0} max={5000} unit={Unit.SQFT} />
+        <FlexibleRangeContainer media={mediaMap}>
+          <PriceRange>
+            <Title>Price Range</Title>
+            <Slider min={0} max={300} unit={Unit.USD} />
+          </PriceRange>
+          <PropertySize>
+            <Title>Property Size</Title>
+            <Slider min={0} max={5000} unit={Unit.SQFT} />
+          </PropertySize>
+        </FlexibleRangeContainer>
         <Title>Rooms</Title>
-        <RoomsContainer>
+        <RoomsContainer media={mediaMap}>
           <RoomsDropDown type="bed" onSelected={() => null} />
           <RoomsDropDown type="bath" onSelected={() => null} />
         </RoomsContainer>
