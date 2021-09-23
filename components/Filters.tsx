@@ -39,7 +39,7 @@ const Title = styled.span<{
   color: ${(props) => props.theme.dark};
   margin-top: 1rem;
   margin-left: ${({ pushRight, media }) =>
-    pushRight && media["isTablet"] ? "20%" : "0"};
+    pushRight && media && media["isTablet"] ? "20%" : "0"};
   font-weight: 700;
 `;
 const Categories = styled.div`
@@ -52,14 +52,20 @@ const Categories = styled.div`
   justify-content: flex-start;
   align-items: center;
 `;
+
 const RoomsContainer = styled.div<{ media: Partial<IMediaQuery> }>`
   margin-top: 1rem;
   display: flex;
   flex-direction: row;
-  justify-content: ${(props) =>
-    props.media["isTablet"] ? "flex-start" : "space-between;"}
+  justify-content: ${({ media }) =>
+    media["isTablet"] ? "flex-start" : "space-between"}
   align-items: center;
-  width: 85%;
+  width: ${({ media }) =>
+    media["isTablet"]
+      ? "30%"
+      : media["isMobile"] || media["isSmallMobile"]
+      ? "60%"
+      : "85%"}
 `;
 const FlexibleRangeContainer = styled.div<{ media: Partial<IMediaQuery> }>`
   width: 100%;
@@ -113,13 +119,13 @@ const Filters = () => {
             <Title media={mediaMap} pushRight={true}>
               Property Size
             </Title>
-            <Slider min={0} max={5000} unit={Unit.SQFT} />
+            <Slider min={0} max={5000} unit={Unit.SQFT} pushRight={true} />
           </PropertySize>
         </FlexibleRangeContainer>
         <Title>Rooms</Title>
         <RoomsContainer media={mediaMap}>
           <RoomsDropDown type="bed" onSelected={() => null} />
-          <RoomsDropDown type="bath" onSelected={() => null} />
+          <RoomsDropDown type="bath" onSelected={() => null} pushRight={true} />
         </RoomsContainer>
         <Title>Additional</Title>
         <CheckboxGroup data={additionalData} onSelected={() => null} />

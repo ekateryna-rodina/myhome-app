@@ -7,12 +7,14 @@ import SliderRange from "./SliderRange";
 
 const Container = styled.div<{
   media: Partial<IMediaQuery>;
+  pushRight?: boolean;
 }>`
-  width: 80%;
+  width: ${({ media }) =>
+    media["isSmallMobile"] || media["isMobile"] ? "100%" : "80%"};
   height: 3.2rem;
   position: relative;
-  ${({ media }) =>
-    media["isTablet"]
+  ${({ media, pushRight }) =>
+    media["isTablet"] && pushRight
       ? `margin-left: auto;
     margin-right: .2rem;
     `
@@ -38,16 +40,17 @@ interface SliderProps {
   min: number;
   max: number;
   unit: Unit;
+  pushRight?: boolean;
 }
 export const Slider = (props: SliderProps) => {
-  const { min, max, unit } = props;
-  const barsData = useMemo(
-    () =>
-      new Array(150)
-        .fill(null)
-        .map((v, i) => [i + 25, Math.floor(Math.random() * 100)]),
-    []
-  );
+  const { min, max, unit, pushRight } = props;
+  // const barsData = useMemo(
+  //   () =>
+  //     new Array(150)
+  //       .fill(null)
+  //       .map((v, i) => [i + 25, Math.floor(Math.random() * 100)]),
+  //   []
+  // );
 
   const [minValue, setMinValue] = useState(min);
   const [maxValue, setMaxValue] = useState(max);
@@ -70,7 +73,7 @@ export const Slider = (props: SliderProps) => {
   );
   const mediaMap = useContext(Context);
   return (
-    <Container media={mediaMap}>
+    <Container media={mediaMap} pushRight={pushRight}>
       <SliderRange {...sliderProps}></SliderRange>
       <MinMaxLabels>
         <Label>
