@@ -1,13 +1,17 @@
 import React from "react";
 import styled from "styled-components";
+import BedIcon from "../assets/bed.svg";
 import NotificationIcon from "../assets/bell.svg";
 import ApartmentIcon from "../assets/building.svg";
 import MessageIcon from "../assets/email.svg";
+import FavouriteIcon from "../assets/favourite.svg";
 import FilterIcon from "../assets/filter.svg";
+import SizeIcon from "../assets/house-design.svg";
 import HouseIcon from "../assets/house.svg";
 import LandIcon from "../assets/land.svg";
 import GlassIcon from "../assets/loupe.svg";
 import OfficeIcon from "../assets/office-building.svg";
+import BathIcon from "../assets/toilet.svg";
 import { Icons } from "../types/enums";
 
 const StyledIcon = styled.div`
@@ -17,6 +21,7 @@ const StyledIcon = styled.div`
 type IconProps = {
   iconType: Icons;
   color: string;
+  size?: number;
 };
 const iconTypes: Record<Icons, any> = {
   [Icons.Office]: OfficeIcon,
@@ -27,27 +32,20 @@ const iconTypes: Record<Icons, any> = {
   [Icons.Filter]: FilterIcon,
   [Icons.Message]: MessageIcon,
   [Icons.Notification]: NotificationIcon,
+  [Icons.Bed]: BedIcon,
+  [Icons.Bath]: BathIcon,
+  [Icons.Size]: SizeIcon,
+  [Icons.Favourite]: FavouriteIcon,
 };
 
 const Icon = (props: IconProps) => {
-  const { iconType, color } = props;
+  const { iconType, color, size } = props;
   let Icn = iconTypes[iconType];
   return (
     <StyledIcon>
-      <Icn width={20} height={20} fill={color} />
+      <Icn width={size ?? 20} height={size ?? 20} fill={color} />
     </StyledIcon>
   );
 };
 
 export default Icon;
-
-// &:after {
-//   position: absolute;
-//   top: 50%;
-//   left: 50%;
-//   transform: translate(-50%, -50%);
-//   font-family: "Font Awesome 5 Free";
-//   content: "${(props) => props.before}";
-//   color: ${(props) => props.theme.gray};
-//   font-size: 1.3rem;
-// }

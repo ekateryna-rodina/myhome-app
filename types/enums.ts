@@ -12,4 +12,8 @@ export enum Icons {
   Landplot = "landplot",
   Message = "message",
   Notification = "notification",
+  Bed = "Beds",
+  Bath = "Baths",
+  Size = "sqft",
+  Favourite = "",
 }

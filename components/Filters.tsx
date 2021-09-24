@@ -17,12 +17,13 @@ const FiltersContainer = styled.div<{
   height: 100%;
   position: absolute;
   left: 0;
-
   right: ${({ media }) =>
     media["isSmallMobile"] || media["isMobile"] || media["isTablet"]
       ? "0"
       : "72%"};
   bottom: 0;
+  z-index: 999;
+  background: #fff;
   transition: 0.5s ease-out;
   transform: ${({ isOpen }) =>
     isOpen ? `translateX(0);` : `translateX(-20rem);`};
