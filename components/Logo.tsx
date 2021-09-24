@@ -31,7 +31,7 @@ const Link = styled.a<{ hide: boolean }>`
   }
 `;
 const Logo = () => {
-  const mediaMap: Partial<IMediaQuery> = useContext(Context);
+  const mediaMap: Partial<IMediaQuery> = useContext(Context).breakpoints;
   return (
     <LogoHeader media={mediaMap}>
       <Img

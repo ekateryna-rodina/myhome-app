@@ -35,7 +35,7 @@ interface RoomsDropDownProps {
 }
 const RoomsDropDown = (props: RoomsDropDownProps) => {
   const { onSelected, type, pushRight } = props;
-  const mediaMap = useContext(Context);
+  const mediaMap = useContext(Context).breakpoints;
   let iconTypes = {
     bed: BedIcon,
     bath: BathIcon,

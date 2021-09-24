@@ -1,6 +1,6 @@
 import "@atlaskit/css-reset/dist/bundle.css";
 import type { AppProps } from "next/app";
-import { createContext } from "react";
+import { createContext, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { IMediaQuery } from "../types/media";
@@ -31,8 +31,13 @@ const theme = {
   light: "#eeeee4",
 };
 
-export const Context = createContext({});
+const initialContext = {
+  breakpoints: {},
+  filters: {},
+};
+export const Context = createContext(initialContext);
 function MyApp({ Component, pageProps }: AppProps) {
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const isSmallMobile = useMediaQuery({
     query: "(max-width: 320px)",
   });
@@ -73,7 +78,15 @@ function MyApp({ Component, pageProps }: AppProps) {
     return "100%";
   };
   return (
-    <Context.Provider value={mediaMap}>
+    <Context.Provider
+      value={{
+        breakpoints: mediaMap,
+        filters: {
+          isOpen: isFilterOpen,
+          setIsOpen: setIsFilterOpen,
+        },
+      }}
+    >
       <GlobalStyle fontSize={fontSize()} />
       <ThemeProvider theme={theme}>
         <Component {...pageProps} />

@@ -32,7 +32,7 @@ const FlexGroup = styled.div<{ media: Partial<IMediaQuery> }>`
 `;
 
 const Header = () => {
-  const mediaMap: Partial<IMediaQuery> = useContext(Context);
+  const mediaMap: Partial<IMediaQuery> = useContext(Context).breakpoints;
   return (
     <StyledHeader>
       <Container

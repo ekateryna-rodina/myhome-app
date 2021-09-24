@@ -1,3 +1,4 @@
+import { lighten } from "polished";
 import React from "react";
 import styled from "styled-components";
 import { Icons } from "../types/enums";
@@ -19,15 +20,26 @@ const Button = styled.button<{ icon: Icons }>`
   display: flex;
   justify-content: center;
   align-items: center;
+  :hover,
+  :focus {
+    background: ${(props) =>
+      lighten(
+        0.1,
+        props.icon === Icons.Glass ? props.theme.secondary : props.theme.primary
+      )};
+    border: none;
+    outline: 0;
+  }
 `;
 
 type HeaderButtonProps = {
   icon: Icons;
+  handler: () => void;
 };
 
 const HeaderButton = (props: HeaderButtonProps) => {
   return (
-    <Button icon={props.icon}>
+    <Button icon={props.icon} onClick={props.handler}>
       <Icon iconType={props.icon} color={"#fff"} />
     </Button>
   );

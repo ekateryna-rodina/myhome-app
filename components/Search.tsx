@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
+import { Context } from "../pages/_app";
 import { Icons } from "../types/enums";
 import DropDownSearch from "./DropDownSearch";
 import HeaderButton from "./HeaderButton.style";
@@ -16,11 +17,13 @@ const FilterButtonContainer = styled.div`
   margin-left: 0.35rem;
 `;
 const Search = () => {
+  const { setIsOpen, isOpen } = useContext(Context).filters as any;
+  console.log(`filters state  fff is ${setIsOpen}`);
   return (
     <SearchContainer>
       <DropDownSearch />
       <FilterButtonContainer>
-        <HeaderButton icon={Icons.Filter} />
+        <HeaderButton icon={Icons.Filter} handler={() => setIsOpen(!isOpen)} />
       </FilterButtonContainer>
     </SearchContainer>
   );

@@ -71,7 +71,7 @@ export const Slider = (props: SliderProps) => {
     //eslint-disable-next-line
     [minValue, maxValue]
   );
-  const mediaMap = useContext(Context);
+  const mediaMap = useContext(Context).breakpoints;
   return (
     <Container media={mediaMap} pushRight={pushRight}>
       <SliderRange {...sliderProps}></SliderRange>

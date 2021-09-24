@@ -12,7 +12,7 @@ const Visibility = styled.div<{ media: Partial<IMediaQuery> }>`
   display: none;
 `;
 const AddPropertyButton = () => {
-  const mediaMap = useContext(Context);
+  const mediaMap = useContext(Context).breakpoints;
   return (
     <Visibility media={mediaMap}>
       <Button background={"secondary"} size={"large"}>

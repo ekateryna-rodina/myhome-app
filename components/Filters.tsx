@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import styled from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import { Context } from "../pages/_app";
 import { Icons, Unit } from "../types/enums";
 import { IMediaQuery } from "../types/media";
@@ -9,7 +9,28 @@ import Container from "./Container.style";
 import RoomsDropDown from "./RoomsDropDown";
 import { Slider } from "./Slider";
 
-const FiltersContainer = styled.div<{ media: Partial<IMediaQuery> }>`
+const closeAnimation = keyframes`
+from {
+  transform: translateX(0);
+}
+to {
+  transform: translateX(-20rem);
+}
+`;
+
+const openAnimation = keyframes`
+from {
+  transform: translateX(-20rem);
+}
+to {
+  transform: translateX(0);
+}
+`;
+
+const FiltersContainer = styled.div<{
+  media: Partial<IMediaQuery>;
+  isOpen: boolean;
+}>`
   height: 100%;
   position: absolute;
   left: 0;
@@ -18,6 +39,16 @@ const FiltersContainer = styled.div<{ media: Partial<IMediaQuery> }>`
       ? "0"
       : "72%"};
   bottom: 0;
+  transition: all 1s linear forwards;
+  animation: ${({ isOpen }) =>
+    isOpen
+      ? css`
+          ${openAnimation} .5s ease-in-out forwards
+        `
+      : css`
+          ${closeAnimation} .5s ease-in-out forwards
+        `};
+  transform: translateX(-20rem);
   border-right: ${(props) =>
     props.media["isSmallMobile"] ||
     props.media["isMobile"] ||
@@ -79,10 +110,12 @@ const PriceRange = styled.div`
   flex: 1;
   flex-grow: 2;
 `;
-const PropertySize = styled.div`
+const PropertySize = styled.div<{ media: Partial<IMediaQuery> }>`
   flex: 1;
   flex-grow: 2;
+  ${({ media }) => (!media["isTablet"] ? `margin-top: 1rem;` : "")}
 `;
+
 const Filters = () => {
   const categories = [
     [Icons.House, true],
@@ -92,11 +125,12 @@ const Filters = () => {
   ];
 
   const additionalData = ["pets friendly", "furnished", "parking"];
-  const mediaMap: Partial<IMediaQuery> = useContext(Context);
+  const mediaMap: Partial<IMediaQuery> = useContext(Context).breakpoints;
+  const { isOpen } = useContext(Context).filters as any;
   console.log(mediaMap);
-
+  console.log(`filters state is ${isOpen}`);
   return (
-    <FiltersContainer media={mediaMap}>
+    <FiltersContainer media={mediaMap} isOpen={isOpen}>
       <Container
         direction="column"
         justifyContent="flex-start"
@@ -115,7 +149,7 @@ const Filters = () => {
             <Title>Price Range</Title>
             <Slider min={0} max={300} unit={Unit.USD} />
           </PriceRange>
-          <PropertySize>
+          <PropertySize media={mediaMap}>
             <Title media={mediaMap} pushRight={true}>
               Property Size
             </Title>

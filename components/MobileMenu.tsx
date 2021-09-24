@@ -13,7 +13,7 @@ const MenuContainer = styled.div<{ media: Partial<IMediaQuery> }>`
   background: ${(props) => props.theme.dark};
 `;
 const MobileMenu = () => {
-  const mediaMap = useContext(Context);
+  const mediaMap = useContext(Context).breakpoints;
   return <MenuContainer media={mediaMap}></MenuContainer>;
 };
 

@@ -78,7 +78,7 @@ const SearchButtonContainer = styled.div`
   transform: translateY(-50%);
 `;
 const DropDownSearch = () => {
-  const mediaMap = useContext(Context);
+  const mediaMap = useContext(Context).breakpoints;
   return (
     <DropDownSearchContainer>
       <DropDownContainer media={mediaMap}>
@@ -89,7 +89,10 @@ const DropDownSearch = () => {
         <MarkerIcon />
         <Search placeholder="Where should I search?" />
         <SearchButtonContainer>
-          <HeaderButton icon={Icons.Glass} />
+          <HeaderButton
+            icon={Icons.Glass}
+            handler={() => console.log("search")}
+          />
         </SearchButtonContainer>
       </SeachContainer>
     </DropDownSearchContainer>
