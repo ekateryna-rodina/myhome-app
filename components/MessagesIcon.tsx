@@ -1,11 +1,14 @@
 import React from "react";
+import { useTheme } from "styled-components";
+import { Icons } from "../types/enums";
 import Icon from "./Icon.style";
 import IconContainer from "./IconContainer.style";
 
 const MessagesIcon = () => {
+  const theme = useTheme();
   return (
     <IconContainer>
-      <Icon content="\f0e0" />
+      <Icon iconType={Icons.Message} color={(theme as any).gray} />
     </IconContainer>
   );
 };

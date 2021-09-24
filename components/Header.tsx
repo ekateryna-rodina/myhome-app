@@ -4,10 +4,10 @@ import { Context } from "../pages/_app";
 import { IMediaQuery } from "../types/media";
 import AddPropertyButton from "./AddPropertyButton";
 import Container from "./Container.style";
-import DropDownSearch from "./DropDownSearch";
 import Logo from "./Logo";
 import MessagesIcon from "./MessagesIcon";
 import NotificationsIcon from "./NotificationsIcon";
+import Search from "./Search";
 import User from "./User";
 const StyledHeader = styled.header`
   position: absolute;
@@ -30,6 +30,7 @@ const FlexGroup = styled.div<{ media: Partial<IMediaQuery> }>`
   align-items: center;
   justify-content: space-between;
 `;
+
 const Header = () => {
   const mediaMap: Partial<IMediaQuery> = useContext(Context);
   return (
@@ -41,7 +42,7 @@ const Header = () => {
         alignItems="center"
       >
         <Logo />
-        <DropDownSearch />
+        <Search />
         <AddPropertyButton />
         <FlexGroup media={mediaMap}>
           <MessagesIcon />

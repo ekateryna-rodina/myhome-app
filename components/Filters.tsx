@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
 import { Context } from "../pages/_app";
-import { Unit } from "../types/enums";
+import { Icons, Unit } from "../types/enums";
 import { IMediaQuery } from "../types/media";
 import Category from "./Category";
 import CheckboxGroup from "./CheckboxGroup";
@@ -85,10 +85,10 @@ const PropertySize = styled.div`
 `;
 const Filters = () => {
   const categories = [
-    ["house", true],
-    ["apartment", true],
-    ["office", false],
-    ["landplot", false],
+    [Icons.House, true],
+    [Icons.Apartment, true],
+    [Icons.Office, false],
+    [Icons.Landplot, false],
   ];
 
   const additionalData = ["pets friendly", "furnished", "parking"];

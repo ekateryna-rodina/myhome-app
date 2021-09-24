@@ -1,11 +1,9 @@
 import React, { useContext } from "react";
 import styled, { useTheme } from "styled-components";
-import ApartmentIcon from "../assets/building.svg";
-import HouseIcon from "../assets/house.svg";
-import LandIcon from "../assets/land.svg";
-import OfficeIcon from "../assets/office-building.svg";
 import { Context } from "../pages/_app";
+import { Icons } from "../types/enums";
 import { IMediaQuery } from "../types/media";
+import Icon from "./Icon.style";
 const CategoryContainer = styled.div<{
   isSelected: boolean;
   media: Partial<IMediaQuery>;
@@ -28,30 +26,22 @@ const Label = styled.span<{ isSelected: boolean }>`
   margin-top: 0.2rem;
 `;
 
-const iconTypes: Record<"office" | "house" | "apartment" | "landplot", any> = {
-  office: OfficeIcon,
-  house: HouseIcon,
-  apartment: ApartmentIcon,
-  landplot: LandIcon,
-};
 interface CategoryProps {
-  name: "office" | "house" | "apartment" | "landplot";
+  name: Icons;
   isSelected: boolean;
   index: number;
 }
 const Category: React.FC<CategoryProps> = ({ name, isSelected, index }) => {
   const mediaMap = useContext(Context);
   const theme = useTheme();
-  let Icon = iconTypes[name];
   return (
     <CategoryContainer isSelected={isSelected} media={mediaMap}>
       <Icon
-        width={20}
-        height={20}
-        fill={isSelected ? (theme as any).dark : (theme as any).gray}
+        color={isSelected ? (theme as any).dark : (theme as any).gray}
+        iconType={name}
       />
 
-      <Label isSelected={isSelected}>{name}</Label>
+      <Label isSelected={isSelected}>{name.toString()}</Label>
     </CategoryContainer>
   );
 };
