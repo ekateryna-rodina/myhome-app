@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import styled, { css, keyframes } from "styled-components";
+import React, { useContext, useEffect, useState } from "react";
+import styled from "styled-components";
 import { Context } from "../pages/_app";
 import { Icons, Unit } from "../types/enums";
 import { IMediaQuery } from "../types/media";
@@ -9,46 +9,23 @@ import Container from "./Container.style";
 import RoomsDropDown from "./RoomsDropDown";
 import { Slider } from "./Slider";
 
-const closeAnimation = keyframes`
-from {
-  transform: translateX(0);
-}
-to {
-  transform: translateX(-20rem);
-}
-`;
-
-const openAnimation = keyframes`
-from {
-  transform: translateX(-20rem);
-}
-to {
-  transform: translateX(0);
-}
-`;
-
 const FiltersContainer = styled.div<{
   media: Partial<IMediaQuery>;
   isOpen: boolean;
+  isInitialialized: boolean;
 }>`
   height: 100%;
   position: absolute;
   left: 0;
+
   right: ${({ media }) =>
     media["isSmallMobile"] || media["isMobile"] || media["isTablet"]
       ? "0"
       : "72%"};
   bottom: 0;
-  transition: all 1s linear forwards;
-  animation: ${({ isOpen }) =>
-    isOpen
-      ? css`
-          ${openAnimation} .5s ease-in-out forwards
-        `
-      : css`
-          ${closeAnimation} .5s ease-in-out forwards
-        `};
-  transform: translateX(-20rem);
+  transition: 0.5s ease-out;
+  transform: ${({ isOpen }) =>
+    isOpen ? `translateX(0);` : `translateX(-20rem);`};
   border-right: ${(props) =>
     props.media["isSmallMobile"] ||
     props.media["isMobile"] ||
@@ -117,6 +94,10 @@ const PropertySize = styled.div<{ media: Partial<IMediaQuery> }>`
 `;
 
 const Filters = () => {
+  const [isInitialialized, setIsInitialized] = useState(false);
+  useEffect(() => {
+    setIsInitialized(true);
+  }, []);
   const categories = [
     [Icons.House, true],
     [Icons.Apartment, true],
@@ -130,7 +111,11 @@ const Filters = () => {
   console.log(mediaMap);
   console.log(`filters state is ${isOpen}`);
   return (
-    <FiltersContainer media={mediaMap} isOpen={isOpen}>
+    <FiltersContainer
+      media={mediaMap}
+      isOpen={isOpen}
+      isInitialialized={isInitialialized}
+    >
       <Container
         direction="column"
         justifyContent="flex-start"

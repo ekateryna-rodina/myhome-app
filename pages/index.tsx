@@ -3,9 +3,9 @@ import dynamic from "next/dynamic";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Container from "../components/Container.style";
-import Filters from "../components/Filters";
 import MobileMenu from "../components/MobileMenu";
 const Header = dynamic(import("../components/Header"));
+const Filters = dynamic(import("../components/Filters"));
 const Main = styled.main`
   position: relative;
   height: 100vh;
@@ -25,7 +25,7 @@ const Home: NextPage = () => {
       {winReady && <Header />}
       <Container>
         <Main>
-          <Filters />
+          {winReady && <Filters />}
           {/* <Map secret={key} /> */}
           <MobileMenu />
         </Main>

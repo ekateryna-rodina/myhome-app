@@ -20,8 +20,7 @@ const Button = styled.button<{ icon: Icons }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  :hover,
-  :focus {
+  :hover {
     background: ${(props) =>
       lighten(
         0.1,
