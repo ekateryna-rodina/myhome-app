@@ -5,15 +5,15 @@ import DropDownSearch from "./DropDownSearch";
 import HeaderButton from "./HeaderButton.style";
 
 const SearchContainer = styled.div`
-  position: relative;
   width: 100%;
-  max-width: 21rem;
+  max-width: 25rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
 `;
 const FilterButtonContainer = styled.div`
-  position: absolute;
-  top: 50%;
-  right: -2.5rem;
-  transform: translateY(-50%);
+  margin-left: 0.35rem;
 `;
 const Search = () => {
   return (
