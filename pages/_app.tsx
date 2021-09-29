@@ -32,7 +32,7 @@ const theme = {
 };
 
 const initialContext = {
-  breakpoints: {},
+  breakpoints: {} as IMediaQuery,
   filters: {},
 };
 export const Context = createContext(initialContext);

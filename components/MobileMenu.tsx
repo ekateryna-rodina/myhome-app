@@ -5,7 +5,7 @@ import { IMediaQuery } from "../types/media";
 const MenuContainer = styled.div<{ media: Partial<IMediaQuery> }>`
   display: ${(props) =>
     props.media["isMobile"] || props.media["isSmallMobile"] ? "flex" : "none"};
-  position: absolute;
+  position: fixed;
   left: 0;
   right: 0;
   bottom: 0;

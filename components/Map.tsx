@@ -19,7 +19,7 @@ const Map = (props: MapProps) => {
 
   return (
     // Important! Always set the container height explicitly
-    <div style={{ height: "100vh", flex: 1 }}>
+    <div style={{ height: "40vh", flex: 1 }}>
       {secret && (
         <GoogleMapReact
           bootstrapURLKeys={{ key: secret }}

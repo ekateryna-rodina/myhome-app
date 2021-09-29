@@ -25,8 +25,12 @@ const FiltersContainer = styled.div<{
   z-index: 999;
   background: #fff;
   transition: 0.5s ease-out;
-  transform: ${({ isOpen }) =>
-    isOpen ? `translateX(0);` : `translateX(-20rem);`};
+  transform: ${({ isOpen, media }) =>
+    isOpen
+      ? `translateX(0);`
+      : media["isTablet"] || media["isMobile"] || media["isSmallMobile"]
+      ? `translateX(-60rem);`
+      : `translateX(-20rem);`};
   border-right: ${(props) =>
     props.media["isSmallMobile"] ||
     props.media["isMobile"] ||
