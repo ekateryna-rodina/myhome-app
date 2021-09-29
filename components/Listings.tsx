@@ -5,7 +5,7 @@ import { data } from "../stays";
 import { IMediaQuery } from "../types/media";
 import ListingItem from "./ListingItem";
 const ListingsContainer = styled.div<{ media: Partial<IMediaQuery> }>`
-  margin-top: 21rem;
+  margin-top: 40vh;
   padding: 2rem 1rem 1rem 1rem;
   overflow-y: auto;
   display: flex;
@@ -23,7 +23,9 @@ const ListingsContainer = styled.div<{ media: Partial<IMediaQuery> }>`
     props.media["isLaptop"] ||
     props.media["isDesktop"] ||
     props.media["isBigDesktop"]
-      ? `flex: 2;
+      ? `
+      margin-top: 0;
+      flex: 2;
       border-top-left-radius: 0;
       border-top-right-radius: 0;`
       : ""}

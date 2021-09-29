@@ -1,5 +1,6 @@
 import GoogleMapReact from "google-map-react";
-import React from "react";
+import React, { useContext } from "react";
+import { Context } from "../pages/_app";
 
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
@@ -17,9 +18,20 @@ const Map = (props: MapProps) => {
     zoom: 11,
   };
 
+  const mediaMap = useContext(Context).breakpoints;
   return (
     // Important! Always set the container height explicitly
-    <div style={{ height: "40vh", flex: 1 }}>
+    <div
+      style={{
+        height:
+          mediaMap["isLaptop"] ||
+          mediaMap["isDesktop"] ||
+          mediaMap["isBigDesktop"]
+            ? "calc(100vh - 4.5rem)"
+            : "40vh",
+        // flex: 1,
+      }}
+    >
       {secret && (
         <GoogleMapReact
           bootstrapURLKeys={{ key: secret }}

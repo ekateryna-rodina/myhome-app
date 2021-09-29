@@ -21,7 +21,7 @@ const Main = styled.main<{ media: Partial<IMediaQuery> }>`
     media["isLaptop"] || media["isDesktop"] || media["isBigDesktop"]
       ? `display: flex;
   flex-direction: row;
-  margin-top: 6rem;`
+  margin-top: 6.1875rem`
       : ""}
 `;
 const MapContainer = styled.div<{ media: Partial<IMediaQuery> }>`
@@ -32,7 +32,9 @@ const MapContainer = styled.div<{ media: Partial<IMediaQuery> }>`
 
   ${({ media }) =>
     media["isLaptop"] || media["isDesktop"] || media["isBigDesktop"]
-      ? "position: inherit"
+      ? `position: inherit;
+      top: 0;
+      flex: 1;`
       : ""}
 `;
 const Home: NextPage = () => {

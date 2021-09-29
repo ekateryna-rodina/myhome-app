@@ -16,13 +16,14 @@ const FiltersContainer = styled.div<{
 }>`
   height: 100%;
   position: absolute;
+  top: 1px;
   left: 0;
   right: ${({ media }) =>
     media["isSmallMobile"] || media["isMobile"] || media["isTablet"]
       ? "0"
       : "72%"};
   bottom: 0;
-  z-index: 999;
+  z-index: 5000;
   background: #fff;
   transition: 0.5s ease-out;
   transform: ${({ isOpen, media }) =>
@@ -124,7 +125,7 @@ const Filters = () => {
       <Container
         direction="column"
         justifyContent="flex-start"
-        paddingVertical="2"
+        paddingVertical="1"
         alignItems="flex-start"
         width={mediaMap["isTablet"] ? "100%" : "90%"}
       >
