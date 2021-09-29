@@ -9,7 +9,7 @@ const CategoryContainer = styled.div<{
   media: Partial<IMediaQuery>;
 }>`
   width: ${({ media }) =>
-    media["isMobile"] || media["isSmallMobile"] ? "7rem" : "5.2rem"};
+    media["isMobile"] || media["isSmallMobile"] ? "8rem" : "5.6rem"};
   height: 4.8rem;
   border-radius: 0.2rem;
   border: ${(props) =>
@@ -22,7 +22,7 @@ const CategoryContainer = styled.div<{
   flex-grow: ${({ media }) =>
     media["isTablet"] || media["isSmallMobile"] || media["isMobile"]
       ? "1"
-      : "0"};
+      : "1"};
 `;
 const Label = styled.span<{ isSelected: boolean }>`
   color: ${(props) => (props.isSelected ? props.theme.dark : props.theme.gray)};

@@ -16,7 +16,7 @@ const FiltersContainer = styled.div<{
 }>`
   height: 100%;
   position: absolute;
-  top: 1px;
+  top: 0;
   left: 0;
   right: ${({ media }) =>
     media["isSmallMobile"] || media["isMobile"] || media["isTablet"]

@@ -10,7 +10,7 @@ const Container = styled.div<{
   pushRight?: boolean;
 }>`
   width: ${({ media }) =>
-    media["isSmallMobile"] || media["isMobile"] ? "100%" : "80%"};
+    media["isSmallMobile"] || media["isMobile"] ? "100%" : "95%"};
   height: 3.2rem;
   position: relative;
   ${({ media, pushRight }) =>
