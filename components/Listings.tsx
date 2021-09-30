@@ -1,9 +1,11 @@
+import dynamic from "next/dynamic";
 import React, { useContext } from "react";
 import styled from "styled-components";
 import { Context } from "../pages/_app";
 import { data } from "../stays";
 import { IMediaQuery } from "../types/media";
-import ListingItem from "./ListingItem";
+const ListingItem = dynamic(() => import("./ListingItem"), { ssr: false });
+
 const ListingsContainer = styled.div<{ media: Partial<IMediaQuery> }>`
   margin-top: 40vh;
   padding: 2rem 1rem 1rem 1rem;
@@ -33,11 +35,13 @@ const ListingsContainer = styled.div<{ media: Partial<IMediaQuery> }>`
 const Listings = () => {
   const mediaMap = useContext(Context).breakpoints;
   return (
-    <ListingsContainer media={mediaMap}>
-      {data.map((item, index) => (
-        <ListingItem key={index} {...item} />
-      ))}
-    </ListingsContainer>
+    <>
+      <ListingsContainer media={mediaMap}>
+        {data.map((item, index) => (
+          <ListingItem key={index} {...item} />
+        ))}
+      </ListingsContainer>
+    </>
   );
 };
 

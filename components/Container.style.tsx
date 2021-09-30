@@ -34,7 +34,7 @@ const Container: React.FC<Partial<ContainerProps>> = ({
   alignItems,
   width,
 }) => {
-  const mediaMap: IMediaQuery = useContext(Context).breakpoints;
+  const mediaMap = useContext(Context).breakpoints;
   return (
     <StyledContainer
       direction={direction}

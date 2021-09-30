@@ -1,9 +1,9 @@
 import "@atlaskit/css-reset/dist/bundle.css";
-import type { AppProps } from "next/app";
+import { AppProps } from "next/dist/shared/lib/router/router";
 import { createContext, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
-import { IMediaQuery } from "../types/media";
+import { IMediaQuery } from "types/media";
 const GlobalStyle = createGlobalStyle<{ fontSize: string }>`
 html{
   box-sizing: border-box;
@@ -31,7 +31,7 @@ const theme = {
   light: "#eeeee4",
 };
 
-const initialContext = {
+const initialContext: { breakpoints: IMediaQuery; filters: any } = {
   breakpoints: {} as IMediaQuery,
   filters: {},
 };
@@ -58,7 +58,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   });
   const isPortrait = useMediaQuery({ query: "(orientation: portrait)" });
   const isRetina = useMediaQuery({ query: "(min-resolution: 2dppx)" });
-  const mediaMap: IMediaQuery = {
+  const mediaMap = {
     isSmallMobile,
     isMobile,
     isDesktop,
