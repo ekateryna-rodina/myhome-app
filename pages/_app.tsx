@@ -1,7 +1,9 @@
+import { ApolloProvider } from "@apollo/client";
 import "@atlaskit/css-reset/dist/bundle.css";
 import { AppProps } from "next/dist/shared/lib/router/router";
 import { createContext, useState } from "react";
 import { useMediaQuery } from "react-responsive";
+import { useApollo } from "src/apollo";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { IMediaQuery } from "types/media";
 const GlobalStyle = createGlobalStyle<{ fontSize: string }>`
@@ -38,6 +40,7 @@ const initialContext: { breakpoints: IMediaQuery; filters: any } = {
 export const Context = createContext(initialContext);
 function MyApp({ Component, pageProps }: AppProps) {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const client = useApollo(pageProps.initialeApolloState);
   const isSmallMobile = useMediaQuery({
     query: "(max-width: 320px)",
   });
@@ -78,20 +81,22 @@ function MyApp({ Component, pageProps }: AppProps) {
     return "100%";
   };
   return (
-    <Context.Provider
-      value={{
-        breakpoints: mediaMap,
-        filters: {
-          isOpen: isFilterOpen,
-          setIsOpen: setIsFilterOpen,
-        },
-      }}
-    >
-      <GlobalStyle fontSize={fontSize()} />
-      <ThemeProvider theme={theme}>
-        <Component {...pageProps} />
-      </ThemeProvider>
-    </Context.Provider>
+    <ApolloProvider client={client}>
+      <Context.Provider
+        value={{
+          breakpoints: mediaMap,
+          filters: {
+            isOpen: isFilterOpen,
+            setIsOpen: setIsFilterOpen,
+          },
+        }}
+      >
+        <GlobalStyle fontSize={fontSize()} />
+        <ThemeProvider theme={theme}>
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </Context.Provider>
+    </ApolloProvider>
   );
 }
 export default MyApp;

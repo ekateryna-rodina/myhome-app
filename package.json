@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@apollo/client": "^3.4.10",
     "@atlaskit/css-reset": "^6.1.4",
     "@nexus/schema": "^0.20.1",
     "@prisma/client": "^3.1.1",

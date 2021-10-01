@@ -1,11 +1,25 @@
+import { gql, useQuery } from "@apollo/client";
 import dynamic from "next/dynamic";
 import React, { useContext } from "react";
 import styled from "styled-components";
 import { Context } from "../pages/_app";
-import { data } from "../stays";
 import { IMediaQuery } from "../types/media";
 const ListingItem = dynamic(() => import("./ListingItem"), { ssr: false });
 
+const PPOPERTIES = gql`
+  query Properties {
+    properties {
+      id
+      city
+      country
+      title
+      beds
+      baths
+      size
+      photo
+    }
+  }
+`;
 const ListingsContainer = styled.div<{ media: Partial<IMediaQuery> }>`
   margin-top: 40vh;
   padding: 2rem 1rem 1rem 1rem;
@@ -34,10 +48,14 @@ const ListingsContainer = styled.div<{ media: Partial<IMediaQuery> }>`
 `;
 const Listings = () => {
   const mediaMap = useContext(Context).breakpoints;
+  const { data, loading } = useQuery(PPOPERTIES);
+  if (loading) return <span>Loading</span>;
+  const properties = data.properties;
+  console.log(properties);
   return (
     <>
       <ListingsContainer media={mediaMap}>
-        {data.map((item, index) => (
+        {properties.map((item: any, index: any) => (
           <ListingItem key={index} {...item} />
         ))}
       </ListingsContainer>
