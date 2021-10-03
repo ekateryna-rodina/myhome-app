@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
 import { Context } from "../pages/_app";
-import { Icons } from "../types/enums";
+import { Icons } from "../utils/enums";
 import DropDownSearch from "./DropDownSearch";
 import HeaderButton from "./HeaderButton.style";
 

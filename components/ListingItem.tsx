@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import styled, { useTheme } from "styled-components";
-import { Icons } from "../types/enums";
+import { Icons } from "../utils/enums";
 import Icon from "./Icon.style";
 const ListingItemContainer = styled.div`
   width: 16rem;

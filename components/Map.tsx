@@ -1,26 +1,23 @@
 import GoogleMapReact from "google-map-react";
-import React, { useContext } from "react";
+import React from "react";
 import styled from "styled-components";
-import { IMediaQuery } from "types/media";
-import { Context } from "../pages/_app";
+import { respondTo } from "utils/_respondTo";
 
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
-const MapContainer = styled.div<{ media: Partial<IMediaQuery> }>`
+const MapContainer = styled.div`
   position: fixed;
   top: 80px;
   left: 0;
   right: 0;
-  height: ${({ media }) =>
-    media["isLaptop"] || media["isDesktop"] || media["isBigDesktop"]
-      ? "calc(100vh - 4.5rem)"
-      : "40vh"};
-  ${({ media }) =>
-    media["isLaptop"] || media["isDesktop"] || media["isBigDesktop"]
-      ? `position: inherit;
+  height: 40vh;
+
+  ${respondTo.laptopAndDesktop`
+      height:"calc(100vh - 4.5rem)";
+      position: inherit;
       top: 0;
-      flex: 1;`
-      : ""}
+      flex: 1;
+      `}
 `;
 
 interface MapProps {
@@ -37,10 +34,9 @@ const Map = (props: MapProps) => {
     zoom: 11,
   };
 
-  const mediaMap = useContext(Context).breakpoints;
   return (
     // Important! Always set the container height explicitly
-    <MapContainer media={mediaMap}>
+    <MapContainer>
       {secret && (
         <GoogleMapReact
           bootstrapURLKeys={{ key: secret }}

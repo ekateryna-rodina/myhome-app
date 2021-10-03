@@ -1,14 +1,11 @@
-import React, { useContext } from "react";
 import styled from "styled-components";
-import { Context } from "../pages/_app";
-import { IMediaQuery } from "../types/media";
-import AddPropertyButton from "./AddPropertyButton";
-import Container from "./Container.style";
-import Logo from "./Logo";
-import MessagesIcon from "./MessagesIcon";
-import NotificationsIcon from "./NotificationsIcon";
-import Search from "./Search";
-import User from "./User";
+import AddPropertyButton from "../components/AddPropertyButton";
+import Logo from "../components/Logo";
+import MessagesIcon from "../components/MessagesIcon";
+import NotificationsIcon from "../components/NotificationsIcon";
+import Search from "../components/Search";
+import User from "../components/User";
+import { respondTo } from "../utils/_respondTo";
 const StyledHeader = styled.header`
   position: absolute;
   z-index: 50;
@@ -17,34 +14,30 @@ const StyledHeader = styled.header`
   background: white;
   ${(props) => `border-bottom: 1px solid ${props.theme.light}`};
 `;
-const FlexGroup = styled.div<{ media: Partial<IMediaQuery> }>`
-  display: ${(props) =>
-    `${
-      props.media["isMobile"] ||
-      props.media["isSmallMobile"] ||
-      props.media["isTablet"]
-        ? "none"
-        : "flex"
-    }`};
+const Container = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`;
+const FlexGroup = styled.div`
+  display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+
+  ${respondTo.mobile`
+  display: none;`}
 `;
 
 const Header = () => {
-  const mediaMap: Partial<IMediaQuery> = useContext(Context).breakpoints;
   return (
     <StyledHeader>
-      <Container
-        direction={mediaMap["isMobile"] ? "column" : "row"}
-        justifyContent="space-between"
-        paddingVertical="1"
-        alignItems="center"
-      >
+      <Container>
         <Logo />
         <Search />
         <AddPropertyButton />
-        <FlexGroup media={mediaMap}>
+        <FlexGroup>
           <MessagesIcon />
           <NotificationsIcon />
           <User />

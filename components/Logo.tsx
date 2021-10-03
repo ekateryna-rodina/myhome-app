@@ -1,24 +1,26 @@
 import Img from "next/image";
 import { lighten } from "polished";
-import React, { useContext } from "react";
+import React from "react";
 import styled from "styled-components";
-import { Context } from "../pages/_app";
-import { IMediaQuery } from "../types/media";
+import { respondTo } from "utils/_respondTo";
 
-const LogoHeader = styled.div<{ media: Partial<IMediaQuery> }>`
-  display: ${(props) =>
-    `${
-      props.media["isMobile"] || props.media["isSmallMobile"] ? "none" : "block"
-    }`};
+const LogoHeader = styled.div`
+  display: none;
   font-size: 1rem;
   text-transform: uppercase;
   font-weight: 700;
   position: relative;
   color: ${(props) => props.theme.dark};
   min-width: 6rem;
+  ${respondTo.laptopAndDesktop`
+  display: block;
+  `}
+  ${respondTo.tablet`
+  display: block;
+  `}
 `;
-const Link = styled.a<{ hide: boolean }>`
-  display: ${({ hide }) => (hide ? "none" : "block")};
+const Link = styled.a`
+  display: none;
   color: inherit;
   transition: all 0.5s;
   position: absolute;
@@ -29,19 +31,20 @@ const Link = styled.a<{ hide: boolean }>`
     text-decoration: none;
     color: ${(props) => lighten(0.2, props.theme.dark)};
   }
+
+  ${respondTo.tablet`
+  display: none;
+  `}
 `;
 const Logo = () => {
-  const mediaMap: Partial<IMediaQuery> = useContext(Context).breakpoints;
   return (
-    <LogoHeader media={mediaMap}>
+    <LogoHeader>
       <Img
         src="https://res.cloudinary.com/kariecloud/image/upload/v1631839251/2021-09-16_20.27.45-removebg_op1mio.png"
         width="60"
         height="60"
       ></Img>
-      <Link href="#" hide={mediaMap["isTablet"] || false}>
-        MYHOME
-      </Link>
+      <Link href="#">MYHOME</Link>
     </LogoHeader>
   );
 };

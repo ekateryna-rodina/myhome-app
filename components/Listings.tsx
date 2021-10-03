@@ -1,9 +1,8 @@
 import { gql, useQuery } from "@apollo/client";
 import dynamic from "next/dynamic";
-import React, { useContext } from "react";
+import React from "react";
 import styled from "styled-components";
-import { Context } from "../pages/_app";
-import { IMediaQuery } from "../types/media";
+import { respondTo } from "utils/_respondTo";
 const ListingItem = dynamic(() => import("./ListingItem"), { ssr: false });
 
 const PPOPERTIES = gql`
@@ -20,7 +19,7 @@ const PPOPERTIES = gql`
     }
   }
 `;
-const ListingsContainer = styled.div<{ media: Partial<IMediaQuery> }>`
+const ListingsContainer = styled.div`
   margin-top: 40vh;
   padding: 2rem 1rem 1rem 1rem;
   overflow-y: auto;
@@ -35,26 +34,20 @@ const ListingsContainer = styled.div<{ media: Partial<IMediaQuery> }>`
   background: #fff;
   border-top-left-radius: 2rem;
   border-top-right-radius: 2rem;
-  ${(props) =>
-    props.media["isLaptop"] ||
-    props.media["isDesktop"] ||
-    props.media["isBigDesktop"]
-      ? `
-      margin-top: 0;
-      flex: 2;
-      border-top-left-radius: 0;
-      border-top-right-radius: 0;`
-      : ""}
+  ${respondTo.laptopAndDesktop`
+  margin-top: 0;
+  flex: 2;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;`}
 `;
 const Listings = () => {
-  const mediaMap = useContext(Context).breakpoints;
   const { data, loading } = useQuery(PPOPERTIES);
   if (loading) return <span>Loading</span>;
   const properties = data.properties;
   console.log(properties);
   return (
     <>
-      <ListingsContainer media={mediaMap}>
+      <ListingsContainer>
         {properties.map((item: any, index: any) => (
           <ListingItem key={index} {...item} />
         ))}

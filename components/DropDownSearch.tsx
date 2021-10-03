@@ -1,8 +1,7 @@
-import React, { useContext } from "react";
+import React from "react";
 import styled from "styled-components";
-import { Context } from "../pages/_app";
-import { Icons } from "../types/enums";
-import { IMediaQuery } from "../types/media";
+import { respondTo } from "utils/_respondTo";
+import { Icons } from "../utils/enums";
 import Caret from "./Caret.style";
 import HeaderButton from "./HeaderButton.style";
 
@@ -21,20 +20,18 @@ const DropDownSearchContainer = styled.div`
 `;
 
 // dropdown
-const DropDownContainer = styled.div<{ media: Partial<IMediaQuery> }>`
+const DropDownContainer = styled.div`
   flex: 1;
   display: none;
-  ${({ media, theme }) =>
-    !media["isMobile"] &&
-    !media["isSmallMobile"] &&
-    `
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding-right: 1rem;
-    border-right: ${`2px solid ${theme.light}`};
-  `};
+
+  ${respondTo.laptopAndDesktop`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 1rem;
+  border-right: ${(props: any) => `2px solid ${props.theme.gray}`};
+  `}
 `;
 const Selected = styled.span`
   font-size: 0.9rem;
@@ -43,15 +40,20 @@ const Selected = styled.span`
 `;
 
 // search
-const SeachContainer = styled.div<{ media: Partial<IMediaQuery> }>`
+const SeachContainer = styled.div`
   flex: 4;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   padding-right: 0.3rem;
-  margin-left: ${({ media }) =>
-    media["isMobile"] || media["isSmallMobile"] ? "0" : "1rem"};
+  margin-left: 0;
+  ${respondTo.tablet`
+  margin-left: 1rem;
+  `}
+  ${respondTo.laptopAndDesktop`
+  margin-left: 1rem;
+  `}
 `;
 const Search = styled.input`
   height: 90%;
@@ -78,14 +80,13 @@ const SearchButtonContainer = styled.div`
   transform: translateY(-50%);
 `;
 const DropDownSearch = () => {
-  const mediaMap = useContext(Context).breakpoints;
   return (
     <DropDownSearchContainer>
-      <DropDownContainer media={mediaMap}>
+      <DropDownContainer>
         <Selected>Rent</Selected>
         <Caret />
       </DropDownContainer>
-      <SeachContainer media={mediaMap}>
+      <SeachContainer>
         <MarkerIcon />
         <Search placeholder="Where should I search?" />
         <SearchButtonContainer>

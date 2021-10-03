@@ -1,24 +1,14 @@
-import { useCallback, useContext, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import styled from "styled-components";
-import { Context } from "../pages/_app";
-import { Unit } from "../types/enums";
-import { IMediaQuery } from "../types/media";
+import { Unit } from "../utils/enums";
 import SliderRange from "./SliderRange";
 
 const Container = styled.div<{
-  media: Partial<IMediaQuery>;
   pushRight?: boolean;
 }>`
-  width: ${({ media }) =>
-    media["isSmallMobile"] || media["isMobile"] ? "100%" : "95%"};
+  width: 95%;
   height: 3.2rem;
   position: relative;
-  ${({ media, pushRight }) =>
-    media["isTablet"] && pushRight
-      ? `margin-left: auto;
-    margin-right: .2rem;
-    `
-      : ""}
 `;
 const MinMaxLabels = styled.div`
   display: flex;
@@ -44,14 +34,6 @@ interface SliderProps {
 }
 export const Slider = (props: SliderProps) => {
   const { min, max, unit, pushRight } = props;
-  // const barsData = useMemo(
-  //   () =>
-  //     new Array(150)
-  //       .fill(null)
-  //       .map((v, i) => [i + 25, Math.floor(Math.random() * 100)]),
-  //   []
-  // );
-
   const [minValue, setMinValue] = useState(min);
   const [maxValue, setMaxValue] = useState(max);
   const sliderMinValueChanged = useCallback((val) => setMinValue(val), []);
@@ -71,9 +53,9 @@ export const Slider = (props: SliderProps) => {
     //eslint-disable-next-line
     [minValue, maxValue]
   );
-  const mediaMap = useContext(Context).breakpoints;
+
   return (
-    <Container media={mediaMap} pushRight={pushRight}>
+    <Container pushRight={pushRight}>
       <SliderRange {...sliderProps}></SliderRange>
       <MinMaxLabels>
         <Label>

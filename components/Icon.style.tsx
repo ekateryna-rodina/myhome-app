@@ -12,7 +12,7 @@ import LandIcon from "../assets/land.svg";
 import GlassIcon from "../assets/loupe.svg";
 import OfficeIcon from "../assets/office-building.svg";
 import BathIcon from "../assets/toilet.svg";
-import { Icons } from "../types/enums";
+import { Icons } from "../utils/enums";
 
 const StyledIcon = styled.div`
   cursor: pointer;
