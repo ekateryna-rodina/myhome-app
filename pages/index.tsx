@@ -1,6 +1,7 @@
-import { gql, useQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
 import type { NextPage } from "next";
 import React from "react";
+import { initializeApollo } from "src/apollo";
 import styled from "styled-components";
 import Filters from "../components/Filters";
 import Header from "../components/Header";
@@ -29,11 +30,14 @@ const PPOPERTIES = gql`
     }
   }
 `;
-
+const quer = gql`
+  query MyQuery {
+    name
+  }
+`;
 const Home: NextPage = (props) => {
-  console.log(props);
   const key: string = process.env.NEXT_PUBLIC_GMAP_KEY || "";
-  const { data, loading } = useQuery(PPOPERTIES);
+  console.log(props);
   return (
     <>
       <Header />
@@ -47,16 +51,17 @@ const Home: NextPage = (props) => {
   );
 };
 
-// Home.getInitialProps = async (ctx) => {
-//   const apolloClient = initializeApollo();
-//   await apolloClient.query({
-//     query: PPOPERTIES,
-//   });
-//   return {
-//     props: {
-//       initialeApolloState: apolloClient.cache.exract(),
-//     },
-//   };
-// };
-
 export default Home;
+
+export async function getServerSideProps(ctr) {
+  const apolloClient = initializeApollo();
+  await apolloClient.query({
+    query: PPOPERTIES,
+  });
+
+  return {
+    props: {
+      initialApolloState: apolloClient.cache.extract(),
+    },
+  };
+}

@@ -5,7 +5,7 @@ import { schema } from "src/schema";
 const apolloServer = new ApolloServer({
   schema,
   tracing: true,
-  context: createContext,
+  context: createContext(),
 });
 
 const handler = apolloServer.createHandler({ path: "/api/graphql" });

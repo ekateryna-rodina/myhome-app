@@ -18,7 +18,7 @@ const FilterButtonContainer = styled.div`
 `;
 const Search = () => {
   const { setIsOpen, isOpen } = useContext(Context).filters as any;
-  console.log(`filters state  fff is ${setIsOpen}`);
+
   return (
     <SearchContainer>
       <DropDownSearch />

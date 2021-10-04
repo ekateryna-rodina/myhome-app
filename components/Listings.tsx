@@ -26,6 +26,7 @@ const ListingsContainer = styled.div`
   border-top-right-radius: 0;`}
 `;
 const Listings = () => {
+  // const { data, loading } = useQuery(PPOPERTIES);
   if (loading) return <span>Loading</span>;
   const properties = data.properties;
   console.log(properties);

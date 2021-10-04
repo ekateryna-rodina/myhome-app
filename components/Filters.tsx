@@ -118,7 +118,6 @@ const Filters = () => {
 
   const additionalData = ["pets friendly", "furnished", "parking"];
   const { isOpen } = useContext(Context).filters as any;
-  console.log(`filters state is ${isOpen}`);
   return (
     <Container isOpen={isOpen} isInitialialized={isInitialialized}>
       <Title>Category</Title>

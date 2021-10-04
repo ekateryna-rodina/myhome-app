@@ -1,4 +1,4 @@
-import { ApolloProvider } from "@apollo/client";
+import { ApolloProvider, gql } from "@apollo/client";
 import "@atlaskit/css-reset/dist/bundle.css";
 import { AppProps } from "next/dist/shared/lib/router/router";
 import React, { createContext, useState } from "react";
@@ -30,14 +30,27 @@ const theme = {
   dark: "#063970",
   light: "#eeeee4",
 };
-
+const PPOPERTIES = gql`
+  query Properties {
+    properties {
+      id
+      city
+      country
+      title
+      beds
+      baths
+      size
+      photo
+    }
+  }
+`;
 const initialContext: { filters: any } = {
   filters: {},
 };
 export const Context = createContext(initialContext);
 function App({ Component, pageProps }: AppProps) {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const client = useApollo(pageProps.initialeApolloState);
+  const client = useApollo(pageProps.initialApolloState);
 
   return (
     <ApolloProvider client={client}>
@@ -59,5 +72,5 @@ function App({ Component, pageProps }: AppProps) {
     </ApolloProvider>
   );
 }
-App.displayName = "App";
+
 export default App;
