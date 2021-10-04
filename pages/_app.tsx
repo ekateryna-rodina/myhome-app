@@ -35,7 +35,7 @@ const initialContext: { filters: any } = {
   filters: {},
 };
 export const Context = createContext(initialContext);
-function MyApp({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }: AppProps) {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const client = useApollo(pageProps.initialeApolloState);
 
@@ -59,4 +59,5 @@ function MyApp({ Component, pageProps }: AppProps) {
     </ApolloProvider>
   );
 }
-export default MyApp;
+App.displayName = "App";
+export default App;

@@ -1,24 +1,9 @@
-import { gql, useQuery } from "@apollo/client";
 import dynamic from "next/dynamic";
 import React from "react";
 import styled from "styled-components";
 import { respondTo } from "utils/_respondTo";
 const ListingItem = dynamic(() => import("./ListingItem"), { ssr: false });
 
-const PPOPERTIES = gql`
-  query Properties {
-    properties {
-      id
-      city
-      country
-      title
-      beds
-      baths
-      size
-      photo
-    }
-  }
-`;
 const ListingsContainer = styled.div`
   margin-top: 40vh;
   padding: 2rem 1rem 1rem 1rem;
@@ -41,7 +26,6 @@ const ListingsContainer = styled.div`
   border-top-right-radius: 0;`}
 `;
 const Listings = () => {
-  const { data, loading } = useQuery(PPOPERTIES);
   if (loading) return <span>Loading</span>;
   const properties = data.properties;
   console.log(properties);

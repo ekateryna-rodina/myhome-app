@@ -1,13 +1,9 @@
+import { gql, useQuery } from "@apollo/client";
 import type { NextPage } from "next";
-import dynamic from "next/dynamic";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
-// const Listings = dynamic(() => import("../components/Listings"), {
-// ssr: false,
-// });
-const Map = dynamic(() => import("../components/Map"), { ssr: false });
-const Header = dynamic(() => import("../components/Header"), { ssr: false });
-const Filters = dynamic(() => import("../components/Filters"), { ssr: false });
+import Filters from "../components/Filters";
+import Header from "../components/Header";
 const Main = styled.main`
   position: relative;
   height: 100vh;
@@ -17,17 +13,30 @@ const Main = styled.main`
   flex-direction: row;
   background: red;
   margin-top: 4.2rem;
+  padding: 0 1rem;
+`;
+const PPOPERTIES = gql`
+  query Properties {
+    properties {
+      id
+      city
+      country
+      title
+      beds
+      baths
+      size
+      photo
+    }
+  }
 `;
 
-const Home: NextPage = () => {
+const Home: NextPage = (props) => {
+  console.log(props);
   const key: string = process.env.NEXT_PUBLIC_GMAP_KEY || "";
-  const [winReady, setwinReady] = useState(false);
-  useEffect(() => {
-    setwinReady(true);
-  }, []);
+  const { data, loading } = useQuery(PPOPERTIES);
   return (
     <>
-      {winReady && <Header />}
+      <Header />
       <Main>
         <Filters />
         {/* <Listings /> */}
@@ -38,13 +47,16 @@ const Home: NextPage = () => {
   );
 };
 
-Home.getInitialProps = async (ctx) => {
-  let key = process.env.NEXT_PUBLIC_GMAP_KEY;
-  return {
-    props: {
-      key,
-    },
-  };
-};
+// Home.getInitialProps = async (ctx) => {
+//   const apolloClient = initializeApollo();
+//   await apolloClient.query({
+//     query: PPOPERTIES,
+//   });
+//   return {
+//     props: {
+//       initialeApolloState: apolloClient.cache.exract(),
+//     },
+//   };
+// };
 
 export default Home;

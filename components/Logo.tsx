@@ -12,11 +12,14 @@ const LogoHeader = styled.div`
   position: relative;
   color: ${(props) => props.theme.dark};
   min-width: 6rem;
-  ${respondTo.laptopAndDesktop`
+  ${respondTo.mobileL`
   display: block;
+`}
+  ${respondTo.laptopAndDesktop`
+    display: block;
   `}
   ${respondTo.tablet`
-  display: block;
+    display: block;
   `}
 `;
 const Link = styled.a`
@@ -32,8 +35,8 @@ const Link = styled.a`
     color: ${(props) => lighten(0.2, props.theme.dark)};
   }
 
-  ${respondTo.tablet`
-  display: none;
+  ${respondTo.laptopAndDesktop`
+    display: block;
   `}
 `;
 const Logo = () => {

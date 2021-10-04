@@ -25,6 +25,11 @@ const Container = styled.div<{
   transform: ${({ isOpen }) =>
     isOpen ? `translateX(0);` : `translateX(-60rem);`};
   transform: translateX(0);
+  ${respondTo.tablet`
+  max-width: 15rem;
+  border-right: ${(props: any) => `1px solid ${props.theme.light}`}
+  right: 72%;
+  `}
   ${respondTo.laptopAndDesktop`
       max-width: 15rem;
       border-right: ${(props: any) => `1px solid ${props.theme.light}`}
@@ -34,6 +39,10 @@ const Container = styled.div<{
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
+  padding: 0 1rem;
+  ${respondTo.laptopAndDesktop`
+  padding: 0 2rem;
+  `}
 `;
 const Title = styled.span<{
   pushRight?: boolean;

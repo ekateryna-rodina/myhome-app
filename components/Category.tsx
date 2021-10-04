@@ -19,6 +19,9 @@ const CategoryContainer = styled.div<{
   ${respondTo.laptopAndDesktop`
   width: 5rem;
 `}
+  ${respondTo.mobileL`
+width: 5rem;
+`}
   ${respondTo.tablet`
 width: 5rem;
 `}

@@ -19,6 +19,10 @@ const Container = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  padding: 0 1rem;
+  ${respondTo.laptopAndDesktop`
+  padding: 0 2rem;
+  `}
 `;
 const FlexGroup = styled.div`
   display: flex;
