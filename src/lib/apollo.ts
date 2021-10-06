@@ -1,12 +1,3 @@
-// import { ApolloClient, InMemoryCache } from "@apollo/client";
-
-// export const client = new ApolloClient({
-//   ssrMode: typeof window === "undefined",
-//   uri: "http://localhost:3000/api/graphql",
-//   cache: new InMemoryCache(),
-// });
-
-// import { prisma } from ".prisma/client";
 import {
   ApolloClient,
   InMemoryCache,

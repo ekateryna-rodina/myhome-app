@@ -12,7 +12,6 @@ const Main = styled.main`
   overflow-y: auto;
   display: flex;
   flex-direction: row;
-  background: red;
   margin-top: 4.2rem;
   padding: 0 1rem;
 `;
