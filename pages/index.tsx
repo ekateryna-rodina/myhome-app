@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 import type { NextPage } from "next";
 import React from "react";
-import { initializeApollo } from "src/apollo";
+import { initializeApollo } from "src/lib/apollo";
 import styled from "styled-components";
 import Filters from "../components/Filters";
 import Header from "../components/Header";
@@ -53,15 +53,14 @@ const Home: NextPage = (props) => {
 
 export default Home;
 
-export async function getServerSideProps(ctr) {
-  const apolloClient = initializeApollo();
-  await apolloClient.query({
+export async function getServerSideProps(ctx: any) {
+  const client = initializeApollo();
+  await client.query({
     query: PPOPERTIES,
   });
-
   return {
     props: {
-      initialApolloState: apolloClient.cache.extract(),
+      initialApolloState: client.cache.extract(),
     },
   };
 }

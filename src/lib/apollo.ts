@@ -1,21 +1,38 @@
+// import { ApolloClient, InMemoryCache } from "@apollo/client";
+
+// export const client = new ApolloClient({
+//   ssrMode: typeof window === "undefined",
+//   uri: "http://localhost:3000/api/graphql",
+//   cache: new InMemoryCache(),
+// });
+
+// import { prisma } from ".prisma/client";
 import {
   ApolloClient,
   InMemoryCache,
   NormalizedCacheObject,
 } from "@apollo/client";
-import { resolvers } from "./graphql/resolvers";
-import { typeDefs } from "./graphql/schema";
+import { makeExecutableSchema } from "@graphql-tools/schema";
+import { useMemo } from "react";
+import { resolvers } from "src/graphql/resolvers";
+import { typeDefs } from "../graphql/schema";
+import prisma from "./prisma";
 
 let apolloClient: ApolloClient<NormalizedCacheObject>;
 
 function createIsomorphicLink() {
   if (typeof window === "undefined") {
     const { SchemaLink } = require("@apollo/client/link/schema");
-
-    return new SchemaLink({ typeDefs, resolvers });
+    const schema = makeExecutableSchema({ typeDefs, resolvers });
+    return new SchemaLink({
+      schema,
+      context: {
+        prisma,
+      },
+    });
   } else {
     const { HttpLink } = require("@apollo/client/link/http");
-    return new HttpLink({ uri: "http://localhost:3000/api/graphql" });
+    return new HttpLink({ uri: "/api/graphql" });
   }
 }
 function createApolloClient() {
@@ -37,7 +54,6 @@ export function initializeApollo(initialState: any = null) {
   }
 }
 export function useApollo(initialState: any) {
-  // const store = useMemo(() => initializeApollo(initialState), [initialState]);
-  const store = initializeApollo(initialState);
+  const store = useMemo(() => initializeApollo(initialState), [initialState]);
   return store;
 }

@@ -2,7 +2,7 @@ import { ApolloProvider, gql } from "@apollo/client";
 import "@atlaskit/css-reset/dist/bundle.css";
 import { AppProps } from "next/dist/shared/lib/router/router";
 import React, { createContext, useState } from "react";
-import { useApollo } from "src/apollo";
+import { useApollo } from "src/lib/apollo";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 const GlobalStyle = createGlobalStyle`
 html{
@@ -51,7 +51,6 @@ export const Context = createContext(initialContext);
 function App({ Component, pageProps }: AppProps) {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const client = useApollo(pageProps.initialApolloState);
-
   return (
     <ApolloProvider client={client}>
       <Context.Provider
