@@ -1,6 +1,7 @@
 import Caret from "components/Caret.style";
-import React, { useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { ServiceType } from "src/utils/enums";
+import useClickOutside from "src/utils/hooks/useClickOutside";
 import styled from "styled-components";
 import { respondTo } from "../../src/utils/_respondTo";
 // dropdown
@@ -51,10 +52,12 @@ const ServiceDropdown = () => {
   const options = Object.values(ServiceType);
   const setTypeHandler = (type: ServiceType) => {
     setType(type);
-    console.log(type);
   };
+  const dropRef = useRef(null);
+  const useClickOutsideCallback = useCallback(() => setShow(false), []);
+  useClickOutside(dropRef, useClickOutsideCallback);
   return (
-    <DropDownContainer>
+    <DropDownContainer ref={dropRef}>
       <Selected>{type}</Selected>
       <Caret onClick={() => setShow(!show)} />
       <OptionsContainer show={show}>
