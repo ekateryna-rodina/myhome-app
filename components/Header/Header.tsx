@@ -4,7 +4,7 @@ import AddPropertyButton from "../AddPropertyButton";
 import Logo from "../Logo/Logo";
 import MessagesIcon from "../MessagesIcon";
 import NotificationsIcon from "../NotificationsIcon";
-import Search from "../Search";
+import { Search } from "../Search";
 import User from "../User";
 const StyledHeader = styled.header`
   position: absolute;

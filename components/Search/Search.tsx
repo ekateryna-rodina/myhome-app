@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
-import { Context } from "../pages/_app";
-import { Icons } from "../src/utils/enums";
-import DropDownSearch from "./DropDownSearch";
-import HeaderButton from "./HeaderButton.style";
+import { Context } from "../../pages/_app";
+import { Icons } from "../../src/utils/enums";
+import DropDownSearch from "../DropDownSearch/DropDownSearch";
+import HeaderButton from "../HeaderButton.style";
 
 const SearchContainer = styled.div`
   width: 100%;

@@ -30,13 +30,13 @@ const PPOPERTIES = gql`
       size
       photo
     }
+    locations {
+      city
+      country
+    }
   }
 `;
-const quer = gql`
-  query MyQuery {
-    name
-  }
-`;
+
 const Home: NextPage<{ initialApolloState: any }> = (props) => {
   const key: string = process.env.NEXT_PUBLIC_GMAP_KEY || "";
   const data = Object.values(props.initialApolloState || {}) as Listing[];
