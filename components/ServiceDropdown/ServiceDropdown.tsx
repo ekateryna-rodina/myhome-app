@@ -1,5 +1,6 @@
 import Caret from "components/Caret.style";
-import React from "react";
+import React, { useState } from "react";
+import { ServiceType } from "src/utils/enums";
 import styled from "styled-components";
 import { respondTo } from "../../src/utils/_respondTo";
 // dropdown
@@ -21,7 +22,8 @@ const Selected = styled.span`
   font-weight: bold;
   color: ${(props) => props.theme.dark};
 `;
-const OptionsContainer = styled.div`
+const OptionsContainer = styled.div<{ show: boolean }>`
+  display: ${({ show }) => (show ? "block" : "none")};
   position: absolute;
   top: 1.8rem;
   left: -0.7rem;
@@ -44,16 +46,22 @@ const Option = styled.li`
   }
 `;
 const ServiceDropdown = () => {
-  const options = ["RENT", "BUY"];
+  const [type, setType] = useState(ServiceType.RENT);
+  const [show, setShow] = useState(false);
+  const options = Object.values(ServiceType);
+  const setTypeHandler = (type: ServiceType) => {
+    setType(type);
+    console.log(type);
+  };
   return (
     <DropDownContainer>
-      <Selected>Rent</Selected>
-      <Caret />
-      <OptionsContainer>
+      <Selected>{type}</Selected>
+      <Caret onClick={() => setShow(!show)} />
+      <OptionsContainer show={show}>
         <OptionsList>
           {options.map((o) => (
-            <Option key={o}>
-              {o.charAt(0).toUpperCase() + o.slice(1).toLowerCase()}
+            <Option key={o} onClick={() => setTypeHandler(o)}>
+              {o}
             </Option>
           ))}
         </OptionsList>

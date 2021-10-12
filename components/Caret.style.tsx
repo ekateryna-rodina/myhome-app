@@ -9,8 +9,11 @@ const CaretIcon = styled.div`
     content: "\f0d7";
   }
 `;
-const Caret = () => {
-  return <CaretIcon />;
+interface CaretProps {
+  onClick: () => void;
+}
+const Caret = (props: CaretProps) => {
+  return <CaretIcon onClick={props.onClick} />;
 };
 
 export default Caret;

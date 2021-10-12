@@ -17,3 +17,8 @@ export enum Icons {
   Size = "sqft",
   Favourite = "",
 }
+
+export enum ServiceType {
+  BUY = "Buy",
+  RENT = "Rent",
+}
