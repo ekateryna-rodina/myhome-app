@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
 import styled from "styled-components";
-import { Unit } from "../utils/enums";
+import { Unit } from "../src/utils/enums";
 import SliderRange from "./SliderRange";
 
 const Container = styled.div<{

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import styled, { useTheme } from "styled-components";
-import { Icons } from "../utils/enums";
+import { Icons } from "../src/utils/enums";
 import Icon from "./Icon.style";
 const ListingItemContainer = styled.div`
   width: 16rem;
@@ -116,7 +116,9 @@ const ListingItem = (props: ListingItemProps) => {
   return (
     <ListingItemContainer>
       <ImageContainer>
-        <Image src={photo} alt="" layout="fill" objectFit="cover"></Image>
+        {photo && (
+          <Image src={photo} alt="" layout="fill" objectFit="cover"></Image>
+        )}
       </ImageContainer>
       <Description>
         <ContentContainer>

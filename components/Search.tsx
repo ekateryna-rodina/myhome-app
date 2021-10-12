@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
 import { Context } from "../pages/_app";
-import { Icons } from "../utils/enums";
+import { Icons } from "../src/utils/enums";
 import DropDownSearch from "./DropDownSearch";
 import HeaderButton from "./HeaderButton.style";
 
@@ -20,7 +20,7 @@ const Search = () => {
   const { setIsOpen, isOpen } = useContext(Context).filters as any;
 
   return (
-    <SearchContainer>
+    <SearchContainer data-testid="searchTestId">
       <DropDownSearch />
       <FilterButtonContainer>
         <HeaderButton icon={Icons.Filter} handler={() => setIsOpen(!isOpen)} />

@@ -1,7 +1,7 @@
 import React from "react";
+import { respondTo } from "src/utils/_respondTo";
 import styled, { useTheme } from "styled-components";
-import { respondTo } from "utils/_respondTo";
-import { Icons } from "../utils/enums";
+import { Icons } from "../src/utils/enums";
 import Icon from "./Icon.style";
 const CategoryContainer = styled.div<{
   isSelected: boolean;

@@ -1,8 +1,7 @@
 import Img from "next/image";
-import { lighten } from "polished";
 import React from "react";
 import styled from "styled-components";
-import { respondTo } from "utils/_respondTo";
+import { respondTo } from "../../src/utils/_respondTo";
 
 const LogoHeader = styled.div`
   display: none;
@@ -24,7 +23,7 @@ const LogoHeader = styled.div`
 `;
 const Link = styled.a`
   display: none;
-  color: inherit;
+  color: ${(props) => props.theme.dark};
   transition: all 0.5s;
   position: absolute;
   left: 1.5625rem;
@@ -32,7 +31,7 @@ const Link = styled.a`
   :hover,
   :focus {
     text-decoration: none;
-    color: ${(props) => lighten(0.2, props.theme.dark)};
+    color: ${(props) => `${props.theme.lightenDark}`};
   }
 
   ${respondTo.laptopAndDesktop`
@@ -41,13 +40,15 @@ const Link = styled.a`
 `;
 const Logo = () => {
   return (
-    <LogoHeader>
+    <LogoHeader data-testid="logoTestId">
       <Img
         src="https://res.cloudinary.com/kariecloud/image/upload/v1631839251/2021-09-16_20.27.45-removebg_op1mio.png"
         width="60"
         height="60"
       ></Img>
-      <Link href="#">MYHOME</Link>
+      <Link data-testid="linkTestId" href="#">
+        MYHOME
+      </Link>
     </LogoHeader>
   );
 };

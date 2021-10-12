@@ -33,7 +33,7 @@ const StyledImage = styled.div`
 `;
 const User = () => {
   return (
-    <UserContainer>
+    <UserContainer data-testid="userTestId">
       <NameContainer>
         <Name>John Doe</Name>
         <UserType>Premium user</UserType>

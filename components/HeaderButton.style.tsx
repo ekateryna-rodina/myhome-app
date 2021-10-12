@@ -1,7 +1,6 @@
-import { lighten } from "polished";
 import React from "react";
 import styled from "styled-components";
-import { Icons } from "../utils/enums";
+import { Icons } from "../src/utils/enums";
 import Icon from "./Icon.style";
 
 const Button = styled.button<{ icon: Icons }>`
@@ -22,10 +21,9 @@ const Button = styled.button<{ icon: Icons }>`
   align-items: center;
   :hover {
     background: ${(props) =>
-      lighten(
-        0.1,
-        props.icon === Icons.Glass ? props.theme.secondary : props.theme.primary
-      )};
+      props.icon === Icons.Glass
+        ? props.theme.lightenSecondary
+        : props.theme.lightenPrimary};
     border: none;
     outline: 0;
   }

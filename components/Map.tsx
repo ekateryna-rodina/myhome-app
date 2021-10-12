@@ -1,7 +1,7 @@
 import GoogleMapReact from "google-map-react";
 import React from "react";
+import { respondTo } from "src/utils/_respondTo";
 import styled from "styled-components";
-import { respondTo } from "utils/_respondTo";
 
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
 

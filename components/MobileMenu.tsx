@@ -1,6 +1,6 @@
 import React from "react";
+import { respondTo } from "src/utils/_respondTo";
 import styled from "styled-components";
-import { respondTo } from "utils/_respondTo";
 const MenuContainer = styled.div`
   display: block;
   position: fixed;

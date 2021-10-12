@@ -1,11 +1,11 @@
 import styled from "styled-components";
-import AddPropertyButton from "../components/AddPropertyButton";
-import Logo from "../components/Logo";
-import MessagesIcon from "../components/MessagesIcon";
-import NotificationsIcon from "../components/NotificationsIcon";
-import Search from "../components/Search";
-import User from "../components/User";
-import { respondTo } from "../utils/_respondTo";
+import { respondTo } from "../../src/utils/_respondTo";
+import AddPropertyButton from "../AddPropertyButton";
+import Logo from "../Logo/Logo";
+import MessagesIcon from "../MessagesIcon";
+import NotificationsIcon from "../NotificationsIcon";
+import Search from "../Search";
+import User from "../User";
 const StyledHeader = styled.header`
   position: absolute;
   z-index: 50;
@@ -41,7 +41,7 @@ const Header = () => {
         <Logo />
         <Search />
         <AddPropertyButton />
-        <FlexGroup>
+        <FlexGroup data-testid="iconsAndUserTestId">
           <MessagesIcon />
           <NotificationsIcon />
           <User />

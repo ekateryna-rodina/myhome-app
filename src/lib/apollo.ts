@@ -5,7 +5,7 @@ import {
 } from "@apollo/client";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import { useMemo } from "react";
-import { resolvers } from "src/graphql/resolvers";
+import { resolvers } from "../../src/graphql/resolvers";
 import { typeDefs } from "../graphql/schema";
 import prisma from "./prisma";
 

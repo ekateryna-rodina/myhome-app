@@ -1,9 +1,10 @@
 import { ApolloProvider, gql } from "@apollo/client";
 import "@atlaskit/css-reset/dist/bundle.css";
 import { AppProps } from "next/dist/shared/lib/router/router";
+import { lighten } from "polished";
 import React, { createContext, useState } from "react";
-import { useApollo } from "src/lib/apollo";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
+import { useApollo } from "../src/lib/apollo";
 const GlobalStyle = createGlobalStyle`
 html{
   box-sizing: border-box;
@@ -21,7 +22,7 @@ body{
 
 `;
 
-const theme = {
+export const theme = {
   primary: "#1e81b0",
   secondary: "#e28743",
   primaryText: "#21130d",
@@ -29,6 +30,9 @@ const theme = {
   gray: "#979f9e",
   dark: "#063970",
   light: "#eeeee4",
+  lightenDark: lighten(0.2, "#063970"),
+  lightenPrimary: lighten(0.1, "#1e81b0"),
+  lightenSecondary: lighten(0.1, "#e28743"),
 };
 const PPOPERTIES = gql`
   query Properties {

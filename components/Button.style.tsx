@@ -1,10 +1,12 @@
-import { lighten } from "polished";
 import React from "react";
 import styled from "styled-components";
 const padding: { [key: string]: string } = {
   large: "1rem 1.25rem",
 };
-const StyledButton = styled.button<ButtonProps>`
+const StyledButton = styled.button<{
+  size: "large" | "medium" | "small";
+  background: string;
+}>`
   padding: ${(props) => padding[props.size]};
   background: ${(props) => props.theme[props.background]};
   position: relative;
@@ -20,7 +22,7 @@ const StyledButton = styled.button<ButtonProps>`
   font-size: 1rem;
   :hover,
   :focus {
-    background: ${(props) => lighten(0.1, props.theme.secondary)};
+    background: ${(props) => props.theme.lightenSecondary};
     border: none;
     outline: 0;
   }

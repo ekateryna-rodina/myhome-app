@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
+import { respondTo } from "src/utils/_respondTo";
 import styled from "styled-components";
-import { respondTo } from "utils/_respondTo";
 import { Context } from "../pages/_app";
-import { Icons, Unit } from "../utils/enums";
+import { Icons, Unit } from "../src/utils/enums";
 import Category from "./Category";
 import CheckboxGroup from "./CheckboxGroup";
 import RoomsDropDown from "./RoomsDropDown";

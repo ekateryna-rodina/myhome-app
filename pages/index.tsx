@@ -1,10 +1,13 @@
 import { gql } from "@apollo/client";
+import Listings from "components/Listings";
 import type { NextPage } from "next";
 import React from "react";
 import { initializeApollo } from "src/lib/apollo";
+import { Listing } from "src/utils/types";
 import styled from "styled-components";
 import Filters from "../components/Filters";
-import Header from "../components/Header";
+import Header from "../components/Header/Header";
+// import Map from "../components/Map";
 const Main = styled.main`
   position: relative;
   height: 100vh;
@@ -34,15 +37,16 @@ const quer = gql`
     name
   }
 `;
-const Home: NextPage = (props) => {
+const Home: NextPage<{ initialApolloState: any }> = (props) => {
   const key: string = process.env.NEXT_PUBLIC_GMAP_KEY || "";
-  console.log(props);
+  const data = Object.values(props.initialApolloState || {}) as Listing[];
+  console.log(data);
   return (
     <>
-      <Header />
+      <Header data-testid="headerTestId" />
       <Main>
         <Filters />
-        {/* <Listings /> */}
+        <Listings data={data} />
         {/* {key && <Map secret={key} />} */}
         {/* <MobileMenu /> */}
       </Main>

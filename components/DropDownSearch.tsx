@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { respondTo } from "utils/_respondTo";
-import { Icons } from "../utils/enums";
-import Caret from "./Caret.style";
+import { Icons } from "../src/utils/enums";
+import { respondTo } from "../src/utils/_respondTo";
 import HeaderButton from "./HeaderButton.style";
+import { ServiceDropdown } from "./ServiceDropdown";
 
 // shared
 const DropDownSearchContainer = styled.div`
@@ -17,26 +17,6 @@ const DropDownSearchContainer = styled.div`
   padding: 0.7rem;
   box-sizing: border-box;
   border: ${(props) => `1px solid ${props.theme.light}`};
-`;
-
-// dropdown
-const DropDownContainer = styled.div`
-  flex: 1;
-  display: none;
-
-  ${respondTo.laptopAndDesktop`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding-right: 1rem;
-  border-right: ${(props: any) => `2px solid ${props.theme.gray}`};
-  `}
-`;
-const Selected = styled.span`
-  font-size: 0.9rem;
-  font-weight: bold;
-  color: ${(props) => props.theme.dark};
 `;
 
 // search
@@ -82,18 +62,12 @@ const SearchButtonContainer = styled.div`
 const DropDownSearch = () => {
   return (
     <DropDownSearchContainer>
-      <DropDownContainer>
-        <Selected>Rent</Selected>
-        <Caret />
-      </DropDownContainer>
+      <ServiceDropdown />
       <SeachContainer>
         <MarkerIcon />
         <Search placeholder="Where should I search?" />
         <SearchButtonContainer>
-          <HeaderButton
-            icon={Icons.Glass}
-            handler={() => console.log("search")}
-          />
+          <HeaderButton icon={Icons.Glass} handler={() => console.log()} />
         </SearchButtonContainer>
       </SeachContainer>
     </DropDownSearchContainer>

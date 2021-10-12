@@ -8,12 +8,19 @@ datasource db {
 }
 
 model Property {
-  id      Int    @id @default(autoincrement())
+  id      Int         @id @default(autoincrement())
   city    String
   country String
+  zip     String      @default("")
   title   String
   beds    Int
   baths   String
   size    Int
   photo   String
+  for     ServiceType @default(RENT)
+}
+
+enum ServiceType {
+  RENT
+  BUY
 }
