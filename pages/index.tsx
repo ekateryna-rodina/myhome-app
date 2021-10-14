@@ -1,13 +1,12 @@
 import { gql } from "@apollo/client";
 import Listings from "components/Listings";
+import { FilterContext } from "context/FilterProvider";
 import type { NextPage } from "next";
 import React, { useContext, useEffect } from "react";
 import { initializeApollo } from "src/lib/apollo";
-import { Listing } from "src/utils/types";
 import styled from "styled-components";
 import Filters from "../components/Filters";
 import Header from "../components/Header/Header";
-import { Context } from "./_app";
 // import Map from "../components/Map";
 const Main = styled.main`
   position: relative;
@@ -34,6 +33,7 @@ properties {
 `;
 const LOCATIONS = `
 locations {
+  id
   city
   country
   zip
@@ -47,17 +47,20 @@ const COMPOSITE_QUERY = gql`
   }
 `;
 const Home: NextPage<{ initialApolloState: any }> = (props) => {
-  const context = useContext(Context);
   const key: string = process.env.NEXT_PUBLIC_GMAP_KEY || "";
   const data = props.initialApolloState;
-  const [locations, properties] = [
-    data.ROOT_QUERY.locations,
-    Object.values(data) as Listing[],
-  ];
+  const locations = data.ROOT_QUERY.locations.map(
+    (entry: any) => data[entry["__ref"]]
+  );
+  const properties = data.ROOT_QUERY.properties.map(
+    (entry: any) => data[entry["__ref"]]
+  );
+  const { handleLocations } = useContext(FilterContext);
   useEffect(() => {
-    context.locations.set(locations);
-    // eslint-disable-next-line
-  }, [context.locations]);
+    handleLocations(locations);
+    //eslint-disable-next-line
+  }, []);
+
   return (
     <>
       <Header data-testid="headerTestId" />

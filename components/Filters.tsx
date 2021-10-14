@@ -1,7 +1,7 @@
+import { FilterContext } from "context/FilterProvider";
 import React, { useContext, useEffect, useState } from "react";
 import { respondTo } from "src/utils/_respondTo";
 import styled from "styled-components";
-import { Context } from "../pages/_app";
 import { Icons, Unit } from "../src/utils/enums";
 import Category from "./Category";
 import CheckboxGroup from "./CheckboxGroup";
@@ -117,9 +117,9 @@ const Filters = () => {
   ];
 
   const additionalData = ["pets friendly", "furnished", "parking"];
-  const { isOpen } = useContext(Context).filters as any;
+  const { isFilterOpen } = useContext(FilterContext);
   return (
-    <Container isOpen={isOpen} isInitialialized={isInitialialized}>
+    <Container isOpen={isFilterOpen} isInitialialized={isInitialialized}>
       <Title>Category</Title>
       <Categories>
         {categories.map((c: any[], index) => (

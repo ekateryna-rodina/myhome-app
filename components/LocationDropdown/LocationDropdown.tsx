@@ -1,9 +1,9 @@
+import { FilterContext } from "context/FilterProvider";
 import React, { useContext, useEffect, useState } from "react";
+import useAutocomplete from "src/utils/hooks/useAutocomplete";
 import styled from "styled-components";
 import HeaderButton from "../../components/HeaderButton.style";
-import { Context } from "../../pages/_app";
 import { Icons } from "../../src/utils/enums";
-import useAutocomplete from "../../src/utils/hooks/useAutocomplete";
 import { respondTo } from "../../src/utils/_respondTo";
 
 const Container = styled.div`
@@ -47,7 +47,7 @@ const SearchButtonContainer = styled.div`
   transform: translateY(-50%);
 `;
 
-const LocationsOptions = styled.div`
+const LocationsOptions = styled.div<{ show: boolean }>`
   position: absolute;
   left: 0;
   top: calc(100% + 0.6rem);
@@ -56,22 +56,22 @@ const LocationsOptions = styled.div`
   background: #fff;
   border-radius: 0.5rem;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3);
-  opacity: 0;
+  opacity: 1;
 `;
 
 const LocationDropdown = () => {
-  const {
-    locations: { data },
-  } = useContext(Context);
+  const { locations } = useContext(FilterContext);
+
   const [state, setState] = useState({
     value: "",
-    filteredOptions: data,
+    filteredOptions: [{}],
     activeOptions: [],
   });
-  const options = useAutocomplete(state.value, data);
+  const filteredOptions = useAutocomplete(state.value, locations);
   useEffect(() => {
-    console.log(state.value);
-  }, [state.value]);
+    setState({ ...state, filteredOptions });
+    //eslint-disable-next-line
+  }, [filteredOptions]);
   const onKeyDownHandler = () => {};
   return (
     <Container data-testid="locationDropdownTestId">
@@ -85,7 +85,13 @@ const LocationDropdown = () => {
       <SearchButtonContainer>
         <HeaderButton icon={Icons.Glass} handler={() => console.log()} />
       </SearchButtonContainer>
-      <LocationsOptions data-testid="locationsOptionsTestId"></LocationsOptions>
+      <LocationsOptions
+        data-testid="locationsOptionsTestId"
+        show={filteredOptions.length > 0}
+      >
+        {filteredOptions.length &&
+          filteredOptions.map((o) => <div key={o.id.toString()}>{o.city}</div>)}
+      </LocationsOptions>
     </Container>
   );
 };

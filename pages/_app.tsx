@@ -1,8 +1,9 @@
 import { ApolloProvider } from "@apollo/client";
 import "@atlaskit/css-reset/dist/bundle.css";
+import FilterProvider from "context/FilterProvider";
 import { AppProps } from "next/dist/shared/lib/router/router";
 import { lighten } from "polished";
-import React, { createContext, useState } from "react";
+import React from "react";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { useApollo } from "../src/lib/apollo";
 const GlobalStyle = createGlobalStyle`
@@ -35,36 +36,18 @@ export const theme = {
   lightenSecondary: lighten(0.1, "#e28743"),
 };
 
-const initialContext: { filters: any; locations: any } = {
-  filters: {},
-  locations: {},
-};
-export const Context = createContext(initialContext);
 function App({ Component, pageProps }: AppProps) {
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [locations, setLocations] = useState([]);
   const client = useApollo(pageProps.initialApolloState);
   return (
     <ApolloProvider client={client}>
-      <Context.Provider
-        value={{
-          filters: {
-            isOpen: isFilterOpen,
-            setIsOpen: setIsFilterOpen,
-          },
-          locations: {
-            data: locations,
-            set: setLocations,
-          },
-        }}
-      >
+      <FilterProvider>
         <GlobalStyle />
         <ThemeProvider theme={theme}>
           <React.StrictMode>
             <Component {...pageProps} />
           </React.StrictMode>
         </ThemeProvider>
-      </Context.Provider>
+      </FilterProvider>
     </ApolloProvider>
   );
 }
