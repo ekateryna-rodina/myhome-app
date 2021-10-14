@@ -1,10 +1,13 @@
-import HeaderButton from "components/HeaderButton.style";
-import React from "react";
-import { respondTo } from "src/utils/_respondTo";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
+import HeaderButton from "../../components/HeaderButton.style";
+import { Context } from "../../pages/_app";
 import { Icons } from "../../src/utils/enums";
+import useAutocomplete from "../../src/utils/hooks/useAutocomplete";
+import { respondTo } from "../../src/utils/_respondTo";
 
 const Container = styled.div`
+  position: relative;
   flex: 4;
   display: flex;
   flex-direction: row;
@@ -44,18 +47,45 @@ const SearchButtonContainer = styled.div`
   transform: translateY(-50%);
 `;
 
+const LocationsOptions = styled.div`
+  position: absolute;
+  left: 0;
+  top: calc(100% + 0.6rem);
+  width: 100%;
+  height: 10rem;
+  background: #fff;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3);
+  opacity: 0;
+`;
+
 const LocationDropdown = () => {
-  const autocompleteHandler = () => {};
+  const {
+    locations: { data },
+  } = useContext(Context);
+  const [state, setState] = useState({
+    value: "",
+    filteredOptions: data,
+    activeOptions: [],
+  });
+  const options = useAutocomplete(state.value, data);
+  useEffect(() => {
+    console.log(state.value);
+  }, [state.value]);
+  const onKeyDownHandler = () => {};
   return (
-    <Container>
+    <Container data-testid="locationDropdownTestId">
       <MarkerIcon />
       <Location
+        value={state.value}
         placeholder="Where should I search?"
-        onChange={autocompleteHandler}
+        onChange={(e) => setState({ ...state, value: e.currentTarget.value })}
+        onKeyDown={onKeyDownHandler}
       />
       <SearchButtonContainer>
         <HeaderButton icon={Icons.Glass} handler={() => console.log()} />
       </SearchButtonContainer>
+      <LocationsOptions data-testid="locationsOptionsTestId"></LocationsOptions>
     </Container>
   );
 };

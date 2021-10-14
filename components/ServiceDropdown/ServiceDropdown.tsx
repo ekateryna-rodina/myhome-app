@@ -1,8 +1,8 @@
-import Caret from "components/Caret.style";
 import React, { useCallback, useRef, useState } from "react";
-import { ServiceType } from "src/utils/enums";
-import useClickOutside from "src/utils/hooks/useClickOutside";
 import styled from "styled-components";
+import Caret from "../../components/Caret.style";
+import { ServiceType } from "../../src/utils/enums";
+import useClickOutside from "../../src/utils/hooks/useClickOutside";
 import { respondTo } from "../../src/utils/_respondTo";
 // dropdown
 const DropDownContainer = styled.div`

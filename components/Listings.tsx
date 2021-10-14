@@ -1,9 +1,9 @@
-import dynamic from "next/dynamic";
 import React from "react";
 import { Listing } from "src/utils/types";
 import { respondTo } from "src/utils/_respondTo";
 import styled from "styled-components";
-const ListingItem = dynamic(() => import("./ListingItem"), { ssr: false });
+import ListingItem from "./ListingItem";
+// const ListingItem = dynamic(() => import("./ListingItem"), { ssr: false });
 
 const ListingsContainer = styled.div`
   margin-top: 40vh;
@@ -31,6 +31,7 @@ interface ListingsProps {
 }
 const Listings = (props: ListingsProps) => {
   const { data } = props;
+
   return (
     <>
       <ListingsContainer>

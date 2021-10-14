@@ -11,7 +11,17 @@ export const typeDefs = gql`
     size: Int
     photo: String
   }
-  type Query {
+  type Location {
+    id: ID
+    city: String
+    country: String
+    zip: String
+  }
+  type RootQuery {
     properties: [Property]
+    locations: [Location]
+  }
+  schema {
+    query: RootQuery
   }
 `;

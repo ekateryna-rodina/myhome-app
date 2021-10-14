@@ -1,4 +1,4 @@
-import { ApolloProvider, gql } from "@apollo/client";
+import { ApolloProvider } from "@apollo/client";
 import "@atlaskit/css-reset/dist/bundle.css";
 import { AppProps } from "next/dist/shared/lib/router/router";
 import { lighten } from "polished";
@@ -34,26 +34,15 @@ export const theme = {
   lightenPrimary: lighten(0.1, "#1e81b0"),
   lightenSecondary: lighten(0.1, "#e28743"),
 };
-const PPOPERTIES = gql`
-  query Properties {
-    properties {
-      id
-      city
-      country
-      title
-      beds
-      baths
-      size
-      photo
-    }
-  }
-`;
-const initialContext: { filters: any } = {
+
+const initialContext: { filters: any; locations: any } = {
   filters: {},
+  locations: {},
 };
 export const Context = createContext(initialContext);
 function App({ Component, pageProps }: AppProps) {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [locations, setLocations] = useState([]);
   const client = useApollo(pageProps.initialApolloState);
   return (
     <ApolloProvider client={client}>
@@ -62,6 +51,10 @@ function App({ Component, pageProps }: AppProps) {
           filters: {
             isOpen: isFilterOpen,
             setIsOpen: setIsFilterOpen,
+          },
+          locations: {
+            data: locations,
+            set: setLocations,
           },
         }}
       >

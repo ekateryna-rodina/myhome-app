@@ -8,16 +8,23 @@ datasource db {
 }
 
 model Property {
-  id      Int         @id @default(autoincrement())
-  city    String
-  country String
-  zip     String      @default("")
-  title   String
-  beds    Int
-  baths   String
-  size    Int
-  photo   String
-  for     ServiceType @default(RENT)
+  id         Int         @id @default(autoincrement())
+  title      String
+  beds       Int
+  baths      String
+  size       Int
+  photo      String
+  for        ServiceType @default(RENT)
+  locationId Int         @default(1)
+  location   Location    @relation(fields: [locationId], references: [id])
+}
+
+model Location {
+  id         Int        @id @default(autoincrement())
+  city       String
+  country    String
+  zip        String     @default("")
+  properties Property[]
 }
 
 enum ServiceType {

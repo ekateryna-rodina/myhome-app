@@ -1,8 +1,14 @@
+export type Location = {
+  id: number;
+  city: string;
+  country: string;
+  zip: string;
+};
 export type Listing = {
   id: number;
   title: string;
-  city: string;
-  country: string;
+  locationId: number;
+  location: Location;
   baths: number;
   beds: number;
   size: number;
