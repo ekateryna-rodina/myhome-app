@@ -89,8 +89,11 @@ const LocationDropdown = () => {
         data-testid="locationsOptionsTestId"
         show={filteredOptions.length > 0}
       >
-        {filteredOptions.length &&
-          filteredOptions.map((o) => <div key={o.id.toString()}>{o.city}</div>)}
+        {filteredOptions.length ? (
+          filteredOptions.map((o) => <div key={o.id.toString()}>{o.city}</div>)
+        ) : (
+          <div></div>
+        )}
       </LocationsOptions>
     </Container>
   );

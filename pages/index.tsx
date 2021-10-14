@@ -57,7 +57,11 @@ const Home: NextPage<{ initialApolloState: any }> = (props) => {
   );
   const { handleLocations } = useContext(FilterContext);
   useEffect(() => {
-    handleLocations(locations);
+    handleLocations(
+      locations.map((location: Location) => {
+        return { ...location, __typename: "" };
+      })
+    );
     //eslint-disable-next-line
   }, []);
 
