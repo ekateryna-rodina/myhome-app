@@ -1,10 +1,10 @@
 import { gql } from "@apollo/client";
 import Listings from "components/Listings";
-import { FilterContext } from "context/FilterProvider";
 import type { NextPage } from "next";
 import React, { useContext, useEffect } from "react";
 import { initializeApollo } from "src/lib/apollo";
 import styled from "styled-components";
+import { FilterContext } from "../components/FilterProviderWrapper/FilterProviderWrapper";
 import Filters from "../components/Filters";
 import Header from "../components/Header/Header";
 // import Map from "../components/Map";

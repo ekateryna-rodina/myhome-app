@@ -1,8 +1,8 @@
-import { FilterContext } from "context/FilterProvider";
 import React, { useContext } from "react";
 import styled from "styled-components";
 import { Icons } from "../../src/utils/enums";
 import DropDownSearch from "../DropDownSearch/DropDownSearch";
+import { FilterContext } from "../FilterProviderWrapper/FilterProviderWrapper";
 import HeaderButton from "../HeaderButton.style";
 
 const SearchContainer = styled.div`

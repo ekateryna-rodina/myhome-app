@@ -1,10 +1,10 @@
-import { FilterContext } from "context/FilterProvider";
 import React, { useContext, useEffect, useState } from "react";
 import { respondTo } from "src/utils/_respondTo";
 import styled from "styled-components";
 import { Icons, Unit } from "../src/utils/enums";
 import Category from "./Category";
 import CheckboxGroup from "./CheckboxGroup";
+import { FilterContext } from "./FilterProviderWrapper/FilterProviderWrapper";
 import RoomsDropDown from "./RoomsDropDown";
 import { Slider } from "./Slider";
 

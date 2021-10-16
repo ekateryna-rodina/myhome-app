@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Location } from "../src/utils/types";
+import { Location } from "../../src/utils/types";
 type ContextPropsType = {
   locations: Location[];
   isFilterOpen: boolean;
@@ -13,9 +13,15 @@ const initialState: ContextPropsType = {
   handleLocations: (locations: Location[]) => {},
 };
 export const FilterContext = React.createContext(initialState);
-const FilterProvider: React.FC = ({ children }) => {
+type FilterProviderProps = { locations: Location[] };
+const FilterProviderWrapper: React.FC<FilterProviderProps> = ({
+  children,
+  locations: injectedLocations,
+}) => {
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
-  const [locations, setLocations] = useState<Location[]>([]);
+  const [locations, setLocations] = useState<Location[]>(
+    injectedLocations || []
+  );
   const handleLocations = (locations: Location[]) => {
     setLocations(locations);
   };
@@ -35,4 +41,4 @@ const FilterProvider: React.FC = ({ children }) => {
   );
 };
 
-export default FilterProvider;
+export default FilterProviderWrapper;

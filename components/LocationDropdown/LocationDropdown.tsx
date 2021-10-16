@@ -1,10 +1,10 @@
-import { FilterContext } from "context/FilterProvider";
 import React, { useContext, useEffect, useState } from "react";
-import useAutocomplete from "src/utils/hooks/useAutocomplete";
 import styled from "styled-components";
 import HeaderButton from "../../components/HeaderButton.style";
 import { Icons } from "../../src/utils/enums";
+import useAutocomplete from "../../src/utils/hooks/useAutocomplete";
 import { respondTo } from "../../src/utils/_respondTo";
+import { FilterContext } from "../FilterProviderWrapper/FilterProviderWrapper";
 
 const Container = styled.div`
   position: relative;
@@ -81,6 +81,7 @@ const LocationDropdown = () => {
         placeholder="Where should I search?"
         onChange={(e) => setState({ ...state, value: e.currentTarget.value })}
         onKeyDown={onKeyDownHandler}
+        data-testid="locationInputTestId"
       />
       <SearchButtonContainer>
         <HeaderButton icon={Icons.Glass} handler={() => console.log()} />
