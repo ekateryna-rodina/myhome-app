@@ -3,6 +3,7 @@ import styled from "styled-components";
 import HeaderButton from "../../components/HeaderButton.style";
 import { Icons } from "../../src/utils/enums";
 import useAutocomplete from "../../src/utils/hooks/useAutocomplete";
+import { Location } from "../../src/utils/types";
 import { respondTo } from "../../src/utils/_respondTo";
 import { FilterContext } from "../FilterProviderWrapper/FilterProviderWrapper";
 
@@ -22,7 +23,7 @@ const Container = styled.div`
   margin-left: 1rem;
   `}
 `;
-const Location = styled.input`
+const LocationInput = styled.input`
   height: 90%;
   width: 100%;
   font-size: 0.9rem;
@@ -47,7 +48,7 @@ const SearchButtonContainer = styled.div`
   transform: translateY(-50%);
 `;
 
-const LocationsOptions = styled.div<{ show: boolean }>`
+const LocationsOptionsContainer = styled.div<{ show: boolean }>`
   position: absolute;
   left: 0;
   top: calc(100% + 0.6rem);
@@ -56,15 +57,23 @@ const LocationsOptions = styled.div<{ show: boolean }>`
   background: #fff;
   border-radius: 0.5rem;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3);
-  opacity: 1;
+  opacity: ${({ show }) => (show ? "1" : "0")};
 `;
 
+const OptionsList = styled.ul`
+  list-style: none;
+  padding: 0;
+`;
 const LocationDropdown = () => {
   const { locations } = useContext(FilterContext);
 
-  const [state, setState] = useState({
+  const [state, setState] = useState<{
+    value: string;
+    filteredOptions: Location[];
+    activeOptions: number[];
+  }>({
     value: "",
-    filteredOptions: [{}],
+    filteredOptions: [],
     activeOptions: [],
   });
   const filteredOptions = useAutocomplete(state.value, locations);
@@ -73,10 +82,18 @@ const LocationDropdown = () => {
     //eslint-disable-next-line
   }, [filteredOptions]);
   const onKeyDownHandler = () => {};
+  const onFilteredClickHandler = (id: number) => {
+    const { city, country } = filteredOptions.filter((o) => o.id === id)[0];
+    setState({
+      ...state,
+      activeOptions: [...state.activeOptions, id],
+      value: `${city}, ${country}`,
+    });
+  };
   return (
     <Container data-testid="locationDropdownTestId">
       <MarkerIcon />
-      <Location
+      <LocationInput
         value={state.value}
         placeholder="Where should I search?"
         onChange={(e) => setState({ ...state, value: e.currentTarget.value })}
@@ -86,16 +103,22 @@ const LocationDropdown = () => {
       <SearchButtonContainer>
         <HeaderButton icon={Icons.Glass} handler={() => console.log()} />
       </SearchButtonContainer>
-      <LocationsOptions
-        data-testid="locationsOptionsTestId"
+      <LocationsOptionsContainer
+        data-testid="locationsOptionsContainerTestId"
         show={filteredOptions.length > 0}
       >
-        {filteredOptions.length ? (
-          filteredOptions.map((o) => <div key={o.id.toString()}>{o.city}</div>)
-        ) : (
-          <div></div>
-        )}
-      </LocationsOptions>
+        <OptionsList data-testid="locationsListTestId">
+          {filteredOptions.length > 0 ? (
+            filteredOptions.map((o) => (
+              <li key={o.id} onClick={onFilteredClickHandler.bind(null, o.id)}>
+                {o.city}, {o.country}
+              </li>
+            ))
+          ) : (
+            <li></li>
+          )}
+        </OptionsList>
+      </LocationsOptionsContainer>
     </Container>
   );
 };

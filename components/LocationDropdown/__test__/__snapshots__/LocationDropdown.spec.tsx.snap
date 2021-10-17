@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`filtered options are shown as city/country and are chosen correct: <ul>
+  <li>
+    Boston, USA
+  </li>
+</ul>
+ 1`] = `
+<ul
+  class="LocationDropdown__OptionsList-sc-q79dmt-5 hXEIkW"
+  data-testid="locationsListTestId"
+>
+  <li>
+    Boston
+  </li>
+</ul>
+`;

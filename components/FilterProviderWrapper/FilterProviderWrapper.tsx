@@ -7,7 +7,7 @@ type ContextPropsType = {
   handleIsFilterOpen: (value: boolean) => void;
 };
 const initialState: ContextPropsType = {
-  locations: [{ id: 0, country: "", city: "", zip: "" }],
+  locations: [],
   isFilterOpen: false,
   handleIsFilterOpen: (value: boolean) => {},
   handleLocations: (locations: Location[]) => {},

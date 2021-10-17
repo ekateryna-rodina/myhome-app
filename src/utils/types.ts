@@ -2,7 +2,7 @@ export type Location = {
   id: number;
   city: string;
   country: string;
-  zip: string;
+  zip?: string;
 };
 export type Listing = {
   id: number;

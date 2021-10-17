@@ -7,7 +7,6 @@ import styled from "styled-components";
 import { FilterContext } from "../components/FilterProviderWrapper/FilterProviderWrapper";
 import Filters from "../components/Filters";
 import Header from "../components/Header/Header";
-// import Map from "../components/Map";
 const Main = styled.main`
   position: relative;
   height: 100vh;
