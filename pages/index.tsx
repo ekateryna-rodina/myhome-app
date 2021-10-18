@@ -21,13 +21,16 @@ const Main = styled.main`
 const PPOPERTIES = `
 properties {
   id
-  city
-  country
   title
   beds
   baths
   size
   photo
+  locationId
+  location{
+    city
+    country
+  }
 }
 `;
 const LOCATIONS = `
@@ -54,6 +57,7 @@ const Home: NextPage<{ initialApolloState: any }> = (props) => {
   const properties = data.ROOT_QUERY.properties.map(
     (entry: any) => data[entry["__ref"]]
   );
+  console.log(properties);
   const { handleLocations } = useContext(FilterContext);
   useEffect(() => {
     handleLocations(

@@ -99,11 +99,11 @@ interface ListingItemProps {
   type: string;
   beds: number | null;
   photo: string;
+  location: { city: string; country: string };
 }
 const ListingItem = (props: ListingItemProps) => {
   const {
-    city,
-    country,
+    location: { city, country },
     superHost,
     title,
     rating,
@@ -124,7 +124,7 @@ const ListingItem = (props: ListingItemProps) => {
         <ContentContainer>
           <Title>{title}</Title>
           <Address>
-            {country}, {city}
+            {city}, {country}
           </Address>
           <Features>
             <Bed>

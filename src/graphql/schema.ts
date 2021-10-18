@@ -4,12 +4,13 @@ export const typeDefs = gql`
   type Property {
     id: ID
     title: String
-    city: String
-    country: String
     baths: Int
     beds: Int
     size: Int
     photo: String
+    for: String
+    location: Location
+    locationId: Int
   }
   type Location {
     id: ID

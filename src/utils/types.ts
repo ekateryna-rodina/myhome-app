@@ -13,4 +13,5 @@ export type Listing = {
   beds: number;
   size: number;
   photo: string;
+  for: string;
 };
