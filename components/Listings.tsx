@@ -1,7 +1,7 @@
-import React from "react";
-import { Listing } from "src/utils/types";
+import React, { useContext } from "react";
 import { respondTo } from "src/utils/_respondTo";
 import styled from "styled-components";
+import { AppContext } from "./FilterProviderWrapper/FilterProviderWrapper";
 import ListingItem from "./ListingItem";
 // const ListingItem = dynamic(() => import("./ListingItem"), { ssr: false });
 
@@ -26,18 +26,17 @@ const ListingsContainer = styled.div`
   border-top-left-radius: 0;
   border-top-right-radius: 0;`}
 `;
-interface ListingsProps {
-  data: Listing[];
-}
-const Listings = (props: ListingsProps) => {
-  const { data } = props;
 
+const Listings = () => {
+  const { properties, loading } = useContext(AppContext);
+  if (loading) return <div>Loading</div>;
   return (
     <>
       <ListingsContainer>
-        {data.map((item: any, index: any) => (
-          <ListingItem key={index} {...item} />
-        ))}
+        {properties &&
+          properties.map((item: any, index: any) => (
+            <ListingItem key={index} {...item} />
+          ))}
       </ListingsContainer>
     </>
   );

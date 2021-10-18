@@ -1,3 +1,4 @@
+import { gql, useLazyQuery } from "@apollo/client";
 import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import HeaderButton from "../../components/HeaderButton.style";
@@ -5,7 +6,7 @@ import { Icons } from "../../src/utils/enums";
 import useAutocomplete from "../../src/utils/hooks/useAutocomplete";
 import { Location } from "../../src/utils/types";
 import { respondTo } from "../../src/utils/_respondTo";
-import { FilterContext } from "../FilterProviderWrapper/FilterProviderWrapper";
+import { AppContext } from "../FilterProviderWrapper/FilterProviderWrapper";
 
 const Container = styled.div`
   position: relative;
@@ -64,30 +65,66 @@ const OptionsList = styled.ul`
   list-style: none;
   padding: 0;
 `;
+const GET_PROPERTIES_BY_LOCALTIONS = gql`
+  query properties($locationId: Int) {
+    properties(locationId: $locationId) {
+      id
+      title
+      beds
+      baths
+      size
+      photo
+      locationId
+      location {
+        city
+        country
+      }
+    }
+  }
+`;
 const LocationDropdown = () => {
-  const { locations } = useContext(FilterContext);
+  const { locations, handleProperties, handleLoading } = useContext(AppContext);
 
   const [state, setState] = useState<{
     value: string;
     filteredOptions: Location[];
-    activeOptions: number[];
+    activeOption: number | null;
   }>({
     value: "",
     filteredOptions: [],
-    activeOptions: [],
+    activeOption: null,
   });
+  const [getPropertiesByLocation, { loading, data, error }] = useLazyQuery(
+    GET_PROPERTIES_BY_LOCALTIONS
+  );
   const filteredOptions = useAutocomplete(state.value, locations);
-  useEffect(() => {
-    setState({ ...state, filteredOptions });
-    //eslint-disable-next-line
-  }, [filteredOptions]);
+
   const onKeyDownHandler = () => {};
   const onFilteredClickHandler = (id: number) => {
     const { city, country } = filteredOptions.filter((o) => o.id === id)[0];
     setState({
       ...state,
-      activeOptions: [...state.activeOptions, id],
+      activeOption: id,
       value: `${city}, ${country}`,
+    });
+  };
+
+  useEffect(() => {
+    if (data == undefined) return;
+    handleLoading(loading);
+    handleProperties(data.properties);
+    // eslint-disable-next-line
+  }, [data]);
+  useEffect(() => {}, []);
+  const locationInputHandler = (value: string) => {
+    if (!value) {
+      getPropertiesByLocation();
+    }
+    setState({ ...state, value });
+  };
+  const searchLocationsHandler = () => {
+    getPropertiesByLocation({
+      variables: { locationId: Number(state.activeOption) },
     });
   };
   return (
@@ -96,12 +133,12 @@ const LocationDropdown = () => {
       <LocationInput
         value={state.value}
         placeholder="Where should I search?"
-        onChange={(e) => setState({ ...state, value: e.currentTarget.value })}
+        onChange={(e) => locationInputHandler(e.currentTarget.value)}
         onKeyDown={onKeyDownHandler}
         data-testid="locationInputTestId"
       />
       <SearchButtonContainer>
-        <HeaderButton icon={Icons.Glass} handler={() => console.log()} />
+        <HeaderButton icon={Icons.Glass} handler={searchLocationsHandler} />
       </SearchButtonContainer>
       <LocationsOptionsContainer
         data-testid="locationsOptionsContainerTestId"

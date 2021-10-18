@@ -4,7 +4,7 @@ import { AppProps } from "next/dist/shared/lib/router/router";
 import { lighten } from "polished";
 import React from "react";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
-import FilterProviderWrapper from "../components/FilterProviderWrapper/FilterProviderWrapper";
+import AppContextProvider from "../components/FilterProviderWrapper/FilterProviderWrapper";
 import { useApollo } from "../src/lib/apollo";
 const GlobalStyle = createGlobalStyle`
 html{
@@ -40,14 +40,14 @@ function App({ Component, pageProps }: AppProps) {
   const client = useApollo(pageProps.initialApolloState);
   return (
     <ApolloProvider client={client}>
-      <FilterProviderWrapper locations={[]}>
+      <AppContextProvider locations={[]}>
         <GlobalStyle />
         <ThemeProvider theme={theme}>
           <React.StrictMode>
             <Component {...pageProps} />
           </React.StrictMode>
         </ThemeProvider>
-      </FilterProviderWrapper>
+      </AppContextProvider>
     </ApolloProvider>
   );
 }

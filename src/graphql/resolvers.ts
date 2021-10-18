@@ -2,8 +2,11 @@ import { Listing } from "src/utils/types";
 
 export const resolvers = {
   RootQuery: {
-    properties: async (_parent: any, _args: any, ctx: any) => {
-      const data = await ctx.prisma.property.findMany({});
+    properties: async (_parent: any, { locationId }: any, ctx: any) => {
+      const data = await ctx.prisma.property.findMany({
+        where: { locationId: locationId },
+      });
+
       return data.map(async (entry: Listing) => {
         const { city, country } = await ctx.prisma.location.findUnique({
           where: { id: entry.locationId },
@@ -16,6 +19,12 @@ export const resolvers = {
           },
         };
       });
+    },
+    property: async (_parent: any, { id }: any, ctx: any) => {
+      const data = await ctx.prisma.property.findUnique({
+        where: { id },
+      });
+      return data;
     },
     locations: async (_parent: any, _args: any, ctx: any) => {
       const data = await ctx.prisma.location.findMany({});

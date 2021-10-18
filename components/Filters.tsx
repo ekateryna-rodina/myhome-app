@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { Icons, Unit } from "../src/utils/enums";
 import Category from "./Category";
 import CheckboxGroup from "./CheckboxGroup";
-import { FilterContext } from "./FilterProviderWrapper/FilterProviderWrapper";
+import { AppContext } from "./FilterProviderWrapper/FilterProviderWrapper";
 import RoomsDropDown from "./RoomsDropDown";
 import { Slider } from "./Slider";
 
@@ -117,7 +117,7 @@ const Filters = () => {
   ];
 
   const additionalData = ["pets friendly", "furnished", "parking"];
-  const { isFilterOpen } = useContext(FilterContext);
+  const { isFilterOpen } = useContext(AppContext);
   return (
     <Container isOpen={isFilterOpen} isInitialialized={isInitialialized}>
       <Title>Category</Title>

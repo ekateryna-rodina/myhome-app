@@ -1,1 +1,1 @@
-export { default as FilterProviderWrapper } from "./FilterProviderWrapper";
+export { default as AppContextProvider } from "./FilterProviderWrapper";

@@ -4,7 +4,7 @@ import type { NextPage } from "next";
 import React, { useContext, useEffect } from "react";
 import { initializeApollo } from "src/lib/apollo";
 import styled from "styled-components";
-import { FilterContext } from "../components/FilterProviderWrapper/FilterProviderWrapper";
+import { AppContext } from "../components/FilterProviderWrapper/FilterProviderWrapper";
 import Filters from "../components/Filters";
 import Header from "../components/Header/Header";
 const Main = styled.main`
@@ -57,14 +57,15 @@ const Home: NextPage<{ initialApolloState: any }> = (props) => {
   const properties = data.ROOT_QUERY.properties.map(
     (entry: any) => data[entry["__ref"]]
   );
-  console.log(properties);
-  const { handleLocations } = useContext(FilterContext);
+
+  const { handleLocations, handleProperties } = useContext(AppContext);
   useEffect(() => {
     handleLocations(
       locations.map((location: Location) => {
         return { ...location, __typename: "" };
       })
     );
+    handleProperties(properties);
     //eslint-disable-next-line
   }, []);
 
@@ -73,7 +74,7 @@ const Home: NextPage<{ initialApolloState: any }> = (props) => {
       <Header data-testid="headerTestId" />
       <Main>
         <Filters />
-        <Listings data={properties} />
+        <Listings />
         {/* {key && <Map secret={key} />} */}
         {/* <MobileMenu /> */}
       </Main>
