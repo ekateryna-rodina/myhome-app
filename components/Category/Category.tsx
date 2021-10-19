@@ -1,7 +1,9 @@
-import React from "react";
+import { AppContext } from "components/AppContextWrapper/AppContextWrapper";
+import React, { useContext, useEffect, useState } from "react";
 import { respondTo } from "src/utils/_respondTo";
 import styled, { useTheme } from "styled-components";
-import { Icons } from "../../src/utils/enums";
+import { Icons, PropertyType } from "../../src/utils/enums";
+// import { Icons, PropertyType } from "../../src/utils/enums";
 import Icon from "../Icon.style";
 const CategoryContainer = styled.div<{
   isSelected: boolean;
@@ -34,20 +36,45 @@ const Label = styled.span<{ isSelected: boolean }>`
 `;
 
 interface CategoryProps {
-  name: Icons;
-  isSelected: boolean;
-  index: number;
+  name: string;
 }
-const Category: React.FC<CategoryProps> = ({ name, isSelected, index }) => {
+const Category: React.FC<CategoryProps> = ({ name }) => {
   const theme = useTheme();
+  const { filter, handleFilter } = useContext(AppContext);
+  const isCurrentlySelected = (filter: any, name: string): boolean => {
+    return Boolean(
+      Object.entries(filter.propertyTypes).filter(
+        (entry) => entry[0] == name
+      )[0][1]
+    );
+  };
+  const [selected, setSelected] = useState<boolean>(
+    isCurrentlySelected(filter, name)
+  );
+
+  useEffect(() => {
+    const isSelected = isCurrentlySelected(filter, name);
+    setSelected(isSelected);
+    // eslint-disable-next-line
+  }, [filter.propertyTypes]);
+  const toggleCategoryHandler = () => {
+    const isSelected = isCurrentlySelected(filter, name);
+    const propertyTypeName = name as keyof typeof PropertyType;
+    const newPropertyTypes = {
+      ...filter.propertyTypes,
+      [PropertyType[propertyTypeName]]: !isSelected,
+    };
+    handleFilter({ ...filter, propertyTypes: newPropertyTypes });
+  };
+
   return (
-    <CategoryContainer isSelected={isSelected}>
+    <CategoryContainer onClick={toggleCategoryHandler} isSelected={selected}>
       <Icon
-        color={isSelected ? (theme as any).dark : (theme as any).gray}
-        iconType={name}
+        color={selected ? (theme as any).dark : (theme as any).gray}
+        iconType={Icons[name as keyof typeof Icons]}
       />
 
-      <Label isSelected={isSelected}>{name.toString()}</Label>
+      <Label isSelected={selected}>{name.toString()}</Label>
     </CategoryContainer>
   );
 };

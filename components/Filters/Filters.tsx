@@ -5,7 +5,7 @@ import CheckboxGroup from "components/CheckboxGroup";
 import RoomsDropDown from "components/RoomsDropDown";
 import Slider from "components/Slider";
 import React, { useContext, useEffect, useState } from "react";
-import { Icons, Unit } from "src/utils/enums";
+import { Unit } from "src/utils/enums";
 import { respondTo } from "src/utils/_respondTo";
 import styled from "styled-components";
 const Container = styled.div<{
@@ -104,9 +104,9 @@ const PropertySize = styled.div`
     `}
 `;
 
-const GET_PROPERTIES_BY_PROPERTY_TYPE = gql`
-  query properties($propertyTypes: PropertyType) {
-    properties(propertyTypes: $propertyType) {
+const GET_FILTERED_PROPERTIES = gql`
+  query properties($filter: Filter) {
+    properties(filter: $filter) {
       id
       title
       beds
@@ -123,9 +123,9 @@ const GET_PROPERTIES_BY_PROPERTY_TYPE = gql`
 `;
 const Filters = () => {
   const [isInitialialized, setIsInitialized] = useState(false);
-  const { handleProperties, handleLoading } = useContext(AppContext);
-  const [getPropertiesByPropertyType, { loading, data, error }] = useLazyQuery(
-    GET_PROPERTIES_BY_PROPERTY_TYPE
+  const { handleProperties, handleLoading, filter } = useContext(AppContext);
+  const [getFilteredProperties, { loading, data, error }] = useLazyQuery(
+    GET_FILTERED_PROPERTIES
   );
   useEffect(() => {
     setIsInitialized(true);
@@ -136,15 +136,10 @@ const Filters = () => {
     handleProperties(data.properties);
     // eslint-disable-next-line
   }, [data]);
-  const categories = [
-    [Icons.House, true],
-    [Icons.Apartment, true],
-    [Icons.Office, false],
-    [Icons.Landplot, false],
-  ];
-  const filterByPropertyType = () => {
-    getPropertiesByPropertyType({
-      variables: { propertyTypes: [] },
+
+  const getFilteredPropertiesHandler = () => {
+    getFilteredProperties({
+      variables: { filter: {} },
     });
   };
   const additionalData = ["pets friendly", "furnished", "parking"];
@@ -153,8 +148,8 @@ const Filters = () => {
     <Container isOpen={isFilterOpen} isInitialialized={isInitialialized}>
       <Title>Category</Title>
       <Categories>
-        {categories.map((c: any[], index) => (
-          <Category key={c[0]} name={c[0]} isSelected={c[1]} index={index} />
+        {Object.keys(filter.propertyTypes).map((category) => (
+          <Category key={category} name={category} />
         ))}
       </Categories>
       <FlexibleRangeContainer>

@@ -2,7 +2,8 @@ import { Listing } from "src/utils/types";
 
 export const resolvers = {
   RootQuery: {
-    properties: async (_parent: any, { locationId }: any, ctx: any) => {
+    properties: async (_parent: any, { locationId, filter }: any, ctx: any) => {
+      console.log(filter);
       const data = await ctx.prisma.property.findMany({
         where: { locationId: locationId },
       });

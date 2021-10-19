@@ -18,6 +18,29 @@ export const typeDefs = gql`
     country: String!
     zip: String
   }
+  type Additional {
+    isPetsFriendly: Boolean
+    isFurnished: Boolean
+    isParkingAccessible: Boolean
+    isWithKitchen: Boolean
+    isWithAirCondition: Boolean
+    isWithLaundry: Boolean
+    isWithBabyBed: Boolean
+    isNearbyBeach: Boolean
+    isWithOfficeZone: Boolean
+    isWithSmokingZone: Boolean
+    isWithWifi: Boolean
+    isWithBreakfast: Boolean
+    isWithFireplace: Boolean
+  }
+  type Filter {
+    propertyTypes: [String]
+    bathrooms: Int!
+    bedrooms: Int!
+    priceRange: [Int!]
+    sizeRange: [Int!]
+    additional: Additional!
+  }
   type RootQuery {
     properties(locationId: Int): [Property]
     locations: [Location!]
