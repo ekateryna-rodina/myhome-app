@@ -1,5 +1,6 @@
 import "@testing-library/jest-dom/extend-expect";
 import {
+  act,
   cleanup,
   fireEvent,
   render,
@@ -7,8 +8,8 @@ import {
   within,
 } from "@testing-library/react";
 import React from "react";
+import { AppContextWrapper } from "../../../components/AppContextWrapper";
 import { Location } from "../../../src/utils/types";
-import { FilterProviderWrapper } from "../../AppContextWrapper";
 import LocationDropdown from "../LocationDropdown";
 jest.mock("../../../assets/bed.svg", () => () => null);
 jest.mock("../../../assets/bell.svg", () => () => null);
@@ -31,9 +32,9 @@ const locations: Location[] = [
 ];
 const setup = () => {
   render(
-    <FilterProviderWrapper locations={locations}>
+    <AppContextWrapper locations={locations}>
       <LocationDropdown />
-    </FilterProviderWrapper>
+    </AppContextWrapper>
   );
   const input = screen.getByTestId("locationInputTestId");
   return input;
@@ -53,7 +54,9 @@ test("options are hidden on initial render", async () => {
 });
 test("options are shown when user enters keyword which is present in initial set of location data", async () => {
   const input = setup();
-  fireEvent.change(input, { target: { value: "bo" } });
+  act(() => {
+    fireEvent.change(input, { target: { value: "bo" } });
+  });
   const locationsOptions = screen.getAllByTestId(
     "locationsOptionsContainerTestId"
   )[0];
@@ -62,7 +65,10 @@ test("options are shown when user enters keyword which is present in initial set
 
 test("options are shown when user enters keyword which is present in initial set of location data", async () => {
   const input = setup();
-  fireEvent.change(input, { target: { value: "notacity" } });
+  act(() => {
+    fireEvent.change(input, { target: { value: "notacity" } });
+  });
+
   const locationsOptions = screen.getAllByTestId(
     "locationsOptionsContainerTestId"
   )[0];
@@ -73,14 +79,23 @@ test("options are not shown when input is empty", async () => {
   const locationsOptions = screen.getAllByTestId(
     "locationsOptionsContainerTestId"
   )[0];
-  fireEvent.change(input, { target: { value: "bo" } });
+  act(() => {
+    fireEvent.change(input, { target: { value: "bo" } });
+  });
+
   expect(locationsOptions).toHaveStyle("opacity: 1");
-  fireEvent.change(input, { target: { value: "" } });
+  act(() => {
+    fireEvent.change(input, { target: { value: "" } });
+  });
+
   expect(locationsOptions).toHaveStyle("opacity: 0");
 });
 test("filtered options are shown as city/country and are chosen correct", async () => {
   const input = setup();
-  fireEvent.change(input, { target: { value: "bo" } });
+
+  act(() => {
+    fireEvent.change(input, { target: { value: "bo" } });
+  });
   const filteredLocationsList = screen.getByTestId("locationsListTestId");
   const { getAllByRole } = within(filteredLocationsList);
   const listItems = getAllByRole("listitem");
@@ -94,10 +109,16 @@ test("filtered options are shown as city/country and are chosen correct", async 
 
 test("user can select value from dropdown", async () => {
   const input = setup();
-  fireEvent.change(input, { target: { value: "bo" } });
+
+  act(() => {
+    fireEvent.change(input, { target: { value: "bo" } });
+  });
   const filteredLocationsList = screen.getByTestId("locationsListTestId");
   const { getAllByRole } = within(filteredLocationsList);
   const listItems = getAllByRole("listitem");
-  fireEvent.click(listItems[0]);
+  act(() => {
+    fireEvent.click(listItems[0]);
+  });
+
   expect((input as HTMLInputElement).value).toBe("Boston, USA");
 });

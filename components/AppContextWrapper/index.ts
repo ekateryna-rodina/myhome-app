@@ -1,1 +1,1 @@
-export { default as AppContextProvider } from "./AppContextWrapper";
+export { default as AppContextWrapper } from "./AppContextWrapper";
