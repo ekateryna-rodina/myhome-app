@@ -1,3 +1,4 @@
+import { gql, useLazyQuery } from "@apollo/client";
 import { AppContext } from "components/AppContextWrapper/AppContextWrapper";
 import { Category } from "components/Category";
 import CheckboxGroup from "components/CheckboxGroup";
@@ -102,18 +103,50 @@ const PropertySize = styled.div`
     margin-top: 1rem;
     `}
 `;
+
+const GET_PROPERTIES_BY_PROPERTY_TYPE = gql`
+  query properties($propertyTypes: PropertyType) {
+    properties(propertyTypes: $propertyType) {
+      id
+      title
+      beds
+      baths
+      size
+      photo
+      locationId
+      location {
+        city
+        country
+      }
+    }
+  }
+`;
 const Filters = () => {
   const [isInitialialized, setIsInitialized] = useState(false);
+  const { handleProperties, handleLoading } = useContext(AppContext);
+  const [getPropertiesByPropertyType, { loading, data, error }] = useLazyQuery(
+    GET_PROPERTIES_BY_PROPERTY_TYPE
+  );
   useEffect(() => {
     setIsInitialized(true);
   }, []);
+  useEffect(() => {
+    if (data == undefined) return;
+    handleLoading(loading);
+    handleProperties(data.properties);
+    // eslint-disable-next-line
+  }, [data]);
   const categories = [
     [Icons.House, true],
     [Icons.Apartment, true],
     [Icons.Office, false],
     [Icons.Landplot, false],
   ];
-
+  const filterByPropertyType = () => {
+    getPropertiesByPropertyType({
+      variables: { propertyTypes: [] },
+    });
+  };
   const additionalData = ["pets friendly", "furnished", "parking"];
   const { isFilterOpen } = useContext(AppContext);
   return (

@@ -22,3 +22,10 @@ export enum ServiceType {
   BUY = "Buy",
   RENT = "Rent",
 }
+
+export enum PropertyType {
+  Apartment = "Apartment",
+  House = "House",
+  Office = "Office",
+  Landplot = "Landplot",
+}

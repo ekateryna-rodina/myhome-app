@@ -115,7 +115,7 @@ const LocationDropdown = () => {
     handleProperties(data.properties);
     // eslint-disable-next-line
   }, [data]);
-  useEffect(() => {}, []);
+
   const locationInputHandler = (value: string) => {
     if (!value) {
       getPropertiesByLocation();

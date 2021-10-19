@@ -109,7 +109,6 @@ test("filtered options are shown as city/country and are chosen correct", async 
 
 test("user can select value from dropdown", async () => {
   const input = setup();
-
   act(() => {
     fireEvent.change(input, { target: { value: "bo" } });
   });

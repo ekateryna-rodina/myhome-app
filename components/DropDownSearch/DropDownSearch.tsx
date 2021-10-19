@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { LocationDropdown } from "../LocationDropdown";
 import { ServiceDropdown } from "../ServiceDropdown";
 
-// shared
 const DropDownSearchContainer = styled.div`
   position: relative;
   display: flex;
