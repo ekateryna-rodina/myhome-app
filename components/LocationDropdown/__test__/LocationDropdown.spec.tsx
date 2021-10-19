@@ -8,7 +8,7 @@ import {
 } from "@testing-library/react";
 import React from "react";
 import { Location } from "../../../src/utils/types";
-import { FilterProviderWrapper } from "../../FilterProviderWrapper";
+import { FilterProviderWrapper } from "../../AppContextWrapper";
 import LocationDropdown from "../LocationDropdown";
 jest.mock("../../../assets/bed.svg", () => () => null);
 jest.mock("../../../assets/bell.svg", () => () => null);

@@ -8,15 +8,30 @@ datasource db {
 }
 
 model Property {
-  id         Int         @id @default(autoincrement())
-  title      String
-  beds       Int
-  baths      String
-  size       Int
-  photo      String
-  for        ServiceType @default(RENT)
-  locationId Int         @default(1)
-  location   Location    @relation(fields: [locationId], references: [id])
+  id                  Int          @id @default(autoincrement())
+  title               String
+  beds                Int
+  baths               String
+  size                Int
+  photo               String
+  for                 ServiceType  @default(RENT)
+  locationId          Int          @default(1)
+  location            Location     @relation(fields: [locationId], references: [id])
+  price               Int          @default(2000)
+  type                PropertyType @default(House)
+  isPetsFriendly      Boolean      @default(true)
+  isFurnished         Boolean      @default(true)
+  isParkingAccessible Boolean      @default(true)
+  isWithKitchen       Boolean      @default(true)
+  isWithAirCondition  Boolean      @default(true)
+  isWithLaundry       Boolean      @default(true)
+  isWithBabyBed       Boolean      @default(false)
+  isNearbyBeach       Boolean      @default(false)
+  isWithOfficeZone    Boolean      @default(false)
+  isWithSmokingZone   Boolean      @default(false)
+  isWithWiFi          Boolean      @default(true)
+  isWithBreakfast     Boolean      @default(false)
+  isWithFireplace     Boolean      @default(false)
 }
 
 model Location {
@@ -30,4 +45,11 @@ model Location {
 enum ServiceType {
   RENT
   BUY
+}
+
+enum PropertyType {
+  Apartment
+  House
+  Office
+  Landplot
 }

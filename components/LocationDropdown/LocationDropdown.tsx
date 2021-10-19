@@ -6,7 +6,7 @@ import { Icons } from "../../src/utils/enums";
 import useAutocomplete from "../../src/utils/hooks/useAutocomplete";
 import { Location } from "../../src/utils/types";
 import { respondTo } from "../../src/utils/_respondTo";
-import { AppContext } from "../FilterProviderWrapper/FilterProviderWrapper";
+import { AppContext } from "../AppContextWrapper/AppContextWrapper";
 
 const Container = styled.div`
   position: relative;

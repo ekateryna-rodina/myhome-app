@@ -22,7 +22,7 @@ const initialState: ContextPropsType = {
 };
 export const AppContext = React.createContext(initialState);
 type AppContextProviderProps = { locations: Location[] };
-const AppContextProvider: React.FC<AppContextProviderProps> = ({
+const AppContextWrapper: React.FC<AppContextProviderProps> = ({
   children,
   locations: injectedLocations,
 }) => {
@@ -59,4 +59,4 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({
   );
 };
 
-export default AppContextProvider;
+export default AppContextWrapper;

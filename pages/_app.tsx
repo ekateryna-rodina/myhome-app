@@ -4,7 +4,7 @@ import { AppProps } from "next/dist/shared/lib/router/router";
 import { lighten } from "polished";
 import React from "react";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
-import AppContextProvider from "../components/FilterProviderWrapper/FilterProviderWrapper";
+import AppContextProvider from "../components/AppContextWrapper/AppContextWrapper";
 import { useApollo } from "../src/lib/apollo";
 const GlobalStyle = createGlobalStyle`
 html{

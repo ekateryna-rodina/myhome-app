@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
 import { Icons } from "../../src/utils/enums";
+import { AppContext } from "../AppContextWrapper/AppContextWrapper";
 import DropDownSearch from "../DropDownSearch/DropDownSearch";
-import { AppContext } from "../FilterProviderWrapper/FilterProviderWrapper";
 import HeaderButton from "../HeaderButton.style";
 
 const SearchContainer = styled.div`

@@ -1,11 +1,11 @@
 import { gql } from "@apollo/client";
-import Listings from "components/Listings";
+import { Filters } from "components/Filters";
+import { Listings } from "components/Listings";
 import type { NextPage } from "next";
 import React, { useContext, useEffect } from "react";
 import { initializeApollo } from "src/lib/apollo";
 import styled from "styled-components";
-import { AppContext } from "../components/FilterProviderWrapper/FilterProviderWrapper";
-import Filters from "../components/Filters";
+import { AppContext } from "../components/AppContextWrapper/AppContextWrapper";
 import Header from "../components/Header/Header";
 const Main = styled.main`
   position: relative;

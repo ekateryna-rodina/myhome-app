@@ -1,8 +1,8 @@
 import React from "react";
 import { respondTo } from "src/utils/_respondTo";
 import styled, { useTheme } from "styled-components";
-import { Icons } from "../src/utils/enums";
-import Icon from "./Icon.style";
+import { Icons } from "../../src/utils/enums";
+import Icon from "../Icon.style";
 const CategoryContainer = styled.div<{
   isSelected: boolean;
 }>`
@@ -14,6 +14,7 @@ const CategoryContainer = styled.div<{
   justify-content: center;
   align-items: center;
   flex-grow: 1;
+  cursor: pointer;
   border: ${(props) =>
     `1px solid ${props.isSelected ? props.theme.dark : props.theme.light}`};
   ${respondTo.laptopAndDesktop`
