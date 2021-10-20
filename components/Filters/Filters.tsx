@@ -1,4 +1,4 @@
-import { gql, useLazyQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 import { AppContext } from "components/AppContextWrapper/AppContextWrapper";
 import { Category } from "components/Category";
 import CheckboxGroup from "components/CheckboxGroup";
@@ -6,6 +6,7 @@ import RoomsDropDown from "components/RoomsDropDown";
 import { Slider } from "components/Slider";
 import React, { useContext, useEffect, useState } from "react";
 import {
+  GET_PROPERTIES_QUERY,
   MAX_FILTER_PRICE,
   MAX_FILTER_SIZE,
   MIN_FILTER_PRICE,
@@ -110,31 +111,12 @@ const PropertySize = styled.div`
     `}
 `;
 
-const GET_FILTERED_PROPERTIES = gql`
-  query properties($locationId: Int, $filter: String) {
-    properties(locationId: $locationId, filter: $filter) {
-      id
-      title
-      beds
-      baths
-      size
-      photo
-      locationId
-      location {
-        city
-        country
-      }
-    }
-  }
-`;
-
 const Filters = () => {
   const [isInitialialized, setIsInitialized] = useState(false);
   const { handleProperties, handleLoading, filter, selectedLocationId } =
     useContext(AppContext);
-  const [getFilteredProperties, { loading, data, error }] = useLazyQuery(
-    GET_FILTERED_PROPERTIES
-  );
+  const [getFilteredProperties, { loading, data, error }] =
+    useLazyQuery(GET_PROPERTIES_QUERY);
   useEffect(() => {
     setIsInitialized(true);
   }, []);

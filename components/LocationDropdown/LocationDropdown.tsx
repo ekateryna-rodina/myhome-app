@@ -1,5 +1,6 @@
-import { gql, useLazyQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 import React, { useContext, useEffect, useState } from "react";
+import { GET_PROPERTIES_QUERY } from "src/utils/constants";
 import styled from "styled-components";
 import HeaderButton from "../../components/HeaderButton.style";
 import { Icons } from "../../src/utils/enums";
@@ -65,29 +66,14 @@ const OptionsList = styled.ul`
   list-style: none;
   padding: 0;
 `;
-const GET_PROPERTIES_BY_LOCALTIONS = gql`
-  query properties($locationId: Int) {
-    properties(locationId: $locationId) {
-      id
-      title
-      beds
-      baths
-      size
-      photo
-      locationId
-      location {
-        city
-        country
-      }
-    }
-  }
-`;
+
 const LocationDropdown = () => {
   const {
     locations,
     handleProperties,
     handleLoading,
     handleSelectedLocationId,
+    filter,
   } = useContext(AppContext);
 
   const [state, setState] = useState<{
@@ -99,9 +85,8 @@ const LocationDropdown = () => {
     filteredOptions: [],
     activeOption: null,
   });
-  const [getPropertiesByLocation, { loading, data, error }] = useLazyQuery(
-    GET_PROPERTIES_BY_LOCALTIONS
-  );
+  const [getPropertiesByLocation, { loading, data, error }] =
+    useLazyQuery(GET_PROPERTIES_QUERY);
   const filteredOptions = useAutocomplete(state.value, locations);
 
   const onKeyDownHandler = () => {};
@@ -123,9 +108,12 @@ const LocationDropdown = () => {
   }, [data]);
 
   const clearInput = () => {
-    getPropertiesByLocation();
     setState({ ...state, value: "", activeOption: 0 });
     handleSelectedLocationId(0);
+    console.log(filter);
+    getPropertiesByLocation({
+      variables: { locationId: 0, filter: JSON.stringify(filter) },
+    });
   };
   const locationInputHandler = (value: string) => {
     if (!value) {
