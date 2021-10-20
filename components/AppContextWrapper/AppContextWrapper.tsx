@@ -23,7 +23,7 @@ const initialFilter: Filter = {
     [PropertyType.Landplot]: false,
     [PropertyType.Office]: false,
   },
-  priceRange: [0, 3000],
+  priceRange: [0, 5000],
   sizeRange: [0, 5000],
   bedrooms: 2,
   bathrooms: 1,

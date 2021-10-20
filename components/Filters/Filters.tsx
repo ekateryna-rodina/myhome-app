@@ -105,8 +105,8 @@ const PropertySize = styled.div`
 `;
 
 const GET_FILTERED_PROPERTIES = gql`
-  query properties($filter: Filter) {
-    properties(filter: $filter) {
+  query properties($locationId: Int, $filter: String) {
+    properties(locationId: $locationId, filter: $filter) {
       id
       title
       beds
@@ -121,9 +121,11 @@ const GET_FILTERED_PROPERTIES = gql`
     }
   }
 `;
+
 const Filters = () => {
   const [isInitialialized, setIsInitialized] = useState(false);
-  const { handleProperties, handleLoading, filter } = useContext(AppContext);
+  const { handleProperties, handleLoading, filter, selectedLocationId } =
+    useContext(AppContext);
   const [getFilteredProperties, { loading, data, error }] = useLazyQuery(
     GET_FILTERED_PROPERTIES
   );
@@ -137,13 +139,36 @@ const Filters = () => {
     // eslint-disable-next-line
   }, [data]);
 
-  const getFilteredPropertiesHandler = () => {
-    getFilteredProperties({
-      variables: { filter: {} },
+  useEffect(() => {
+    if (!isInitialialized) return;
+    const newFilter = JSON.stringify({
+      ...filter,
+      priceRange: filter.priceRange,
     });
-  };
+    getFilteredProperties({
+      variables: {
+        selectedLocationId: Number(selectedLocationId),
+        filter: newFilter,
+      },
+    });
+  }, [filter.priceRange]);
+  useEffect(() => {
+    if (!isInitialialized) return;
+    const newFilter = JSON.stringify({
+      ...filter,
+      sizeRange: filter.sizeRange,
+    });
+    getFilteredProperties({
+      variables: {
+        selectedLocationId: Number(selectedLocationId),
+        filter: newFilter,
+      },
+    });
+  }, [filter.sizeRange]);
+
   const additionalData = ["pets friendly", "furnished", "parking"];
   const { isFilterOpen } = useContext(AppContext);
+
   return (
     <Container isOpen={isFilterOpen} isInitialialized={isInitialialized}>
       <Title>Category</Title>
@@ -155,11 +180,17 @@ const Filters = () => {
       <FlexibleRangeContainer>
         <PriceRange>
           <Title>Price Range</Title>
-          <Slider min={0} max={300} unit={Unit.USD} />
+          <Slider min={0} max={5000} unit={Unit.USD} type={"price"} />
         </PriceRange>
         <PropertySize>
           <Title pushRight={true}>Property Size</Title>
-          <Slider min={0} max={5000} unit={Unit.SQFT} pushRight={true} />
+          <Slider
+            min={0}
+            max={5000}
+            unit={Unit.SQFT}
+            pushRight={true}
+            type={"size"}
+          />
         </PropertySize>
       </FlexibleRangeContainer>
       <Title>Rooms</Title>

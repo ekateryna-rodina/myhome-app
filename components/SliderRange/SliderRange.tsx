@@ -115,7 +115,7 @@ type SliderRangeProps = {
   maxValue: number;
   onMinChange: Function;
   onMaxChange: Function;
-  withBars: number[][] | null;
+  withBars?: number[][] | null;
 };
 const SliderRange = (props: SliderRangeProps) => {
   const { min, max, minValue, maxValue, onMinChange, onMaxChange, withBars } =
@@ -152,8 +152,9 @@ const SliderRange = (props: SliderRangeProps) => {
     }
   }, [maxValue, getPercent]);
   return (
-    <Container>
+    <Container data-testid={"sliderRangeTestId"}>
       <StyledThumbLeft
+        id={"left"}
         type="range"
         min={min}
         max={max}
@@ -164,8 +165,10 @@ const SliderRange = (props: SliderRangeProps) => {
           onMinChange(value);
           minValRef.current = value;
         }}
+        data-testid={"leftThumbTestId"}
       />
       <StyledThumbRight
+        id={"right"}
         type="range"
         min={min}
         max={max}
@@ -175,6 +178,7 @@ const SliderRange = (props: SliderRangeProps) => {
           onMaxChange(value);
           maxValRef.current = value;
         }}
+        data-testid={"rightThumbTestId"}
       />
       <StyledSlider>
         {withBars?.length && (
