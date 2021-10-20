@@ -40,7 +40,7 @@ interface CategoryProps {
 }
 
 const GET_FILTERED_PROPERTIES = gql`
-  query properties($locationId: Int, $filter: Filter) {
+  query properties($locationId: Int, $filter: String) {
     properties(locationId: $locationId, filter: $filter) {
       id
       title
@@ -56,13 +56,19 @@ const GET_FILTERED_PROPERTIES = gql`
     }
   }
 `;
+
 const Category: React.FC<CategoryProps> = ({ name }) => {
   const theme = useTheme();
   const [getFilteredProperties, { loading, data, error }] = useLazyQuery(
     GET_FILTERED_PROPERTIES
   );
-  const { filter, handleFilter, handleProperties, selectedLocationId } =
-    useContext(AppContext);
+  const {
+    filter,
+    handleFilter,
+    handleProperties,
+    selectedLocationId,
+    handleLoading,
+  } = useContext(AppContext);
   const isCurrentlySelected = (filter: any, name: string): boolean => {
     return Boolean(
       Object.entries(filter.propertyTypes).filter(
@@ -80,13 +86,21 @@ const Category: React.FC<CategoryProps> = ({ name }) => {
     // eslint-disable-next-line
   }, [filter.propertyTypes]);
 
-  const updateProperties = (newData: {}) => {
+  useEffect(() => {
+    if (!data) return;
+    handleProperties(data.properties);
+    // eslint-disable-next-line
+  }, [data]);
+  const updateProperties = (newData: any) => {
     // optimistic update
-    const newFilter = { ...filter, propertyTypes: newData };
+    const newFilter = JSON.stringify({ ...filter, propertyTypes: newData });
     getFilteredProperties({
-      variables: { locationId: selectedLocationId, filter: newFilter },
+      variables: {
+        locationId: Number(selectedLocationId),
+        filter: newFilter,
+      },
     });
-    if (error) console.log(error);
+    handleLoading(loading);
   };
   const updateFilter = () => {
     const isSelected = isCurrentlySelected(filter, name);

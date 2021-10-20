@@ -112,6 +112,7 @@ const LocationDropdown = () => {
       activeOption: id,
       value: `${city}, ${country}`,
     });
+    handleSelectedLocationId(id);
   };
 
   useEffect(() => {
@@ -121,12 +122,18 @@ const LocationDropdown = () => {
     // eslint-disable-next-line
   }, [data]);
 
+  const clearInput = () => {
+    getPropertiesByLocation();
+    setState({ ...state, value: "", activeOption: 0 });
+    handleSelectedLocationId(0);
+  };
   const locationInputHandler = (value: string) => {
     if (!value) {
-      getPropertiesByLocation();
+      clearInput();
+      return;
     }
+
     setState({ ...state, value });
-    handleSelectedLocationId(state.activeOption ?? 0);
   };
   const searchLocationsHandler = () => {
     getPropertiesByLocation({
