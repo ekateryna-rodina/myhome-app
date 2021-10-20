@@ -151,9 +151,10 @@ const Filters = () => {
       ...filter,
       priceRange: filter.priceRange,
     });
+
     getFilteredProperties({
       variables: {
-        selectedLocationId: Number(selectedLocationId),
+        locationId: Number(selectedLocationId),
         filter: newFilter,
       },
     });
@@ -166,7 +167,7 @@ const Filters = () => {
     });
     getFilteredProperties({
       variables: {
-        selectedLocationId: Number(selectedLocationId),
+        locationId: Number(selectedLocationId),
         filter: newFilter,
       },
     });

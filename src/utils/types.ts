@@ -36,8 +36,8 @@ type AdditionalFilters =
 export interface Filter {
   propertyTypes: Record<PropertyType, boolean>;
   additional?: { [key in AdditionalFilters]: boolean };
-  priceRange?: number[];
-  sizeRange?: number[];
+  priceRange: number[];
+  sizeRange: number[];
   bathrooms?: number;
   bedrooms?: number;
 }
