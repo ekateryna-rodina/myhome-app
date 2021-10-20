@@ -5,6 +5,12 @@ import CheckboxGroup from "components/CheckboxGroup";
 import RoomsDropDown from "components/RoomsDropDown";
 import { Slider } from "components/Slider";
 import React, { useContext, useEffect, useState } from "react";
+import {
+  MAX_FILTER_PRICE,
+  MAX_FILTER_SIZE,
+  MIN_FILTER_PRICE,
+  MIN_FILTER_SIZE,
+} from "src/utils/constants";
 import { Unit } from "src/utils/enums";
 import { respondTo } from "src/utils/_respondTo";
 import styled from "styled-components";
@@ -180,13 +186,18 @@ const Filters = () => {
       <FlexibleRangeContainer>
         <PriceRange>
           <Title>Price Range</Title>
-          <Slider min={0} max={5000} unit={Unit.USD} type={"price"} />
+          <Slider
+            min={MIN_FILTER_PRICE}
+            max={MAX_FILTER_PRICE}
+            unit={Unit.USD}
+            type={"price"}
+          />
         </PriceRange>
         <PropertySize>
           <Title pushRight={true}>Property Size</Title>
           <Slider
-            min={0}
-            max={5000}
+            min={MIN_FILTER_SIZE}
+            max={MAX_FILTER_SIZE}
             unit={Unit.SQFT}
             pushRight={true}
             type={"size"}

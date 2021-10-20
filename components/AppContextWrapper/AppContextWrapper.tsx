@@ -1,4 +1,10 @@
 import React, { useState } from "react";
+import {
+  FILTER_BATHROOM,
+  FILTER_BEDROOM,
+  MAX_FILTER_PRICE,
+  MIN_FILTER_PRICE,
+} from "src/utils/constants";
 import { PropertyType } from "src/utils/enums";
 import { Filter, Listing, Location } from "../../src/utils/types";
 type ContextPropsType = {
@@ -23,10 +29,10 @@ const initialFilter: Filter = {
     [PropertyType.Landplot]: false,
     [PropertyType.Office]: false,
   },
-  priceRange: [0, 5000],
-  sizeRange: [0, 5000],
-  bedrooms: 2,
-  bathrooms: 1,
+  priceRange: [MIN_FILTER_PRICE, MAX_FILTER_PRICE],
+  sizeRange: [MIN_FILTER_PRICE, MAX_FILTER_PRICE],
+  bedrooms: FILTER_BEDROOM,
+  bathrooms: FILTER_BATHROOM,
   additional: {
     isPetsFriendly: false,
     isFurnished: true,
