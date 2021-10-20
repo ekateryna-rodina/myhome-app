@@ -172,6 +172,19 @@ const Filters = () => {
       },
     });
   }, [filter.sizeRange]);
+  useEffect(() => {
+    if (!isInitialialized) return;
+    const newFilter = JSON.stringify({
+      ...filter,
+      propertyTypes: filter.propertyTypes,
+    });
+    getFilteredProperties({
+      variables: {
+        locationId: Number(selectedLocationId),
+        filter: newFilter,
+      },
+    });
+  }, [filter.propertyTypes]);
 
   const additionalData = ["pets friendly", "furnished", "parking"];
   const { isFilterOpen } = useContext(AppContext);

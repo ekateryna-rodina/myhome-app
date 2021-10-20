@@ -1,4 +1,3 @@
-import { gql, useLazyQuery } from "@apollo/client";
 import { AppContext } from "components/AppContextWrapper/AppContextWrapper";
 import React, { useContext, useEffect, useState } from "react";
 import { respondTo } from "src/utils/_respondTo";
@@ -39,36 +38,10 @@ interface CategoryProps {
   name: string;
 }
 
-const GET_FILTERED_PROPERTIES = gql`
-  query properties($locationId: Int, $filter: String) {
-    properties(locationId: $locationId, filter: $filter) {
-      id
-      title
-      beds
-      baths
-      size
-      photo
-      locationId
-      location {
-        city
-        country
-      }
-    }
-  }
-`;
-
 const Category: React.FC<CategoryProps> = ({ name }) => {
   const theme = useTheme();
-  const [getFilteredProperties, { loading, data, error }] = useLazyQuery(
-    GET_FILTERED_PROPERTIES
-  );
-  const {
-    filter,
-    handleFilter,
-    handleProperties,
-    selectedLocationId,
-    handleLoading,
-  } = useContext(AppContext);
+
+  const { filter, handleFilter } = useContext(AppContext);
   const isCurrentlySelected = (filter: any, name: string): boolean => {
     return Boolean(
       Object.entries(filter.propertyTypes).filter(
@@ -86,22 +59,6 @@ const Category: React.FC<CategoryProps> = ({ name }) => {
     // eslint-disable-next-line
   }, [filter.propertyTypes]);
 
-  useEffect(() => {
-    if (!data) return;
-    handleProperties(data.properties);
-    // eslint-disable-next-line
-  }, [data]);
-  const updateProperties = (newData: any) => {
-    // optimistic update
-    const newFilter = JSON.stringify({ ...filter, propertyTypes: newData });
-    getFilteredProperties({
-      variables: {
-        locationId: Number(selectedLocationId),
-        filter: newFilter,
-      },
-    });
-    handleLoading(loading);
-  };
   const updateFilter = () => {
     const isSelected = isCurrentlySelected(filter, name);
     const propertyTypeName = name as keyof typeof PropertyType;
@@ -110,11 +67,9 @@ const Category: React.FC<CategoryProps> = ({ name }) => {
       [PropertyType[propertyTypeName]]: !isSelected,
     };
     handleFilter({ ...filter, propertyTypes: newPropertyTypes });
-    return newPropertyTypes;
   };
   const toggleCategoryHandler = () => {
-    const newPropertyTypes = updateFilter();
-    updateProperties(newPropertyTypes);
+    updateFilter();
   };
 
   return (
