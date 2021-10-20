@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef } from "react";
 import styled from "styled-components";
-import Bars from "./SliderBars";
+import { SliderBars } from "../SliderBars";
 
 const Container = styled.div`
   position: absolute;
@@ -178,7 +178,7 @@ const SliderRange = (props: SliderRangeProps) => {
       />
       <StyledSlider>
         {withBars?.length && (
-          <Bars
+          <SliderBars
             min={min}
             max={max}
             data={withBars}

@@ -1,7 +1,7 @@
+import { SliderRange } from "components/SliderRange";
 import { useCallback, useMemo, useState } from "react";
 import styled from "styled-components";
-import { Unit } from "../src/utils/enums";
-import SliderRange from "./SliderRange";
+import { Unit } from "../../src/utils/enums";
 
 const Container = styled.div<{
   pushRight?: boolean;
@@ -32,7 +32,7 @@ interface SliderProps {
   unit: Unit;
   pushRight?: boolean;
 }
-export const Slider = (props: SliderProps) => {
+const Slider = (props: SliderProps) => {
   const { min, max, unit, pushRight } = props;
   const [minValue, setMinValue] = useState(min);
   const [maxValue, setMaxValue] = useState(max);

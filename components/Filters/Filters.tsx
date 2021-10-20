@@ -3,7 +3,7 @@ import { AppContext } from "components/AppContextWrapper/AppContextWrapper";
 import { Category } from "components/Category";
 import CheckboxGroup from "components/CheckboxGroup";
 import RoomsDropDown from "components/RoomsDropDown";
-import Slider from "components/Slider";
+import { Slider } from "components/Slider";
 import React, { useContext, useEffect, useState } from "react";
 import { Unit } from "src/utils/enums";
 import { respondTo } from "src/utils/_respondTo";
