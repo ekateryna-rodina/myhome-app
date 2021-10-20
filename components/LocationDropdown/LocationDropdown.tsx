@@ -83,7 +83,12 @@ const GET_PROPERTIES_BY_LOCALTIONS = gql`
   }
 `;
 const LocationDropdown = () => {
-  const { locations, handleProperties, handleLoading } = useContext(AppContext);
+  const {
+    locations,
+    handleProperties,
+    handleLoading,
+    handleSelectedLocationId,
+  } = useContext(AppContext);
 
   const [state, setState] = useState<{
     value: string;
@@ -121,6 +126,7 @@ const LocationDropdown = () => {
       getPropertiesByLocation();
     }
     setState({ ...state, value });
+    handleSelectedLocationId(state.activeOption ?? 0);
   };
   const searchLocationsHandler = () => {
     getPropertiesByLocation({

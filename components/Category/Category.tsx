@@ -1,9 +1,9 @@
+import { gql, useLazyQuery } from "@apollo/client";
 import { AppContext } from "components/AppContextWrapper/AppContextWrapper";
 import React, { useContext, useEffect, useState } from "react";
 import { respondTo } from "src/utils/_respondTo";
 import styled, { useTheme } from "styled-components";
 import { Icons, PropertyType } from "../../src/utils/enums";
-// import { Icons, PropertyType } from "../../src/utils/enums";
 import Icon from "../Icon.style";
 const CategoryContainer = styled.div<{
   isSelected: boolean;
@@ -38,9 +38,31 @@ const Label = styled.span<{ isSelected: boolean }>`
 interface CategoryProps {
   name: string;
 }
+
+const GET_FILTERED_PROPERTIES = gql`
+  query properties($locationId: Int, $filter: Filter) {
+    properties(locationId: $locationId, filter: $filter) {
+      id
+      title
+      beds
+      baths
+      size
+      photo
+      locationId
+      location {
+        city
+        country
+      }
+    }
+  }
+`;
 const Category: React.FC<CategoryProps> = ({ name }) => {
   const theme = useTheme();
-  const { filter, handleFilter } = useContext(AppContext);
+  const [getFilteredProperties, { loading, data, error }] = useLazyQuery(
+    GET_FILTERED_PROPERTIES
+  );
+  const { filter, handleFilter, handleProperties, selectedLocationId } =
+    useContext(AppContext);
   const isCurrentlySelected = (filter: any, name: string): boolean => {
     return Boolean(
       Object.entries(filter.propertyTypes).filter(
@@ -57,7 +79,16 @@ const Category: React.FC<CategoryProps> = ({ name }) => {
     setSelected(isSelected);
     // eslint-disable-next-line
   }, [filter.propertyTypes]);
-  const toggleCategoryHandler = () => {
+
+  const updateProperties = (newData: {}) => {
+    // optimistic update
+    const newFilter = { ...filter, propertyTypes: newData };
+    getFilteredProperties({
+      variables: { locationId: selectedLocationId, filter: newFilter },
+    });
+    if (error) console.log(error);
+  };
+  const updateFilter = () => {
     const isSelected = isCurrentlySelected(filter, name);
     const propertyTypeName = name as keyof typeof PropertyType;
     const newPropertyTypes = {
@@ -65,6 +96,11 @@ const Category: React.FC<CategoryProps> = ({ name }) => {
       [PropertyType[propertyTypeName]]: !isSelected,
     };
     handleFilter({ ...filter, propertyTypes: newPropertyTypes });
+    return newPropertyTypes;
+  };
+  const toggleCategoryHandler = () => {
+    const newPropertyTypes = updateFilter();
+    updateProperties(newPropertyTypes);
   };
 
   return (

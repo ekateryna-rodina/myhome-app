@@ -7,11 +7,13 @@ type ContextPropsType = {
   isFilterOpen: boolean;
   loading: boolean;
   filter: Filter;
+  selectedLocationId: number;
   handleFilter: (filter: Filter) => void;
   handleLoading: (value: boolean) => void;
   handleLocations: (locations: Location[]) => void;
   handleIsFilterOpen: (value: boolean) => void;
   handleProperties: (properties: Listing[]) => void;
+  handleSelectedLocationId: (locationId: number) => void;
 };
 
 const initialFilter: Filter = {
@@ -47,6 +49,7 @@ const initialState: ContextPropsType = {
   isFilterOpen: false,
   loading: false,
   filter: initialFilter,
+  selectedLocationId: 0,
   handleFilter: (filter: Filter) => {
     return initialFilter;
   },
@@ -54,6 +57,7 @@ const initialState: ContextPropsType = {
   handleIsFilterOpen: (value: boolean) => {},
   handleLocations: (locations: Location[]) => {},
   handleProperties: (properties: Listing[]) => {},
+  handleSelectedLocationId: (id: number) => {},
 };
 export const AppContext = React.createContext(initialState);
 type AppContextProviderProps = { locations: Location[] };
@@ -68,6 +72,7 @@ const AppContextWrapper: React.FC<AppContextProviderProps> = ({
   const [properties, setProperties] = useState<Listing[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [filter, setFilter] = useState<Filter>(initialFilter);
+  const [selectedLocationId, setSelectedLocationId] = useState<number>(0);
   const handleLocations = (locations: Location[]) => {
     setLocations(locations);
   };
@@ -83,7 +88,12 @@ const AppContextWrapper: React.FC<AppContextProviderProps> = ({
   const handleFilter = (filter: Filter) => {
     setFilter(filter);
   };
+  const handleSelectedLocationId = (locationId: number) => {
+    setSelectedLocationId(locationId);
+  };
   const contextProps = {
+    selectedLocationId,
+    handleSelectedLocationId,
     locations,
     handleLocations,
     isFilterOpen,
