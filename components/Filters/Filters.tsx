@@ -2,7 +2,7 @@ import { useLazyQuery } from "@apollo/client";
 import { AppContext } from "components/AppContextWrapper/AppContextWrapper";
 import { Category } from "components/Category";
 import CheckboxGroup from "components/CheckboxGroup";
-import RoomsDropDown from "components/RoomsDropDown";
+import { MultichoiceDropdown } from "components/MultichoiceDropdown";
 import { Slider } from "components/Slider";
 import React, { useContext, useEffect, useState } from "react";
 import {
@@ -202,8 +202,12 @@ const Filters = () => {
       </FlexibleRangeContainer>
       <Title>Rooms</Title>
       <RoomsContainer>
-        <RoomsDropDown type="bed" onSelected={() => null} />
-        <RoomsDropDown type="bath" onSelected={() => null} pushRight={true} />
+        <MultichoiceDropdown type="bed" onSelected={() => null} />
+        <MultichoiceDropdown
+          type="bath"
+          onSelected={() => null}
+          pushRight={true}
+        />
       </RoomsContainer>
       <Title>Additional</Title>
       <CheckboxGroup data={additionalData} onSelected={() => null} />
