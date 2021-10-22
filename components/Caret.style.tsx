@@ -13,7 +13,7 @@ interface CaretProps {
   onClick: () => void;
 }
 const Caret = (props: CaretProps) => {
-  return <CaretIcon onClick={props.onClick} />;
+  return <CaretIcon data-testid={"caretTestId"} onClick={props.onClick} />;
 };
 
 export default Caret;
