@@ -110,7 +110,6 @@ const LocationDropdown = () => {
   const clearInput = () => {
     setState({ ...state, value: "", activeOption: 0 });
     handleSelectedLocationId(0);
-    console.log(filter);
     getPropertiesByLocation({
       variables: { locationId: 0, filter: JSON.stringify(filter) },
     });

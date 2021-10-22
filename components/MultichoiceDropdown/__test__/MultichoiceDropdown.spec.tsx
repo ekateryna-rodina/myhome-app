@@ -1,9 +1,9 @@
 import "@testing-library/jest-dom/extend-expect";
-import { act, fireEvent, render, screen, within } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import React from "react";
 import { ThemeProvider } from "styled-components";
 import { theme } from "../../../pages/_app";
-import { DEFAULT_ROOMS_NUMBER_LIST } from "../../../src/utils/constants";
 import MultichoiceDropdown from "../MultichoiceDropdown";
 
 jest.mock("../../../assets/bed.svg", () => () => null);
@@ -46,15 +46,11 @@ test("options are shown on caret click", async () => {
   const button = screen.getByTestId("caretTestId");
   expect(button).toBeInTheDocument();
 
-  act(() => {
-    fireEvent.click(button);
-  });
+  userEvent.click(button);
   expect(screen.getByTestId("multichoiceOptionsTestId")).toHaveStyle(
     "visibility: visible"
   );
-  act(() => {
-    fireEvent.click(button);
-  });
+  userEvent.click(button);
   expect(screen.getByTestId("multichoiceOptionsTestId")).toHaveStyle(
     "visibility: hidden"
   );
@@ -65,8 +61,10 @@ test("dropdown options shows few rows with default being selected", async () => 
       <MultichoiceDropdown type={"bath"} />
     </ThemeProvider>
   );
-  const options = screen.getByTestId("multichoiceListTestId");
-  expect(options).toBeInTheDocument();
-  expect(options.children.length).toEqual(DEFAULT_ROOMS_NUMBER_LIST.length);
+  const button = screen.getByTestId("caretTestId");
+  userEvent.click(button);
+  const { getAllByRole } = within(screen.getByTestId("multichoiceListTestId"));
+  const options = getAllByRole("listitem");
+  expect(options.length).toEqual(4);
 });
 // test("few options are displayed in selected after select in options", async () => {});

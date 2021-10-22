@@ -69,9 +69,11 @@ const MultichoiceDropdown = (props: MultichoiceDropdownProps) => {
         show={showOptions}
         data-testid="multichoiceOptionsTestId"
       >
-        <OptionsList data-testid={"multichoiceListTestId"}>
+        <OptionsList data-testid="multichoiceListTestId" role="list">
           {DEFAULT_ROOMS_NUMBER_LIST.map((option) => (
-            <OptionsItem role="listitem" key={option}></OptionsItem>
+            <OptionsItem role="listitem" key={option}>
+              {option}
+            </OptionsItem>
           ))}
         </OptionsList>
       </DropDownOptionsContainer>
