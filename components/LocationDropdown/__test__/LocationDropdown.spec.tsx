@@ -67,13 +67,16 @@ test("options are shown when user enters keyword which is present in initial set
   )[0];
   expect(locationsOptions).toHaveStyle("opacity: 0");
 });
-test("options are not shown when input is empty", async () => {
+test("options are not shown when input is empty or city does not exist", async () => {
   const input = setup();
   const locationsOptions = screen.getAllByTestId(
     "locationsOptionsContainerTestId"
   )[0];
+  expect(locationsOptions).toHaveStyle("opacity: 0");
   userEvent.type(input, "bo");
   expect(locationsOptions).toHaveStyle("opacity: 1");
+  userEvent.type(input, "this city is not on the list");
+  expect(locationsOptions).toHaveStyle("opacity: 0");
   userEvent.type(input, "");
   expect(locationsOptions).toHaveStyle("opacity: 0");
 });

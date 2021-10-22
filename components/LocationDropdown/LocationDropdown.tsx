@@ -88,7 +88,6 @@ const LocationDropdown = () => {
   const [getPropertiesByLocation, { loading, data, error }] =
     useLazyQuery(GET_PROPERTIES_QUERY);
   const filteredOptions = useAutocomplete(state.value, locations);
-
   const onKeyDownHandler = () => {};
   const onFilteredClickHandler = (id: number) => {
     const { city, country } = filteredOptions.filter((o) => o.id === id)[0];
