@@ -29,7 +29,7 @@ const CheckboxGroup = (props: CheckboxGroupProps) => {
     <Container>
       {data.map((additional) => (
         <CheckWithLabelContainer key={additional}>
-          <Checkbox />
+          <Checkbox onChange={() => null} checked={false} />
           <Label>{additional}</Label>
         </CheckWithLabelContainer>
       ))}
