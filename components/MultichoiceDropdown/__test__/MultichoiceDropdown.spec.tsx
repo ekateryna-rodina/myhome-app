@@ -79,7 +79,7 @@ test("dropdown options shows checkboxes and labels with default being selected",
     }
   });
 });
-test("user's check or labels click action update selected", async () => {
+test("user's check or click on a label both update the selected field", async () => {
   render(
     <ThemeProvider theme={theme}>
       <MultichoiceDropdown type={"bed"} />
@@ -88,15 +88,21 @@ test("user's check or labels click action update selected", async () => {
   const button = screen.getByTestId("caretTestId");
   userEvent.click(button);
   const selected = screen.getByTestId("selectedTestId");
+  const { getByText } = within(selected);
   const selectOptions = [1, 2, 3];
   selectOptions.forEach((number) => {
     const label = screen.getByText(number);
-    userEvent.click(label);
     const checkbox = screen.getByTestId(number);
+
+    userEvent.click(checkbox);
+    userEvent.click(label);
+    userEvent.click(checkbox);
+
     if (number == DEFAULT_CHECKED_BEDROOM) {
       expect(checkbox).not.toBeChecked();
     } else {
       expect(checkbox).toBeChecked();
     }
   });
+  expect(getByText("1, 3")).toBeInTheDocument();
 });

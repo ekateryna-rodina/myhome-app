@@ -52,17 +52,18 @@ const StyledCheckbox = styled.input`
   }
 `;
 type CheckboxProps = {
-  dataTestId?: string;
+  dataTestId: string;
   checked: boolean;
   onChange: () => void;
 };
 const Checkbox = ({
-  dataTestId,
+  dataTestId = "0",
   checked = false,
   onChange = () => null,
 }: CheckboxProps) => {
   return (
     <StyledCheckbox
+      id={dataTestId}
       data-testid={dataTestId}
       type="checkbox"
       checked={checked}

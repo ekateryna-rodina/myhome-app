@@ -1,6 +1,6 @@
-import { AppContext } from "components/AppContextWrapper/AppContextWrapper";
 import React, { useContext, useEffect, useState } from "react";
 import styled, { useTheme } from "styled-components";
+import { AppContext } from "../../components/AppContextWrapper/AppContextWrapper";
 import Checkbox from "../../components/Checkbox.style";
 import Icon from "../../components/Icon.style";
 import { DEFAULT_ROOMS_NUMBER_LIST } from "../../src/utils/constants";
@@ -117,7 +117,9 @@ const MultichoiceDropdown = (props: MultichoiceDropdownProps) => {
                 checked={isChecked(+option)}
                 dataTestId={option.toString()}
               />{" "}
-              <Label forValue={option.toString()}>{label(option)}</Label>
+              <Label htmlFor={option.toString()} forValue={option.toString()}>
+                {label(option)}
+              </Label>
             </OptionsItem>
           ))}
         </OptionsList>
