@@ -1,10 +1,17 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import styled, { useTheme } from "styled-components";
 import { AppContext } from "../../components/AppContextWrapper/AppContextWrapper";
 import Checkbox from "../../components/Checkbox.style";
 import Icon from "../../components/Icon.style";
 import { DEFAULT_ROOMS_NUMBER_LIST } from "../../src/utils/constants";
 import { Icons } from "../../src/utils/enums";
+import useClickOutside from "../../src/utils/hooks/useClickOutside";
 import Caret from "../Caret.style";
 const Container = styled.div<{
   pushRight?: boolean;
@@ -59,15 +66,16 @@ const MultichoiceDropdown = (props: MultichoiceDropdownProps) => {
     type == "bed" ? ("bedrooms" as const) : ("bathrooms" as const);
   const defaultSelected: number[] = filter[typeOfFilterToUpdate];
   const [showOptions, setShowOptions] = useState<boolean>(false);
-
   const [selectedValues, setSelectedValues] =
     useState<number[]>(defaultSelected);
   let iconTypes = {
     bed: Icons.Bed,
     bath: Icons.Bath,
   };
-
+  const ref = useRef(null);
   let theme = useTheme();
+  const useClickOutsideCallback = useCallback(() => setShowOptions(false), []);
+  useClickOutside(ref, useClickOutsideCallback);
   const labelForMany = "4...";
   useEffect(() => {
     handleFilter({ ...filter, [typeOfFilterToUpdate]: selectedValues });
@@ -106,6 +114,7 @@ const MultichoiceDropdown = (props: MultichoiceDropdownProps) => {
         <Caret onClick={() => setShowOptions(!showOptions)} />
       </DropDownSelected>
       <DropDownOptionsContainer
+        ref={ref}
         show={showOptions}
         data-testid="multichoiceOptionsTestId"
       >
