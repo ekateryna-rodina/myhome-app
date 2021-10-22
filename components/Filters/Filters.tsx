@@ -167,7 +167,33 @@ const Filters = () => {
       },
     });
   }, [filter.propertyTypes]);
-  useEffect(() => {}, [filter.bedrooms]);
+  useEffect(() => {
+    if (!isInitialialized) return;
+    const newFilter = JSON.stringify({
+      ...filter,
+      bedrooms: filter.bedrooms,
+    });
+    getFilteredProperties({
+      variables: {
+        locationId: Number(selectedLocationId),
+        filter: newFilter,
+      },
+    });
+  }, [filter.bedrooms]);
+
+  useEffect(() => {
+    if (!isInitialialized) return;
+    const newFilter = JSON.stringify({
+      ...filter,
+      bathrooms: filter.bathrooms,
+    });
+    getFilteredProperties({
+      variables: {
+        locationId: Number(selectedLocationId),
+        filter: newFilter,
+      },
+    });
+  }, [filter.bathrooms]);
 
   const additionalData = ["pets friendly", "furnished", "parking"];
   const { isFilterOpen } = useContext(AppContext);

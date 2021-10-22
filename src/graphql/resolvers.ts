@@ -11,6 +11,8 @@ interface WhereFilter {
   type?: {};
   price?: {};
   size?: {};
+  beds?: {};
+  baths?: {};
 }
 const composeWhere = (locationId: number, filterQuery: string) => {
   const whereFilter: Partial<WhereFilter> = {};
@@ -57,6 +59,18 @@ const composeWhere = (locationId: number, filterQuery: string) => {
     };
   }
 
+  // BEDROOMS
+  whereFilter["beds"] = {
+    in: [...filter.bedrooms],
+  };
+
+  // BATHDROOMS
+  // whereFilter["baths"] = {
+  //   in: ["2"],
+  // };
+
+  console.log("here");
+  console.log(whereFilter);
   return whereFilter;
 };
 export const resolvers = {
@@ -64,6 +78,7 @@ export const resolvers = {
     properties: async (_parent: any, { locationId, filter }: any, ctx: any) => {
       const where = composeWhere(locationId, filter);
       const data = await ctx.prisma.property.findMany({ where });
+      console.log(data);
 
       return data.map(async (entry: Listing) => {
         const { city, country } = await ctx.prisma.location.findUnique({
