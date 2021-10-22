@@ -53,8 +53,8 @@ const StyledCheckbox = styled.input`
 `;
 type CheckboxProps = {
   dataTestId?: string;
-  checked?: boolean;
-  onChange?: () => void;
+  checked: boolean;
+  onChange: () => void;
 };
 const Checkbox = ({
   dataTestId,

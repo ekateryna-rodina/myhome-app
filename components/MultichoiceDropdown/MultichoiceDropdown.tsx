@@ -78,6 +78,7 @@ const MultichoiceDropdown = (props: MultichoiceDropdownProps) => {
           {DEFAULT_ROOMS_NUMBER_LIST.map((option) => (
             <OptionsItem role="listitem" key={option}>
               <Checkbox
+                onChange={() => null}
                 checked={option == defaultCheck[type]}
                 dataTestId={option.toString()}
               />{" "}
