@@ -31,8 +31,8 @@ const initialFilter: Filter = {
   },
   priceRange: [MIN_FILTER_PRICE, MAX_FILTER_PRICE],
   sizeRange: [MIN_FILTER_PRICE, MAX_FILTER_PRICE],
-  bedrooms: FILTER_BEDROOM,
-  bathrooms: FILTER_BATHROOM,
+  bedrooms: [FILTER_BEDROOM],
+  bathrooms: [FILTER_BATHROOM],
   additional: {
     isPetsFriendly: false,
     isFurnished: true,

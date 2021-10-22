@@ -9,7 +9,7 @@ export const MAX_FILTER_SIZE = 5000;
 export const FILTER_BEDROOM = 2;
 export const FILTER_BATHROOM = 1;
 
-export const DEFAULT_ROOMS_NUMBER_LIST = [1, 2, 3, "more..."];
+export const DEFAULT_ROOMS_NUMBER_LIST = [1, 2, 3, "4..."];
 
 export const GET_PROPERTIES_QUERY = gql`
   query properties($locationId: Int, $filter: String) {

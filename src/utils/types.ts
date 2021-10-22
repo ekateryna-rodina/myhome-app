@@ -38,6 +38,6 @@ export interface Filter {
   additional?: { [key in AdditionalFilters]: boolean };
   priceRange: number[];
   sizeRange: number[];
-  bathrooms?: number;
-  bedrooms?: number;
+  bathrooms: number[];
+  bedrooms: number[];
 }

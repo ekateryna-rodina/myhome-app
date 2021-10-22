@@ -79,4 +79,24 @@ test("dropdown options shows checkboxes and labels with default being selected",
     }
   });
 });
-// test("few options are displayed in selected after select in options", async () => {});
+test("user's check or labels click action update selected", async () => {
+  render(
+    <ThemeProvider theme={theme}>
+      <MultichoiceDropdown type={"bed"} />
+    </ThemeProvider>
+  );
+  const button = screen.getByTestId("caretTestId");
+  userEvent.click(button);
+  const selected = screen.getByTestId("selectedTestId");
+  const selectOptions = [1, 2, 3];
+  selectOptions.forEach((number) => {
+    const label = screen.getByText(number);
+    userEvent.click(label);
+    const checkbox = screen.getByTestId(number);
+    if (number == DEFAULT_CHECKED_BEDROOM) {
+      expect(checkbox).not.toBeChecked();
+    } else {
+      expect(checkbox).toBeChecked();
+    }
+  });
+});

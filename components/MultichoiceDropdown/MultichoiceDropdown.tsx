@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { AppContext } from "components/AppContextWrapper/AppContextWrapper";
+import React, { useContext, useEffect, useState } from "react";
 import styled, { useTheme } from "styled-components";
 import Checkbox from "../../components/Checkbox.style";
 import Icon from "../../components/Icon.style";
@@ -26,6 +27,9 @@ const NumberSelected = styled.span`
 `;
 const DropDownOptionsContainer = styled.div<{ show: boolean }>`
   visibility: ${({ show }) => (show ? "visible" : "hidden")};
+  background: #fff;
+  position: relative;
+  z-index: 300;
 `;
 const OptionsList = styled.ul`
   padding: 0;
@@ -37,7 +41,11 @@ const OptionsItem = styled.li`
   justify-content: space-between;
   align-items: center;
 `;
-const Label = styled.label``;
+const Label = styled.label.attrs((props: { forValue: string }) => ({
+  htmlFor: props.forValue,
+}))<{ forValue: string }>`
+  cursor: pointer;
+`;
 interface MultichoiceDropdownProps {
   type: "bed" | "bath";
   pushRight?: boolean;
@@ -46,27 +54,46 @@ interface MultichoiceDropdownProps {
 
 const MultichoiceDropdown = (props: MultichoiceDropdownProps) => {
   const { type, pushRight } = props;
-  const defaultSelected = type === "bed" ? 2 : 1;
+  const { filter, handleFilter } = useContext(AppContext);
+  let typeOfFilterToUpdate =
+    type == "bed" ? ("bedrooms" as const) : ("bathrooms" as const);
+  const defaultSelected: number[] = filter[typeOfFilterToUpdate];
   const [showOptions, setShowOptions] = useState<boolean>(false);
-  const [selectedValues, setSelectedValues] = useState<number[]>([
-    defaultSelected,
-  ]);
-  const defaultCheck = {
-    bed: 2,
-    bath: 1,
-  };
+
+  const [selectedValues, setSelectedValues] =
+    useState<number[]>(defaultSelected);
   let iconTypes = {
     bed: Icons.Bed,
     bath: Icons.Bath,
   };
 
   let theme = useTheme();
+
+  useEffect(() => {
+    handleFilter({ ...filter, [typeOfFilterToUpdate]: selectedValues });
+  }, [selectedValues]);
+
+  const onNumberChecked = (option: number) => {
+    setSelectedValues((oldSelected: number[]) => {
+      let newSelected: number[] = [...oldSelected];
+      if (oldSelected?.indexOf(option) === -1) {
+        newSelected.push(option);
+      } else {
+        newSelected = newSelected.filter((number) => number !== option);
+      }
+      // console.log(oldSelected);
+      return newSelected;
+    });
+  };
+  const isChecked = (option: number): boolean => {
+    return selectedValues.indexOf(option) !== -1;
+  };
   return (
     <Container pushRight={pushRight} data-testid={"multichoiceDropdownTestId"}>
       <DropDownSelected>
         <Icon iconType={iconTypes[type]} color={(theme as any).secondary} />
         <NumberSelected data-testid={"selectedTestId"}>
-          {selectedValues.map(String).join(", ")}
+          {selectedValues?.length ? selectedValues.map(String).join(", ") : ""}
         </NumberSelected>
         <Caret onClick={() => setShowOptions(!showOptions)} />
       </DropDownSelected>
@@ -78,11 +105,11 @@ const MultichoiceDropdown = (props: MultichoiceDropdownProps) => {
           {DEFAULT_ROOMS_NUMBER_LIST.map((option) => (
             <OptionsItem role="listitem" key={option}>
               <Checkbox
-                onChange={() => null}
-                checked={option == defaultCheck[type]}
+                onChange={onNumberChecked.bind(this, +option)}
+                checked={isChecked(+option)}
                 dataTestId={option.toString()}
               />{" "}
-              <Label>{option}</Label>/
+              <Label forValue={option.toString()}>{option}</Label>
             </OptionsItem>
           ))}
         </OptionsList>
