@@ -55,7 +55,7 @@ test("options are shown on caret click", async () => {
     "visibility: hidden"
   );
 });
-test("dropdown options shows few rows with default being selected", async () => {
+test("dropdown options shows checkboxes and labels with default being selected", async () => {
   render(
     <ThemeProvider theme={theme}>
       <MultichoiceDropdown type={"bath"} />

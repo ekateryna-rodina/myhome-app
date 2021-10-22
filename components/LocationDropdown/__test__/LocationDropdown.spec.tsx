@@ -1,12 +1,6 @@
 import "@testing-library/jest-dom/extend-expect";
-import {
-  act,
-  cleanup,
-  fireEvent,
-  render,
-  screen,
-  within,
-} from "@testing-library/react";
+import { cleanup, render, screen, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import React from "react";
 import { AppContextWrapper } from "../../../components/AppContextWrapper";
 import { Location } from "../../../src/utils/types";
@@ -54,9 +48,9 @@ test("options are hidden on initial render", async () => {
 });
 test("options are shown when user enters keyword which is present in initial set of location data", async () => {
   const input = setup();
-  act(() => {
-    fireEvent.change(input, { target: { value: "bo" } });
-  });
+
+  userEvent.type(input, "bo");
+
   const locationsOptions = screen.getAllByTestId(
     "locationsOptionsContainerTestId"
   )[0];
@@ -65,9 +59,8 @@ test("options are shown when user enters keyword which is present in initial set
 
 test("options are shown when user enters keyword which is present in initial set of location data", async () => {
   const input = setup();
-  act(() => {
-    fireEvent.change(input, { target: { value: "notacity" } });
-  });
+
+  userEvent.type(input, "notacity");
 
   const locationsOptions = screen.getAllByTestId(
     "locationsOptionsContainerTestId"
@@ -79,23 +72,16 @@ test("options are not shown when input is empty", async () => {
   const locationsOptions = screen.getAllByTestId(
     "locationsOptionsContainerTestId"
   )[0];
-  act(() => {
-    fireEvent.change(input, { target: { value: "bo" } });
-  });
-
+  userEvent.type(input, "bo");
   expect(locationsOptions).toHaveStyle("opacity: 1");
-  act(() => {
-    fireEvent.change(input, { target: { value: "" } });
-  });
-
+  userEvent.type(input, "");
   expect(locationsOptions).toHaveStyle("opacity: 0");
 });
 test("filtered options are shown as city/country and are chosen correct", async () => {
   const input = setup();
 
-  act(() => {
-    fireEvent.change(input, { target: { value: "bo" } });
-  });
+  userEvent.type(input, "bo");
+
   const filteredLocationsList = screen.getByTestId("locationsListTestId");
   const { getAllByRole } = within(filteredLocationsList);
   const listItems = getAllByRole("listitem");
@@ -109,15 +95,10 @@ test("filtered options are shown as city/country and are chosen correct", async 
 
 test("user can select value from dropdown", async () => {
   const input = setup();
-  act(() => {
-    fireEvent.change(input, { target: { value: "bo" } });
-  });
+  userEvent.type(input, "bo");
   const filteredLocationsList = screen.getByTestId("locationsListTestId");
   const { getAllByRole } = within(filteredLocationsList);
   const listItems = getAllByRole("listitem");
-  act(() => {
-    fireEvent.click(listItems[0]);
-  });
-
+  userEvent.click(listItems[0]);
   expect((input as HTMLInputElement).value).toBe("Boston, USA");
 });
