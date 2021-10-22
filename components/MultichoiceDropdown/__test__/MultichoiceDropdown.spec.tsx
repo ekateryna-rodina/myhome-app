@@ -4,6 +4,7 @@ import userEvent from "@testing-library/user-event";
 import React from "react";
 import { ThemeProvider } from "styled-components";
 import { theme } from "../../../pages/_app";
+import { DEFAULT_ROOMS_NUMBER_LIST } from "../../../src/utils/constants";
 import MultichoiceDropdown from "../MultichoiceDropdown";
 
 jest.mock("../../../assets/bed.svg", () => () => null);
@@ -19,7 +20,7 @@ jest.mock("../../../assets/loupe.svg", () => () => null);
 jest.mock("../../../assets/office-building.svg", () => () => null);
 jest.mock("../../../assets/toilet.svg", () => () => null);
 jest.mock("@atlaskit/css-reset/dist/bundle.css", () => () => null);
-
+const DEFAULT_CHECKED_BEDROOM = 2;
 test("multichoice dropdown is rendered", async () => {
   render(
     <ThemeProvider theme={theme}>
@@ -31,13 +32,13 @@ test("multichoice dropdown is rendered", async () => {
 test("selected shows a default number", async () => {
   render(
     <ThemeProvider theme={theme}>
-      <MultichoiceDropdown type={"bath"} />
+      <MultichoiceDropdown type={"bed"} />
     </ThemeProvider>
   );
   const { getByText } = within(screen.getByTestId("selectedTestId"));
-  expect(getByText(1)).toBeInTheDocument();
+  expect(getByText(DEFAULT_CHECKED_BEDROOM)).toBeInTheDocument();
 });
-test("options are shown on caret click", async () => {
+test("options are shown on caret's click", async () => {
   render(
     <ThemeProvider theme={theme}>
       <MultichoiceDropdown type={"bath"} />
@@ -58,13 +59,24 @@ test("options are shown on caret click", async () => {
 test("dropdown options shows checkboxes and labels with default being selected", async () => {
   render(
     <ThemeProvider theme={theme}>
-      <MultichoiceDropdown type={"bath"} />
+      <MultichoiceDropdown type={"bed"} />
     </ThemeProvider>
   );
+
   const button = screen.getByTestId("caretTestId");
   userEvent.click(button);
   const { getAllByRole } = within(screen.getByTestId("multichoiceListTestId"));
   const options = getAllByRole("listitem");
   expect(options.length).toEqual(4);
+
+  DEFAULT_ROOMS_NUMBER_LIST.forEach((number) => {
+    const checkbox = screen.getByTestId(number);
+    expect(checkbox).toBeInTheDocument();
+    if (number == DEFAULT_CHECKED_BEDROOM) {
+      expect(checkbox).toBeChecked();
+    } else {
+      expect(checkbox).not.toBeChecked();
+    }
+  });
 });
 // test("few options are displayed in selected after select in options", async () => {});

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled, { useTheme } from "styled-components";
+import Checkbox from "../../components/Checkbox.style";
 import Icon from "../../components/Icon.style";
 import { DEFAULT_ROOMS_NUMBER_LIST } from "../../src/utils/constants";
 import { Icons } from "../../src/utils/enums";
@@ -36,6 +37,7 @@ const OptionsItem = styled.li`
   justify-content: space-between;
   align-items: center;
 `;
+const Label = styled.label``;
 interface MultichoiceDropdownProps {
   type: "bed" | "bath";
   pushRight?: boolean;
@@ -49,7 +51,10 @@ const MultichoiceDropdown = (props: MultichoiceDropdownProps) => {
   const [selectedValues, setSelectedValues] = useState<number[]>([
     defaultSelected,
   ]);
-
+  const defaultCheck = {
+    bed: 2,
+    bath: 1,
+  };
   let iconTypes = {
     bed: Icons.Bed,
     bath: Icons.Bath,
@@ -72,7 +77,11 @@ const MultichoiceDropdown = (props: MultichoiceDropdownProps) => {
         <OptionsList data-testid="multichoiceListTestId" role="list">
           {DEFAULT_ROOMS_NUMBER_LIST.map((option) => (
             <OptionsItem role="listitem" key={option}>
-              {option}
+              <Checkbox
+                checked={option == defaultCheck[type]}
+                dataTestId={option.toString()}
+              />{" "}
+              <Label>{option}</Label>/
             </OptionsItem>
           ))}
         </OptionsList>

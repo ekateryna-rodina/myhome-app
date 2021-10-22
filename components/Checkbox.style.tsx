@@ -51,8 +51,24 @@ const StyledCheckbox = styled.input`
     border-color: #7b7b7b;
   }
 `;
-const Checkbox = () => {
-  return <StyledCheckbox type="checkbox"></StyledCheckbox>;
+type CheckboxProps = {
+  dataTestId?: string;
+  checked?: boolean;
+  onChange?: () => void;
+};
+const Checkbox = ({
+  dataTestId,
+  checked = false,
+  onChange = () => null,
+}: CheckboxProps) => {
+  return (
+    <StyledCheckbox
+      data-testid={dataTestId}
+      type="checkbox"
+      checked={checked}
+      onChange={onChange}
+    ></StyledCheckbox>
+  );
 };
 
 export default Checkbox;
