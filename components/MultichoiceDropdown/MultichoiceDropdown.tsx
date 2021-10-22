@@ -68,7 +68,7 @@ const MultichoiceDropdown = (props: MultichoiceDropdownProps) => {
   };
 
   let theme = useTheme();
-
+  const labelForMany = "4...";
   useEffect(() => {
     handleFilter({ ...filter, [typeOfFilterToUpdate]: selectedValues });
   }, [selectedValues]);
@@ -81,19 +81,27 @@ const MultichoiceDropdown = (props: MultichoiceDropdownProps) => {
       } else {
         newSelected = newSelected.filter((number) => number !== option);
       }
-      // console.log(oldSelected);
       return newSelected;
     });
   };
   const isChecked = (option: number): boolean => {
     return selectedValues.indexOf(option) !== -1;
   };
+  const label = (option: number) => (option == 10 ? labelForMany : option);
+  const selectedLabel = () => {
+    if (!selectedValues.length) return "";
+    const manyMask = 10;
+    return selectedValues
+      .sort((a, b) => a - b)
+      .map((val) => (val == manyMask ? labelForMany : val.toString()))
+      .join(", ");
+  };
   return (
     <Container pushRight={pushRight} data-testid={"multichoiceDropdownTestId"}>
       <DropDownSelected>
         <Icon iconType={iconTypes[type]} color={(theme as any).secondary} />
         <NumberSelected data-testid={"selectedTestId"}>
-          {selectedValues?.length ? selectedValues.map(String).join(", ") : ""}
+          {selectedLabel()}
         </NumberSelected>
         <Caret onClick={() => setShowOptions(!showOptions)} />
       </DropDownSelected>
@@ -109,7 +117,7 @@ const MultichoiceDropdown = (props: MultichoiceDropdownProps) => {
                 checked={isChecked(+option)}
                 dataTestId={option.toString()}
               />{" "}
-              <Label forValue={option.toString()}>{option}</Label>
+              <Label forValue={option.toString()}>{label(option)}</Label>
             </OptionsItem>
           ))}
         </OptionsList>

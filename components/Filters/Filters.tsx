@@ -167,9 +167,7 @@ const Filters = () => {
       },
     });
   }, [filter.propertyTypes]);
-  useEffect(() => {
-    console.log(filter.bedrooms);
-  }, [filter.bedrooms]);
+  useEffect(() => {}, [filter.bedrooms]);
 
   const additionalData = ["pets friendly", "furnished", "parking"];
   const { isFilterOpen } = useContext(AppContext);
