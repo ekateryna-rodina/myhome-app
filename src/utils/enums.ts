@@ -1,9 +1,9 @@
-export enum Unit {
+enum Unit {
   USD = "$",
   SQFT = "sqft",
 }
 
-export enum Icons {
+enum Icons {
   Glass = "glass",
   Filter = "filter",
   Office = "office",
@@ -18,14 +18,15 @@ export enum Icons {
   Favourite = "",
 }
 
-export enum ServiceType {
+enum ServiceType {
   BUY = "Buy",
   RENT = "Rent",
 }
 
-export enum PropertyType {
+enum PropertyType {
   Apartment = "Apartment",
   House = "House",
   Office = "Office",
   Landplot = "Landplot",
 }
+export { Unit, Icons, ServiceType, PropertyType };

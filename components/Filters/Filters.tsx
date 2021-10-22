@@ -12,9 +12,9 @@ import {
   MIN_FILTER_PRICE,
   MIN_FILTER_SIZE,
 } from "src/utils/constants";
-import { Unit } from "src/utils/enums";
 import { respondTo } from "src/utils/_respondTo";
 import styled from "styled-components";
+import { Unit } from "../../src/utils/enums";
 const Container = styled.div<{
   isOpen: boolean;
   isInitialialized: boolean;
@@ -202,9 +202,9 @@ const Filters = () => {
       </FlexibleRangeContainer>
       <Title>Rooms</Title>
       <RoomsContainer>
-        <MultichoiceDropdown type="bed" onSelected={() => null} />
+        <MultichoiceDropdown type={"bed"} onSelected={() => null} />
         <MultichoiceDropdown
-          type="bath"
+          type={"bath"}
           onSelected={() => null}
           pushRight={true}
         />

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import styled, { useTheme } from "styled-components";
-import BedIcon from "../../assets/bed.svg";
-import BathIcon from "../../assets/toilet.svg";
+import Icon from "../../components/Icon.style";
+import { Icons } from "../../src/utils/enums";
 import Caret from "../Caret.style";
-const DropDown = styled.div<{
+const Container = styled.div<{
   pushRight?: boolean;
 }>`
   min-width: 5.3rem;
@@ -22,30 +22,34 @@ const NumberSelected = styled.span`
   color: ${(props) => props.theme.gray};
   font-size: 0.8rem;
 `;
-const DropDownContent = styled.div``;
+const DropDownOptionsContainer = styled.div<{ show: boolean }>`
+  visibility: ${({ show }) => (show ? "visible" : "hidden")};
+`;
+
 interface MultichoiceDropdownProps {
-  onSelected: Function;
   type: "bed" | "bath";
   pushRight?: boolean;
+  onSelected?: Function;
 }
+
 const MultichoiceDropdown = (props: MultichoiceDropdownProps) => {
-  const { onSelected, type, pushRight } = props;
+  const { type, pushRight } = props;
   const [showOptions, setShowOptions] = useState<boolean>(false);
+  const numberOfRooms = [1, 2, 3, "more..."];
   let iconTypes = {
-    bed: BedIcon,
-    bath: BathIcon,
+    bed: Icons.Bed,
+    bath: Icons.Bath,
   };
   let theme = useTheme();
-  const Icon = iconTypes[type];
   return (
-    <DropDown pushRight={pushRight}>
+    <Container pushRight={pushRight} data-testid={"multichoiceDropdownTestId"}>
       <DropDownSelected>
-        <Icon width={20} height={20} fill={(theme as any).secondary} />
+        <Icon iconType={iconTypes[type]} color={(theme as any).secondary} />
         <NumberSelected>3</NumberSelected>
         <Caret onClick={() => setShowOptions(!showOptions)} />
       </DropDownSelected>
-      <DropDownContent></DropDownContent>
-    </DropDown>
+      <DropDownOptionsContainer show={showOptions}></DropDownOptionsContainer>
+    </Container>
   );
 };
 

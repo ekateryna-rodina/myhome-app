@@ -1,8 +1,8 @@
 import { useLazyQuery } from "@apollo/client";
 import React, { useContext, useEffect, useState } from "react";
-import { GET_PROPERTIES_QUERY } from "src/utils/constants";
 import styled from "styled-components";
 import HeaderButton from "../../components/HeaderButton.style";
+import { GET_PROPERTIES_QUERY } from "../../src/utils/constants";
 import { Icons } from "../../src/utils/enums";
 import useAutocomplete from "../../src/utils/hooks/useAutocomplete";
 import { Location } from "../../src/utils/types";

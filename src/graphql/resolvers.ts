@@ -3,8 +3,8 @@ import {
   MAX_FILTER_SIZE,
   MIN_FILTER_PRICE,
   MIN_FILTER_SIZE,
-} from "src/utils/constants";
-import { Filter, Listing } from "src/utils/types";
+} from "../../src/utils/constants";
+import { Filter, Listing } from "../../src/utils/types";
 
 interface WhereFilter {
   locationId: number;
