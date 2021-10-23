@@ -14,8 +14,23 @@ interface WhereFilter {
   beds?: {};
   baths?: {};
 }
+
+const getRoomsNumber = (original: number[]) => {
+  // update based on real data in future
+  const max = 20;
+  const mask = 10;
+  const startNumber = 4;
+  if (original.indexOf(mask) === -1) return original;
+  const roomsNumberAfterMaskRemoved = [
+    ...original.filter((i) => i !== mask),
+  ].concat(Array.from(Array(max).keys()).map((n) => n + startNumber));
+  return roomsNumberAfterMaskRemoved;
+};
 const composeWhere = (locationId: number, filterQuery: string) => {
-  const whereFilter: Partial<WhereFilter> = {};
+  const whereFilter: Partial<WhereFilter> = {
+    beds: { in: [2] },
+    baths: { in: [1] },
+  };
   if (locationId) whereFilter["locationId"] = locationId;
   if (!filterQuery) return whereFilter;
   const filter: Filter = JSON.parse(filterQuery);
@@ -61,16 +76,14 @@ const composeWhere = (locationId: number, filterQuery: string) => {
 
   // BEDROOMS
   whereFilter["beds"] = {
-    in: [...filter.bedrooms],
+    in: getRoomsNumber(filter.bedrooms),
   };
 
   // BATHDROOMS
-  // whereFilter["baths"] = {
-  //   in: ["2"],
-  // };
+  whereFilter["baths"] = {
+    in: getRoomsNumber(filter.bathrooms),
+  };
 
-  console.log("here");
-  console.log(whereFilter);
   return whereFilter;
 };
 export const resolvers = {
