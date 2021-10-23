@@ -4,7 +4,6 @@ import {
   MIN_FILTER_PRICE,
   MIN_FILTER_SIZE,
 } from "../../src/utils/constants";
-import { PropertyFor } from "../../src/utils/enums";
 import {
   AdditionalFilterKeys,
   AdditionalFiltersStringMap,
@@ -116,8 +115,9 @@ const composeWhere = (locationId: number, filterQuery: string) => {
   });
 
   // FOR
+  // fix case toUpper case
   whereFilter["for"] = {
-    equals: PropertyFor[filter.for.toString() as keyof typeof PropertyFor],
+    equals: filter.for.toUpperCase(),
   };
 
   return whereFilter;

@@ -221,6 +221,7 @@ const Filters = () => {
         filter: newFilter,
       },
     });
+    console.log(filter.for);
   }, [filter.for]);
 
   const { isFilterOpen } = useContext(AppContext);
