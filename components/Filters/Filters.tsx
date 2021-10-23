@@ -195,7 +195,20 @@ const Filters = () => {
     });
   }, [filter.bathrooms]);
 
-  const additionalData = ["pets friendly", "furnished", "parking"];
+  useEffect(() => {
+    if (!isInitialialized) return;
+    const newFilter = JSON.stringify({
+      ...filter,
+      additional: filter.additional,
+    });
+    getFilteredProperties({
+      variables: {
+        locationId: Number(selectedLocationId),
+        filter: newFilter,
+      },
+    });
+  }, [filter.additional]);
+
   const { isFilterOpen } = useContext(AppContext);
 
   return (
@@ -229,7 +242,7 @@ const Filters = () => {
       </FlexibleRangeContainer>
       <Title>Rooms</Title>
       <RoomsContainer>
-        <MultichoiceDropdown type={"bed"} onSelected={() => null} />
+        <MultichoiceDropdown type={"bed"} />
         <MultichoiceDropdown
           type={"bath"}
           onSelected={() => null}
@@ -237,7 +250,7 @@ const Filters = () => {
         />
       </RoomsContainer>
       <Title>Additional</Title>
-      <CheckboxGroup data={additionalData} onSelected={() => null} />
+      <CheckboxGroup data={filter.additional} />
     </Container>
   );
 };

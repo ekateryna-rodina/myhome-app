@@ -4,7 +4,12 @@ import {
   MIN_FILTER_PRICE,
   MIN_FILTER_SIZE,
 } from "../../src/utils/constants";
-import { Filter, Listing } from "../../src/utils/types";
+import {
+  AdditionalFilterKeys,
+  AdditionalFiltersStringMap,
+  Filter,
+  Listing,
+} from "../../src/utils/types";
 
 interface WhereFilter {
   locationId: number;
@@ -13,6 +18,19 @@ interface WhereFilter {
   size?: {};
   beds?: {};
   baths?: {};
+  isPetsFriendly: {};
+  isFurnished: {};
+  isParkingAccessible: {};
+  isWithKitchen: {};
+  isWithAirCondition: {};
+  isWithLaundry: {};
+  isWithBabyBed: {};
+  isNearbyBeach: {};
+  isWithOfficeZone: {};
+  isWithSmokingZone: {};
+  isWithWiFi: {};
+  isWithBreakfast: {};
+  isWithFireplace: {};
 }
 
 const getRoomsNumber = (original: number[]) => {
@@ -84,6 +102,17 @@ const composeWhere = (locationId: number, filterQuery: string) => {
     in: getRoomsNumber(filter.bathrooms),
   };
 
+  // ADDITIONAL
+  const keys = Object.keys(AdditionalFiltersStringMap);
+  keys.forEach((key) => {
+    const isImportant = filter.additional[key as AdditionalFilterKeys];
+    if (isImportant) {
+      whereFilter[key as AdditionalFilterKeys] = {
+        equals: true,
+      };
+    }
+  });
+
   return whereFilter;
 };
 export const resolvers = {
@@ -91,12 +120,11 @@ export const resolvers = {
     properties: async (_parent: any, { locationId, filter }: any, ctx: any) => {
       const where = composeWhere(locationId, filter);
       const data = await ctx.prisma.property.findMany({ where });
-      console.log(data);
-
       return data.map(async (entry: Listing) => {
         const { city, country } = await ctx.prisma.location.findUnique({
           where: { id: entry.locationId },
         });
+
         return {
           ...entry,
           location: {

@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import { Listing } from "src/utils/types";
 import { respondTo } from "src/utils/_respondTo";
 import styled from "styled-components";
 import { AppContext } from "../AppContextWrapper/AppContextWrapper";
@@ -35,7 +34,7 @@ const Listings = () => {
     <>
       <ListingsContainer>
         {properties &&
-          properties.map((item: Listing, index: any) => (
+          properties.map((item: any, index: any) => (
             <ListingItem key={index} {...item} />
           ))}
       </ListingsContainer>

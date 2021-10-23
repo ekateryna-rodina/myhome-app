@@ -29,4 +29,5 @@ enum PropertyType {
   Office = "Office",
   Landplot = "Landplot",
 }
+
 export { Unit, Icons, ServiceType, PropertyType };

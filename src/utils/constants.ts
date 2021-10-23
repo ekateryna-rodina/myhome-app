@@ -11,6 +11,7 @@ export const FILTER_BATHROOM = 1;
 
 // ten is replaced by another label in a view
 export const DEFAULT_ROOMS_NUMBER_LIST = [1, 2, 3, 10];
+export const FILTER_ADDITIONAL_MAP = {};
 
 export const GET_PROPERTIES_QUERY = gql`
   query properties($locationId: Int, $filter: String) {
