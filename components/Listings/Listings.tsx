@@ -34,7 +34,7 @@ const Listings = () => {
     <>
       <ListingsContainer>
         {properties &&
-          properties.map((item: any, index: any) => (
+          properties.map((item: Listing, index: any) => (
             <ListingItem key={index} {...item} />
           ))}
       </ListingsContainer>

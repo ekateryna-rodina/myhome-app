@@ -101,7 +101,8 @@ interface ListingItemProps {
   rating: number;
   maxGuests: number;
   type: string;
-  beds: number | null;
+  beds: number;
+  baths: number;
   photo: string;
   location: { city: string; country: string };
 }
@@ -113,6 +114,7 @@ const ListingItem = (props: ListingItemProps) => {
     rating,
     maxGuests,
     type,
+    baths,
     beds,
     photo,
   } = props;
@@ -146,7 +148,7 @@ const ListingItem = (props: ListingItemProps) => {
                 color={(theme as any).gray}
                 size={15}
               />
-              <Number>{1}</Number>
+              <Number>{baths}</Number>
               <Label>{Icons.Bath.toString()}</Label>
             </Bath>
             <Size>
