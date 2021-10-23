@@ -11,7 +11,7 @@ model Property {
   id                  Int          @id @default(autoincrement())
   title               String
   beds                Int
-  baths               String
+  baths               Int          @default(1)
   size                Int
   photo               String
   for                 ServiceType  @default(RENT)
