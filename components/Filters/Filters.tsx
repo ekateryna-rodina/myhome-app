@@ -3,6 +3,7 @@ import { AdditionalFilter } from "components/AdditionalFilter";
 import { AppContext } from "components/AppContextWrapper/AppContextWrapper";
 import { Category } from "components/Category";
 import { MultichoiceDropdown } from "components/MultichoiceDropdown";
+import { PropertyForRadio } from "components/PropertyForRadio";
 import { Slider } from "components/Slider";
 import React, { useContext, useEffect, useState } from "react";
 import {
@@ -208,11 +209,25 @@ const Filters = () => {
       },
     });
   }, [filter.additional]);
+  useEffect(() => {
+    if (!isInitialialized) return;
+    const newFilter = JSON.stringify({
+      ...filter,
+      for: filter.for,
+    });
+    getFilteredProperties({
+      variables: {
+        locationId: Number(selectedLocationId),
+        filter: newFilter,
+      },
+    });
+  }, [filter.for]);
 
   const { isFilterOpen } = useContext(AppContext);
 
   return (
     <Container isOpen={isFilterOpen} isInitialialized={isInitialialized}>
+      <PropertyForRadio />
       <Title>Category</Title>
       <Categories>
         {Object.keys(filter.propertyTypes).map((category) => (

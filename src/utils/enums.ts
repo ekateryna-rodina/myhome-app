@@ -30,4 +30,9 @@ enum PropertyType {
   Landplot = "Landplot",
 }
 
-export { Unit, Icons, ServiceType, PropertyType };
+enum PropertyFor {
+  RENT = "Rent",
+  BUY = "Buy",
+}
+
+export { Unit, Icons, ServiceType, PropertyType, PropertyFor };

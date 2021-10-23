@@ -1,4 +1,4 @@
-import { PropertyType } from "./enums";
+import { PropertyFor, PropertyType } from "./enums";
 
 export type Location = {
   id: number;
@@ -56,4 +56,5 @@ export interface Filter {
   sizeRange: number[];
   bathrooms: number[];
   bedrooms: number[];
+  for: PropertyFor;
 }

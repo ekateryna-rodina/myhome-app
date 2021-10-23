@@ -6,7 +6,7 @@ import {
   MAX_FILTER_PRICE,
   MIN_FILTER_PRICE,
 } from "../../src/utils/constants";
-import { PropertyType } from "../../src/utils/enums";
+import { PropertyFor, PropertyType } from "../../src/utils/enums";
 import { Filter, Listing, Location } from "../../src/utils/types";
 type ContextPropsType = {
   locations: Location[];
@@ -35,6 +35,7 @@ const initialFilter: Filter = {
   bedrooms: [FILTER_BEDROOM],
   bathrooms: [FILTER_BATHROOM],
   additional: FILTER_ADDITIONAL_DEFAULT,
+  for: PropertyFor.RENT,
 };
 const initialState: ContextPropsType = {
   locations: [],
