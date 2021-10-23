@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { Listing } from "src/utils/types";
 import { respondTo } from "src/utils/_respondTo";
 import styled from "styled-components";
 import { AppContext } from "../AppContextWrapper/AppContextWrapper";
