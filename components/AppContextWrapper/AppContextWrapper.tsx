@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  FILTER_ADDITIONAL_DEFAULT,
   FILTER_BATHROOM,
   FILTER_BEDROOM,
   MAX_FILTER_PRICE,
@@ -33,21 +34,7 @@ const initialFilter: Filter = {
   sizeRange: [MIN_FILTER_PRICE, MAX_FILTER_PRICE],
   bedrooms: [FILTER_BEDROOM],
   bathrooms: [FILTER_BATHROOM],
-  additional: {
-    isPetsFriendly: false,
-    isFurnished: false,
-    isParkingAccessible: false,
-    isWithKitchen: false,
-    isWithAirCondition: false,
-    isWithLaundry: false,
-    isWithBabyBed: false,
-    isNearbyBeach: false,
-    isWithOfficeZone: false,
-    isWithSmokingZone: false,
-    isWithWiFi: false,
-    isWithBreakfast: false,
-    isWithFireplace: false,
-  },
+  additional: FILTER_ADDITIONAL_DEFAULT,
 };
 const initialState: ContextPropsType = {
   locations: [],

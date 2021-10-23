@@ -4,9 +4,9 @@ import {
   AdditionalFilterKeys,
   AdditionalFilterMap,
   AdditionalFiltersStringMap,
-} from "../src/utils/types";
-import { AppContext } from "./AppContextWrapper/AppContextWrapper";
-import Checkbox from "./Checkbox.style";
+} from "../../src/utils/types";
+import { AppContext } from "../AppContextWrapper/AppContextWrapper";
+import Checkbox from "../Checkbox.style";
 
 const Container = styled.div`
   margin-top: 1rem;
@@ -20,16 +20,16 @@ const CheckWithLabelContainer = styled.div`
   height: 1.5rem;
   line-height: 1.5rem;
 `;
-const Label = styled.span`
+const Label = styled.label`
   text-transform: capitalize;
   color: ${(props) => props.theme.gray};
   margin-left: 0.2rem;
 `;
-interface CheckboxGroupProps {
+interface AdditionalFilterProps {
   onSelected?: Function;
   data: AdditionalFilterMap;
 }
-const CheckboxGroup = (props: CheckboxGroupProps) => {
+const AdditionalFilter = (props: AdditionalFilterProps) => {
   const { data } = props;
   const [additional, setAdditional] = useState<AdditionalFilterMap>(data);
   const { filter, handleFilter } = useContext(AppContext);
@@ -37,7 +37,7 @@ const CheckboxGroup = (props: CheckboxGroupProps) => {
     handleFilter({ ...filter, additional: { ...additional } });
   }, [additional]);
   return (
-    <Container>
+    <Container data-testid={"additionalTestId"}>
       {Object.keys(additional).map((property: string) => (
         <CheckWithLabelContainer key={property}>
           <Checkbox
@@ -50,7 +50,7 @@ const CheckboxGroup = (props: CheckboxGroupProps) => {
             }
             checked={additional[property as AdditionalFilterKeys]}
           />
-          <Label>
+          <Label htmlFor={property}>
             {AdditionalFiltersStringMap[property as AdditionalFilterKeys]}
           </Label>
         </CheckWithLabelContainer>
@@ -59,4 +59,4 @@ const CheckboxGroup = (props: CheckboxGroupProps) => {
   );
 };
 
-export default CheckboxGroup;
+export default AdditionalFilter;

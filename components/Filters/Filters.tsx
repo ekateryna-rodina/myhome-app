@@ -1,7 +1,7 @@
 import { useLazyQuery } from "@apollo/client";
+import { AdditionalFilter } from "components/AdditionalFilter";
 import { AppContext } from "components/AppContextWrapper/AppContextWrapper";
 import { Category } from "components/Category";
-import CheckboxGroup from "components/CheckboxGroup";
 import { MultichoiceDropdown } from "components/MultichoiceDropdown";
 import { Slider } from "components/Slider";
 import React, { useContext, useEffect, useState } from "react";
@@ -250,7 +250,7 @@ const Filters = () => {
         />
       </RoomsContainer>
       <Title>Additional</Title>
-      <CheckboxGroup data={filter.additional} />
+      <AdditionalFilter data={filter.additional} />
     </Container>
   );
 };
