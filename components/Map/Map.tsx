@@ -20,18 +20,16 @@ const MapContainer = styled.div`
       `}
 `;
 
-interface MapProps {
-  secret: string;
-}
+interface MapProps {}
 const Map = (props: MapProps) => {
-  const { secret } = props;
-
+  // const { secret } = props;
+  const secret = process.env.NEXT_PUBLIC_GMAP_KEY;
   let defaultProps = {
     center: {
-      lat: 59.95,
-      lng: 30.33,
+      lat: 39.94871,
+      lng: -75.22446,
     },
-    zoom: 11,
+    zoom: 13,
   };
 
   return (

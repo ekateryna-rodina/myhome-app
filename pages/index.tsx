@@ -1,6 +1,7 @@
 import { gql } from "@apollo/client";
 import { Filters } from "components/Filters";
 import { Listings } from "components/Listings";
+import { Map } from "components/Map";
 import type { NextPage } from "next";
 import React, { useContext, useEffect } from "react";
 import { initializeApollo } from "src/lib/apollo";
@@ -75,7 +76,7 @@ const Home: NextPage<{ initialApolloState: any }> = (props) => {
       <Main>
         <Filters />
         <Listings />
-        {/* {key && <Map secret={key} />} */}
+        <Map />
         {/* <MobileMenu /> */}
       </Main>
     </>
