@@ -32,6 +32,8 @@ model Property {
   isWithWiFi          Boolean      @default(true)
   isWithBreakfast     Boolean      @default(false)
   isWithFireplace     Boolean      @default(false)
+  lat                 String
+  long                String
 }
 
 model Location {

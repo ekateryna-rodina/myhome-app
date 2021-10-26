@@ -47,6 +47,8 @@ export type Listing = {
   photo: string;
   for: string;
   additional: AdditionalFilterMap;
+  lat: string;
+  long: string;
 };
 
 export interface Filter {
@@ -58,3 +60,8 @@ export interface Filter {
   bedrooms: number[];
   for: PropertyFor;
 }
+
+export type Coordinates = {
+  lat: number;
+  lng: number;
+};

@@ -37,6 +37,8 @@ export const GET_PROPERTIES_QUERY = gql`
       size
       photo
       locationId
+      lat
+      long
       location {
         city
         country
