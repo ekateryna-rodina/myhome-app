@@ -1,6 +1,6 @@
 import { AppContext } from "components/AppContextWrapper/AppContextWrapper";
 import GoogleMapReact from "google-map-react";
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, { memo, useContext, useEffect, useMemo, useState } from "react";
 import { Coordinates, Listing } from "src/utils/types";
 import { respondTo } from "src/utils/_respondTo";
 import styled from "styled-components";
@@ -13,7 +13,6 @@ const MapContainer = styled.div`
   height: 100vh;
 
   ${respondTo.laptopAndDesktop`
-  background: red;
       height:"calc(100vh - 4.5rem)";
       position: inherit;
       top: 0;
@@ -25,7 +24,9 @@ const MarkerDot = styled.div`
   width: 15px;
   height: 15px;
   border-radius: 50%;
-  background: black;
+  background: rgba(0, 0, 0, 0.5);
+  position: relative;
+  z-index: 10000;
   border: ${(props) => `3px solid ${props.theme.secondary}`};
 `;
 
@@ -47,7 +48,8 @@ const getCenter = (properties: Listing[]) => {
   console.log(lat, lng);
   return { lat, lng };
 };
-const Marker = (props: Listing) => <MarkerDot>{}</MarkerDot>;
+const Marker = memo((props: Listing) => <MarkerDot>{}</MarkerDot>);
+
 const Map = () => {
   const secret = process.env.NEXT_PUBLIC_GMAP_KEY;
   let defaultProps = {
@@ -82,7 +84,7 @@ const Map = () => {
           defaultZoom={mapProps.zoom}
         >
           {properties.map((prop) => (
-            <Marker {...prop} />
+            <Marker lat={prop.lat} lng={prop.long} />
           ))}
         </GoogleMapReact>
       )}
