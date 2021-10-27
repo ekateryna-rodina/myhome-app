@@ -15,6 +15,7 @@ enum Icons {
   Bed = "Beds",
   Bath = "Baths",
   Size = "sqft",
+  Visit = "",
   Favourite = "",
 }
 

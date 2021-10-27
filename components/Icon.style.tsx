@@ -4,6 +4,7 @@ import BedIcon from "../assets/bed.svg";
 import NotificationIcon from "../assets/bell.svg";
 import ApartmentIcon from "../assets/building.svg";
 import MessageIcon from "../assets/email.svg";
+import VisiteIcon from "../assets/enter.svg";
 import FavouriteIcon from "../assets/favourite.svg";
 import FilterIcon from "../assets/filter.svg";
 import SizeIcon from "../assets/house-design.svg";
@@ -36,6 +37,7 @@ const iconTypes: Record<Icons, any> = {
   [Icons.Bath]: BathIcon,
   [Icons.Size]: SizeIcon,
   [Icons.Favourite]: FavouriteIcon,
+  [Icons.Visit]: VisiteIcon,
 };
 
 const Icon = (props: IconProps) => {

@@ -1,4 +1,5 @@
 import { AppContext } from "components/AppContextWrapper/AppContextWrapper";
+import Icon from "components/Icon.style";
 import GoogleMapReact from "google-map-react";
 import Image from "next/image";
 import React, {
@@ -10,15 +11,16 @@ import React, {
   useRef,
   useState,
 } from "react";
+import { Icons } from "src/utils/enums";
 import useClickOutside from "src/utils/hooks/useClickOutside";
 import { Coordinates, Listing } from "src/utils/types";
 import { respondTo } from "src/utils/_respondTo";
-import styled from "styled-components";
+import styled, { useTheme } from "styled-components";
 
 const MapContainer = styled.div`
   position: fixed;
   top: 80px;
-  // left: 0;
+  left: 0;
   right: 0;
   height: 100vh;
 
@@ -29,6 +31,17 @@ const MapContainer = styled.div`
       bottom: 0;
       flex: 1;
       `}
+`;
+const LightenedOverlay = styled.div`
+  // position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  pointer-events: none;
+  background: rgba(0, 0, 0, 0.5);
+  position: relative;
+  z-index: 1;
 `;
 const MarkerDot = styled.div`
   width: 15px;
@@ -41,17 +54,19 @@ const MarkerDot = styled.div`
 `;
 const Popup = styled.div<{ show: boolean }>`
   position: absolute;
+  z-index: 1;
   top: -87px;
   left: -45px;
   bottom: 0;
-  width: 95px;
-  height: 100px;
+  width: 10rem;
+  height: 8rem;
   background: #fff;
   opacity: 0.5;
-  z-index: 1000;
   transform: scale(0%);
   transition: all 1s;
   border-radius: 0.2rem;
+  padding-top: 0.5rem;
+  transform-origin: 0% 100% 100%;
   ${({ show }) =>
     show
       ? `
@@ -60,7 +75,55 @@ const Popup = styled.div<{ show: boolean }>`
 `
       : ""}
 `;
-
+const ImageContainer = styled.div`
+  position: relative;
+  width: 90%;
+  height: 80%;
+  margin: auto;
+  border-radius: 0.2rem;
+  overflow: hidden;
+`;
+const BriefDescription = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  margin: 0.4rem;
+`;
+const Price = styled.span`
+  font-weight: bold;
+  font-size: 0.8rem;
+  color: ${({ theme }) => theme.dark};
+`;
+const Bed = styled.div`
+  display: flex;
+`;
+const Number = styled.span`
+  color: ${(props) => props.theme.gray};
+  font-size: 0.7rem;
+  margin-right: 0.3rem;
+  margin-left: 0.5rem;
+`;
+const Label = styled.span`
+  color: ${(props) => props.theme.gray};
+  font-size: 0.7rem;
+  margin-right: 0.3rem;
+`;
+const IconContainer = styled.div`
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+`;
+const ImageOverlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  background: rgba(255, 255, 255, 0.5);
+`;
 const getCenter = (properties: Listing[]) => {
   if (!properties.length) return false;
   let lat = 0;
@@ -81,9 +144,22 @@ const getCenter = (properties: Listing[]) => {
 type MarkerProps = {
   data: Listing;
 };
+const EnterIcon = ({
+  src,
+  color,
+}: {
+  src: string;
+  color: string;
+  size: number;
+}) => (
+  <IconContainer>
+    <Icon color={color} iconType={Icons.Visit} size={38} />
+  </IconContainer>
+);
 const Marker = memo(({ data }: MarkerProps) => {
-  const { photo } = data;
+  const { photo, beds } = data;
   const [showPopup, setShowPopup] = useState(false);
+  const theme = useTheme();
   const ref = useRef(null);
   const useClickOutsideCallback = useCallback(() => setShowPopup(false), []);
   useClickOutside(ref, useClickOutsideCallback);
@@ -91,9 +167,23 @@ const Marker = memo(({ data }: MarkerProps) => {
     return (
       <MarkerDot onClick={() => setShowPopup(true)}>
         <Popup ref={ref} show={showPopup}>
-          <div style={{ width: "100%", height: "50%" }}>
-            <Image src={photo} layout={"fill"} />
-          </div>
+          <ImageContainer>
+            <Image src={photo} layout="fill" objectFit="cover" />
+            <ImageOverlay></ImageOverlay>
+          </ImageContainer>
+          <BriefDescription>
+            <Price>$1200</Price>
+            <Bed>
+              <Icon
+                iconType={Icons.Bed}
+                color={(theme as any).gray}
+                size={15}
+              />
+              <Number>{beds}</Number>
+              <Label>{Icons.Bed.toString()}</Label>
+            </Bed>
+          </BriefDescription>
+          <EnterIcon src={"#"} color={(theme as any).dark} size={38} />
         </Popup>
       </MarkerDot>
     );
@@ -126,19 +216,22 @@ const Map = () => {
     setMapProps({ ...mapProps, center });
   }, [properties]);
   return (
-    <MapContainer>
-      {secret && (
-        <GoogleMapReact
-          bootstrapURLKeys={{ key: secret }}
-          center={mapProps.center}
-          defaultZoom={mapProps.zoom}
-        >
-          {properties.map((prop) => (
-            <Marker lat={prop.lat} lng={prop.long} data={prop} />
-          ))}
-        </GoogleMapReact>
-      )}
-    </MapContainer>
+    <>
+      <MapContainer>
+        {secret && (
+          <GoogleMapReact
+            bootstrapURLKeys={{ key: secret }}
+            center={mapProps.center}
+            defaultZoom={mapProps.zoom}
+          >
+            {properties.map((prop) => (
+              <Marker lat={prop.lat} lng={prop.long} data={prop} />
+            ))}
+          </GoogleMapReact>
+        )}
+      </MapContainer>
+      <LightenedOverlay></LightenedOverlay>
+    </>
   );
 };
 
