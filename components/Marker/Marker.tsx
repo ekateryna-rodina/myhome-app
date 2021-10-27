@@ -71,21 +71,31 @@ const Label = styled.span`
   font-size: 0.7rem;
   margin-right: 0.3rem;
 `;
-const IconContainer = styled.div`
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-`;
 const ImageOverlay = styled.div`
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  pointer-events: none;
-  background: rgba(255, 255, 255, 0.5);
+  transition: all 0.5s;
+  background: rgba(255, 255, 255, 0.3);
+  opacity: 0;
+  &:hover {
+    opacity: 1;
+  }
 `;
+const IconContainer = styled.div`
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: all 0.5s;
+  ${ImageContainer}:hover & {
+    opacity: 1;
+  }
+`;
+
 type MarkerProps = {
   data: Listing;
 };
@@ -115,6 +125,7 @@ const Marker = memo(({ data }: MarkerProps) => {
           <ImageContainer>
             <Image src={photo} layout="fill" objectFit="cover" />
             <ImageOverlay></ImageOverlay>
+            <EnterIcon src={"#"} color={(theme as any).dark} size={38} />
           </ImageContainer>
           <BriefDescription>
             <Price>$1200</Price>
@@ -128,7 +139,6 @@ const Marker = memo(({ data }: MarkerProps) => {
               <Label>{Icons.Bed.toString()}</Label>
             </Bed>
           </BriefDescription>
-          <EnterIcon src={"#"} color={(theme as any).dark} size={38} />
         </Popup>
       </MarkerDot>
     );
