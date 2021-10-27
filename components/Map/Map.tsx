@@ -1,6 +1,16 @@
 import { AppContext } from "components/AppContextWrapper/AppContextWrapper";
 import GoogleMapReact from "google-map-react";
-import React, { memo, useContext, useEffect, useMemo, useState } from "react";
+import Image from "next/image";
+import React, {
+  memo,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import useClickOutside from "src/utils/hooks/useClickOutside";
 import { Coordinates, Listing } from "src/utils/types";
 import { respondTo } from "src/utils/_respondTo";
 import styled from "styled-components";
@@ -25,9 +35,30 @@ const MarkerDot = styled.div`
   height: 15px;
   border-radius: 50%;
   background: rgba(0, 0, 0, 0.5);
-  position: relative;
-  z-index: 10000;
   border: ${(props) => `3px solid ${props.theme.secondary}`};
+  position: relative;
+  cursor: pointer;
+`;
+const Popup = styled.div<{ show: boolean }>`
+  position: absolute;
+  top: -87px;
+  left: -45px;
+  bottom: 0;
+  width: 95px;
+  height: 100px;
+  background: #fff;
+  opacity: 0.5;
+  z-index: 1000;
+  transform: scale(0%);
+  transition: all 1s;
+  border-radius: 0.2rem;
+  ${({ show }) =>
+    show
+      ? `
+  transform: scale(100%);
+  opacity: 1;
+`
+      : ""}
 `;
 
 const getCenter = (properties: Listing[]) => {
@@ -44,11 +75,30 @@ const getCenter = (properties: Listing[]) => {
 
   lat = lat / propertiesLength;
   lng = lng / propertiesLength;
-  console.log(propertiesLength, lat);
-  console.log(lat, lng);
+
   return { lat, lng };
 };
-const Marker = memo((props: Listing) => <MarkerDot>{}</MarkerDot>);
+type MarkerProps = {
+  data: Listing;
+};
+const Marker = memo(({ data }: MarkerProps) => {
+  const { photo } = data;
+  const [showPopup, setShowPopup] = useState(false);
+  const ref = useRef(null);
+  const useClickOutsideCallback = useCallback(() => setShowPopup(false), []);
+  useClickOutside(ref, useClickOutsideCallback);
+  {
+    return (
+      <MarkerDot onClick={() => setShowPopup(true)}>
+        <Popup ref={ref} show={showPopup}>
+          <div style={{ width: "100%", height: "50%" }}>
+            <Image src={photo} layout={"fill"} />
+          </div>
+        </Popup>
+      </MarkerDot>
+    );
+  }
+});
 
 const Map = () => {
   const secret = process.env.NEXT_PUBLIC_GMAP_KEY;
@@ -84,7 +134,7 @@ const Map = () => {
           defaultZoom={mapProps.zoom}
         >
           {properties.map((prop) => (
-            <Marker lat={prop.lat} lng={prop.long} />
+            <Marker lat={prop.lat} lng={prop.long} data={prop} />
           ))}
         </GoogleMapReact>
       )}
