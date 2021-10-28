@@ -98,6 +98,8 @@ const IconContainer = styled.div`
 
 type MarkerProps = {
   data: Listing;
+  lat: string;
+  lng: string;
 };
 const EnterIcon = ({
   src,

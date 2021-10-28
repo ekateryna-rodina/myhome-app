@@ -127,6 +127,8 @@ export const resolvers = {
     properties: async (_parent: any, { locationId, filter }: any, ctx: any) => {
       const where = composeWhere(locationId, filter);
       const data = await ctx.prisma.property.findMany({ where });
+      console.log(filter, locationId);
+      console.log(data.length);
       return data.map(async (entry: Listing) => {
         const { city, country } = await ctx.prisma.location.findUnique({
           where: { id: entry.locationId },
