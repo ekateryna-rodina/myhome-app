@@ -6,8 +6,7 @@ import {
 } from "@react-google-maps/api";
 import { AppContext } from "components/AppContextWrapper/AppContextWrapper";
 import { InfoWindowContent } from "components/InfoWindowContent";
-// import { Marker } from "components/Marker";
-import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import useDebounce from "src/utils/hooks/useDebounce";
 import { Coordinates, Listing } from "src/utils/types";
 import { respondTo } from "src/utils/_respondTo";
@@ -81,15 +80,12 @@ const Map = () => {
     minLng: number;
     maxLng: number;
   } | null>(null);
-  const ref = useRef(null);
+
   const markerBoundariesOffset = 0.01;
   const debouncedCenter = useDebounce<{}>(mapProps.center, 1000);
   const activeProperties = useMemo(() => {
     return properties.filter((prop) => prop.lat && prop.long);
   }, [properties]);
-  // useEffect(() => {
-  //   // new google.maps.Map(ref, defaultProps);
-  // }, []);
   useEffect(() => {
     const centerResult: { lat: number; lng: number } | boolean =
       getCenter(activeProperties);
@@ -101,10 +97,6 @@ const Map = () => {
     };
     setMapProps({ ...mapProps, center });
   }, [properties]);
-  const dragMapEndHandle = (e: any) => {
-    // console.log(e.center["lat"](), e.center["lng"]());
-    console.log(ref.current);
-  };
   const onCenterChanged = () => {
     if (!map) return;
     const { Pa, yb } = (map as any).getBounds();
@@ -116,8 +108,7 @@ const Map = () => {
       +yb["g"] + markerBoundariesOffset,
       +yb["h"] - markerBoundariesOffset,
     ];
-    console.log(minLat, maxLat, minLng, maxLng);
-    console.log(debouncedCenter);
+
     setBoundaries((boundaries) => {
       return { minLng, maxLng, minLat, maxLat };
     });
@@ -127,7 +118,6 @@ const Map = () => {
       <MapContainer>
         {isLoaded ? (
           <GoogleMap
-            // ref={marRef}
             mapContainerStyle={{ width: "100%", height: "100%" }}
             center={mapProps.center}
             zoom={mapProps.zoom}
@@ -147,9 +137,6 @@ const Map = () => {
                   anchor: new window.google.maps.Point(32, 65),
                 }}
                 onClick={(e) => setShowInfoWindow({ index, data: prop })}
-                // lat={prop.lat}
-                // lng={prop.long}
-                // data={prop}
               >
                 {showInfoWindow?.index == index && (
                   <InfoWindow>
