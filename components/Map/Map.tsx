@@ -82,6 +82,7 @@ const Map = () => {
     maxLng: number;
   } | null>(null);
   const ref = useRef(null);
+  const markerBoundariesOffset = 0.01;
   const debouncedCenter = useDebounce<{}>(mapProps.center, 1000);
   const activeProperties = useMemo(() => {
     return properties.filter((prop) => prop.lat && prop.long);
@@ -107,8 +108,14 @@ const Map = () => {
   const onCenterChanged = () => {
     if (!map) return;
     const { Pa, yb } = (map as any).getBounds();
-    const [minLng, maxLng] = [Pa["g"], Pa["h"]];
-    const [minLat, maxLat] = [yb["g"], yb["h"]];
+    const [minLng, maxLng] = [
+      +Pa["g"] + markerBoundariesOffset,
+      +Pa["h"] - markerBoundariesOffset,
+    ];
+    const [minLat, maxLat] = [
+      +yb["g"] + markerBoundariesOffset,
+      +yb["h"] - markerBoundariesOffset,
+    ];
     console.log(minLat, maxLat, minLng, maxLng);
     console.log(debouncedCenter);
     setBoundaries((boundaries) => {
@@ -127,6 +134,7 @@ const Map = () => {
             onLoad={onLoad}
             onUnmount={onUnmount}
             onCenterChanged={onCenterChanged}
+            onZoomChanged={onCenterChanged}
           >
             {properties.map((prop, index) => (
               <Marker
@@ -151,16 +159,20 @@ const Map = () => {
               </Marker>
             ))}
             <Marker
-              position={{
-                lat: +boundaries?.minLat ?? 0,
-                lng: +boundaries?.minLng ?? 0,
-              }}
-            ></Marker>
-            <Marker
+              onClick={() => console.log("max")}
               position={
                 new google.maps.LatLng(
                   boundaries?.maxLat ?? 0,
                   boundaries?.maxLng ?? 0
+                )
+              }
+            ></Marker>
+            <Marker
+              onClick={() => console.log("min")}
+              position={
+                new google.maps.LatLng(
+                  boundaries?.minLat ?? 0,
+                  boundaries?.minLng ?? 0
                 )
               }
             ></Marker>
