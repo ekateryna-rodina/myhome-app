@@ -7,10 +7,10 @@ import {
 } from "@react-google-maps/api";
 import { AppContext } from "components/AppContextWrapper/AppContextWrapper";
 import { InfoWindowContent } from "components/InfoWindowContent";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { GET_PROPERTIES_QUERY } from "src/utils/constants";
 import useDebounce from "src/utils/hooks/useDebounce";
-import { Listing } from "src/utils/types";
+import { Coordinates, Listing } from "src/utils/types";
 import { respondTo } from "src/utils/_respondTo";
 import styled from "styled-components";
 
@@ -51,38 +51,42 @@ const getCenter = (properties: Listing[]) => {
 const Map = () => {
   const secret = process.env.NEXT_PUBLIC_GMAP_KEY;
   const [map, setMap] = useState(null);
-  let defaultProps = {
-    center: {
-      lat: -10.33996375490696,
-      lng: -40.83884220436968,
-    },
-    zoom: 13,
-  };
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: secret?.toString() ?? "",
   });
+  const { properties, filter, handleFilter, handleLoading, handleProperties } =
+    useContext(AppContext);
   const onLoad = React.useCallback(function callback(map) {
-    console.log("on load", properties);
     setMap(map);
   }, []);
+  const mapRef = useRef(null);
+  let defaultProps = {
+    center: {
+      lat: 40.04633228616252, //geographical center of USA
+      lng: -75.2759768540747,
+    },
+    // zoom: 13,
+  };
+  const [mapProps, setMapProps] = useState(defaultProps);
   useEffect(() => {
-    if (!map || !properties) return;
+    if (!map) return;
     const bounds = new window.google.maps.LatLngBounds();
-    let markers = properties.map(
-      (p) => new window.google.maps.LatLng(+p.lat, +p.long)
-    );
-    for (let i = 0; i < markers.length; i++) {
-      bounds.extend(markers[i]);
+    if (properties) {
+      console.log("nooooooo");
+      let markers = properties.map(
+        (p) => new window.google.maps.LatLng(+p.lat, +p.long)
+      );
+      for (let i = 0; i < markers.length; i++) {
+        bounds.extend(markers[i]);
+      }
     }
+
     (map as any).fitBounds(bounds);
   }, [map]);
   const onUnmount = React.useCallback(function callback(map) {
     setMap(null);
   }, []);
-  const { properties, filter, handleFilter, handleLoading, handleProperties } =
-    useContext(AppContext);
-  const [mapProps, setMapProps] = useState(defaultProps);
 
   const [showInfoWindow, setShowInfoWindow] = useState<{
     index: number;
@@ -97,22 +101,23 @@ const Map = () => {
 
   // helps to define an active area for markers more precisely
   const markerBoundariesOffset = (value: number) => value * 0.095;
-  const debouncedCenter = useDebounce<{}>(mapProps.center, 1000);
+  const debouncedActiveRegion = useDebounce<any>(boundaries);
   const [getPropertiesByCoordinates, { loading, data, error }] =
     useLazyQuery(GET_PROPERTIES_QUERY);
 
   useEffect(() => {
-    // const centerResult: { lat: number; lng: number } | boolean =
-    //   getCenter(activeProperties);
-    // if (!Object.keys(centerResult).length) return;
-    // const { lat, lng } = centerResult as Coordinates;
-    // const center = {
-    //   lat,
-    //   lng,
-    // };
-    // setMapProps({ ...mapProps, center });
-    // reset bounds
-    onLoad(map);
+    if (!properties) return;
+    const centerResult: { lat: number; lng: number } | boolean =
+      getCenter(properties);
+    if (!Object.keys(centerResult).length) return;
+    const { lat, lng } = centerResult as Coordinates;
+    const center = {
+      lat,
+      lng,
+    };
+    setMapProps({ ...mapProps, center });
+    // // reset bounds
+    // onLoad(map);
   }, [properties]);
   useEffect(() => {
     if (
@@ -136,7 +141,6 @@ const Map = () => {
         filter: newFilter,
       },
     });
-    console.log("coordinatea chanfe");
   }, [filter.mapCoordinates]);
   useEffect(() => {
     // save properties to the context after coordinates changed
@@ -147,10 +151,9 @@ const Map = () => {
   }, [data]);
   const onCenterChanged = () => {
     // changes local state
-    if (!map || !map) return;
+    if (!map) return;
     const bounds = (map as any).getBounds();
     if (!bounds) return;
-    console.log("center is changed");
     const { Pa, yb } = bounds;
     const [minLng, maxLng] = [
       +Pa["g"] + markerBoundariesOffset(Pa["h"] - Pa["g"]),
@@ -169,9 +172,9 @@ const Map = () => {
       <MapContainer>
         {isLoaded && properties ? (
           <GoogleMap
+            ref={mapRef}
             mapContainerStyle={{ width: "100%", height: "100%" }}
             center={mapProps.center}
-            zoom={mapProps.zoom}
             onLoad={onLoad}
             onUnmount={onUnmount}
             onCenterChanged={onCenterChanged}
