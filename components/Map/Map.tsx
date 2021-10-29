@@ -1,3 +1,4 @@
+import { useLazyQuery } from "@apollo/client";
 import {
   GoogleMap,
   InfoWindow,
@@ -6,9 +7,10 @@ import {
 } from "@react-google-maps/api";
 import { AppContext } from "components/AppContextWrapper/AppContextWrapper";
 import { InfoWindowContent } from "components/InfoWindowContent";
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { GET_PROPERTIES_QUERY } from "src/utils/constants";
 import useDebounce from "src/utils/hooks/useDebounce";
-import { Coordinates, Listing } from "src/utils/types";
+import { Listing } from "src/utils/types";
 import { respondTo } from "src/utils/_respondTo";
 import styled from "styled-components";
 
@@ -17,7 +19,7 @@ const MapContainer = styled.div`
   top: 80px;
   left: 0;
   right: 0;
-  height: 100vh;
+  height: 95vh;
 
   ${respondTo.laptopAndDesktop`
       height:"calc(100vh - 4.5rem)";
@@ -48,10 +50,11 @@ const getCenter = (properties: Listing[]) => {
 
 const Map = () => {
   const secret = process.env.NEXT_PUBLIC_GMAP_KEY;
+  const [map, setMap] = useState(null);
   let defaultProps = {
     center: {
-      lat: 39.95351942865179,
-      lng: -75.16838986985532,
+      lat: -10.33996375490696,
+      lng: -40.83884220436968,
     },
     zoom: 13,
   };
@@ -60,16 +63,27 @@ const Map = () => {
     googleMapsApiKey: secret?.toString() ?? "",
   });
   const onLoad = React.useCallback(function callback(map) {
-    const bounds = new window.google.maps.LatLngBounds();
-    map.fitBounds(bounds);
+    console.log("on load", properties);
     setMap(map);
   }, []);
+  useEffect(() => {
+    if (!map || !properties) return;
+    const bounds = new window.google.maps.LatLngBounds();
+    let markers = properties.map(
+      (p) => new window.google.maps.LatLng(+p.lat, +p.long)
+    );
+    for (let i = 0; i < markers.length; i++) {
+      bounds.extend(markers[i]);
+    }
+    (map as any).fitBounds(bounds);
+  }, [map]);
   const onUnmount = React.useCallback(function callback(map) {
     setMap(null);
   }, []);
-  const { properties } = useContext(AppContext);
+  const { properties, filter, handleFilter, handleLoading, handleProperties } =
+    useContext(AppContext);
   const [mapProps, setMapProps] = useState(defaultProps);
-  const [map, setMap] = useState(null);
+
   const [showInfoWindow, setShowInfoWindow] = useState<{
     index: number;
     data: any;
@@ -81,34 +95,71 @@ const Map = () => {
     maxLng: number;
   } | null>(null);
 
-  const markerBoundariesOffset = 0.01;
+  // helps to define an active area for markers more precisely
+  const markerBoundariesOffset = (value: number) => value * 0.095;
   const debouncedCenter = useDebounce<{}>(mapProps.center, 1000);
-  const activeProperties = useMemo(() => {
-    return properties.filter((prop) => prop.lat && prop.long);
+  const [getPropertiesByCoordinates, { loading, data, error }] =
+    useLazyQuery(GET_PROPERTIES_QUERY);
+
+  useEffect(() => {
+    // const centerResult: { lat: number; lng: number } | boolean =
+    //   getCenter(activeProperties);
+    // if (!Object.keys(centerResult).length) return;
+    // const { lat, lng } = centerResult as Coordinates;
+    // const center = {
+    //   lat,
+    //   lng,
+    // };
+    // setMapProps({ ...mapProps, center });
+    // reset bounds
+    onLoad(map);
   }, [properties]);
   useEffect(() => {
-    const centerResult: { lat: number; lng: number } | boolean =
-      getCenter(activeProperties);
-    if (!Object.keys(centerResult).length) return;
-    const { lat, lng } = centerResult as Coordinates;
-    const center = {
-      lat,
-      lng,
-    };
-    setMapProps({ ...mapProps, center });
-  }, [properties]);
+    if (
+      !boundaries ||
+      !Object.keys(boundaries).length ||
+      Object.values(boundaries).every((i) => !i)
+    )
+      return;
+    // set global context in case if we want to apply new filter with given coordinates
+    handleFilter({ ...filter, mapCoordinates: boundaries });
+  }, [boundaries]);
+  useEffect(() => {
+    // load new properties
+    const newFilter = JSON.stringify({
+      ...filter,
+      mapCoordinates: filter.mapCoordinates,
+    });
+    getPropertiesByCoordinates({
+      variables: {
+        locationId: 0,
+        filter: newFilter,
+      },
+    });
+    console.log("coordinatea chanfe");
+  }, [filter.mapCoordinates]);
+  useEffect(() => {
+    // save properties to the context after coordinates changed
+    if (data == undefined) return;
+    handleLoading(loading);
+    handleProperties(data.properties);
+    // eslint-disable-next-line
+  }, [data]);
   const onCenterChanged = () => {
-    if (!map) return;
-    const { Pa, yb } = (map as any).getBounds();
+    // changes local state
+    if (!map || !map) return;
+    const bounds = (map as any).getBounds();
+    if (!bounds) return;
+    console.log("center is changed");
+    const { Pa, yb } = bounds;
     const [minLng, maxLng] = [
-      +Pa["g"] + markerBoundariesOffset,
-      +Pa["h"] - markerBoundariesOffset,
+      +Pa["g"] + markerBoundariesOffset(Pa["h"] - Pa["g"]),
+      +Pa["h"] - markerBoundariesOffset(Pa["h"] - Pa["g"]),
     ];
     const [minLat, maxLat] = [
-      +yb["g"] + markerBoundariesOffset,
-      +yb["h"] - markerBoundariesOffset,
+      +yb["g"] + markerBoundariesOffset(yb["h"] - yb["g"]),
+      +yb["h"] - markerBoundariesOffset(yb["h"] - yb["g"]),
     ];
-
     setBoundaries((boundaries) => {
       return { minLng, maxLng, minLat, maxLat };
     });
@@ -116,7 +167,7 @@ const Map = () => {
   return (
     <>
       <MapContainer>
-        {isLoaded ? (
+        {isLoaded && properties ? (
           <GoogleMap
             mapContainerStyle={{ width: "100%", height: "100%" }}
             center={mapProps.center}

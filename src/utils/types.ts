@@ -59,6 +59,12 @@ export interface Filter {
   bathrooms: number[];
   bedrooms: number[];
   for: PropertyFor;
+  mapCoordinates: {
+    minLat: number;
+    maxLat: number;
+    minLng: number;
+    maxLng: number;
+  };
 }
 
 export type Coordinates = {

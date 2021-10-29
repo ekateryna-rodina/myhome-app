@@ -1,21 +1,15 @@
 import { useLazyQuery } from "@apollo/client";
-import { AdditionalFilter } from "components/AdditionalFilter";
+// import { AdditionalFilter } from "components/AdditionalFilter";
 import { AppContext } from "components/AppContextWrapper/AppContextWrapper";
-import { Category } from "components/Category";
-import { MultichoiceDropdown } from "components/MultichoiceDropdown";
-import { PropertyForRadio } from "components/PropertyForRadio";
-import { Slider } from "components/Slider";
+// import { Category } from "components/Category";
+// import { MultichoiceDropdown } from "components/MultichoiceDropdown";
+// import { PropertyForRadio } from "components/PropertyForRadio";
+// import { Slider } from "components/Slider";
 import React, { useContext, useEffect, useState } from "react";
-import {
-  GET_PROPERTIES_QUERY,
-  MAX_FILTER_PRICE,
-  MAX_FILTER_SIZE,
-  MIN_FILTER_PRICE,
-  MIN_FILTER_SIZE,
-} from "src/utils/constants";
+import { GET_PROPERTIES_QUERY } from "src/utils/constants";
 import { respondTo } from "src/utils/_respondTo";
 import styled from "styled-components";
-import { Unit } from "../../src/utils/enums";
+// import { Unit } from "../../src/utils/enums";
 const Container = styled.div<{
   isOpen: boolean;
   isInitialialized: boolean;
@@ -227,47 +221,48 @@ const Filters = () => {
   const { isFilterOpen } = useContext(AppContext);
 
   return (
-    <Container isOpen={isFilterOpen} isInitialialized={isInitialialized}>
-      <PropertyForRadio />
-      <Title>Category</Title>
-      <Categories>
-        {Object.keys(filter.propertyTypes).map((category) => (
-          <Category key={category} name={category} />
-        ))}
-      </Categories>
-      <FlexibleRangeContainer>
-        <PriceRange>
-          <Title>Price Range</Title>
-          <Slider
-            min={MIN_FILTER_PRICE}
-            max={MAX_FILTER_PRICE}
-            unit={Unit.USD}
-            type={"price"}
-          />
-        </PriceRange>
-        <PropertySize>
-          <Title pushRight={true}>Property Size</Title>
-          <Slider
-            min={MIN_FILTER_SIZE}
-            max={MAX_FILTER_SIZE}
-            unit={Unit.SQFT}
-            pushRight={true}
-            type={"size"}
-          />
-        </PropertySize>
-      </FlexibleRangeContainer>
-      <Title>Rooms</Title>
-      <RoomsContainer>
-        <MultichoiceDropdown type={"bed"} />
-        <MultichoiceDropdown
-          type={"bath"}
-          onSelected={() => null}
-          pushRight={true}
-        />
-      </RoomsContainer>
-      <Title>Additional</Title>
-      <AdditionalFilter data={filter.additional} />
-    </Container>
+    <></>
+    // <Container isOpen={isFilterOpen} isInitialialized={isInitialialized}>
+    //   <PropertyForRadio />
+    //   <Title>Category</Title>
+    //   <Categories>
+    //     {Object.keys(filter.propertyTypes).map((category) => (
+    //       <Category key={category} name={category} />
+    //     ))}
+    //   </Categories>
+    //   <FlexibleRangeContainer>
+    //     <PriceRange>
+    //       <Title>Price Range</Title>
+    //       <Slider
+    //         min={MIN_FILTER_PRICE}
+    //         max={MAX_FILTER_PRICE}
+    //         unit={Unit.USD}
+    //         type={"price"}
+    //       />
+    //     </PriceRange>
+    //     <PropertySize>
+    //       <Title pushRight={true}>Property Size</Title>
+    //       <Slider
+    //         min={MIN_FILTER_SIZE}
+    //         max={MAX_FILTER_SIZE}
+    //         unit={Unit.SQFT}
+    //         pushRight={true}
+    //         type={"size"}
+    //       />
+    //     </PropertySize>
+    //   </FlexibleRangeContainer>
+    //   <Title>Rooms</Title>
+    //   <RoomsContainer>
+    //     <MultichoiceDropdown type={"bed"} />
+    //     <MultichoiceDropdown
+    //       type={"bath"}
+    //       onSelected={() => null}
+    //       pushRight={true}
+    //     />
+    //   </RoomsContainer>
+    //   <Title>Additional</Title>
+    //   <AdditionalFilter data={filter.additional} />
+    // </Container>
   );
 };
 

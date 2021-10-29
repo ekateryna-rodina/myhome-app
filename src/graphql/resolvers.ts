@@ -1,15 +1,4 @@
-import {
-  MAX_FILTER_PRICE,
-  MAX_FILTER_SIZE,
-  MIN_FILTER_PRICE,
-  MIN_FILTER_SIZE,
-} from "../../src/utils/constants";
-import {
-  AdditionalFilterKeys,
-  AdditionalFiltersStringMap,
-  Filter,
-  Listing,
-} from "../../src/utils/types";
+import { Filter, Listing } from "../../src/utils/types";
 
 interface WhereFilter {
   locationId: number;
@@ -32,6 +21,8 @@ interface WhereFilter {
   isWithWiFi: {};
   isWithBreakfast: {};
   isWithFireplace: {};
+  lat: {};
+  long: {};
 }
 
 const getRoomsNumber = (original: number[]) => {
@@ -45,90 +36,201 @@ const getRoomsNumber = (original: number[]) => {
   ].concat(Array.from(Array(max).keys()).map((n) => n + startNumber));
   return roomsNumberAfterMaskRemoved;
 };
+// const composeWhere = (locationId: number, filterQuery: string) => {
+//   const whereFilter: Partial<WhereFilter> = {
+//     beds: { in: [2] },
+//     baths: { in: [1] },
+//   };
+//   if (locationId) whereFilter["locationId"] = locationId;
+//   if (!filterQuery) return whereFilter;
+//   const filter: Filter = JSON.parse(filterQuery);
+//   // PROPERTY TYPES
+//   const propertyTypeValues = Object.values(filter.propertyTypes);
+//   const selectAllTypes =
+//     propertyTypeValues.every((value) => !value) ||
+//     propertyTypeValues.every((value) => value);
+//   if (!selectAllTypes) {
+//     const showPropertTypes: string[] = Object.entries(
+//       filter.propertyTypes
+//     ).reduce((result: string[], entry: [string, boolean]) => {
+//       if (entry[1]) {
+//         result.push(entry[0]);
+//       }
+//       return result;
+//     }, []);
+
+//     whereFilter["type"] = {
+//       in: showPropertTypes,
+//     };
+//   }
+//   // PRICE RANGE
+//   if (
+//     filter.priceRange[0] !== MIN_FILTER_PRICE ||
+//     filter.priceRange[1] !== MAX_FILTER_PRICE
+//   ) {
+//     whereFilter["price"] = {
+//       gte: filter.priceRange[0],
+//       lte: filter.priceRange[1],
+//     };
+//   }
+//   // SIZE RANGE
+//   if (
+//     filter.sizeRange[0] !== MIN_FILTER_SIZE ||
+//     filter.sizeRange[1] !== MAX_FILTER_SIZE
+//   ) {
+//     whereFilter["size"] = {
+//       gte: filter.sizeRange[0],
+//       lte: filter.sizeRange[1],
+//     };
+//   }
+
+//   // BEDROOMS
+//   whereFilter["beds"] = {
+//     in: getRoomsNumber(filter.bedrooms),
+//   };
+
+//   // BATHDROOMS
+//   whereFilter["baths"] = {
+//     in: getRoomsNumber(filter.bathrooms),
+//   };
+
+//   // ADDITIONAL
+//   const keys = Object.keys(AdditionalFiltersStringMap);
+//   keys.forEach((key) => {
+//     const isImportant = filter.additional[key as AdditionalFilterKeys];
+//     if (isImportant) {
+//       whereFilter[key as AdditionalFilterKeys] = {
+//         equals: true,
+//       };
+//     }
+//   });
+
+//   // FOR
+//   // fix case toUpper case
+//   whereFilter["for"] = {
+//     equals: filter.for.toUpperCase(),
+//   };
+
+//   // MAP COORDINATES
+//   console.log("here");
+//   const { minLat, maxLat, minLng, maxLng } = filter.mapCoordinates;
+//   if (minLng || maxLng || minLat || maxLat) {
+//     console.log("set latt");
+//     whereFilter["lat"] = {
+//       gte: minLat,
+//       lte: maxLat,
+//     };
+//     whereFilter["long"] = {
+//       gte: minLng,
+//       lte: maxLng,
+//     };
+//   }
+
+//   return whereFilter;
+// };
 const composeWhere = (locationId: number, filterQuery: string) => {
   const whereFilter: Partial<WhereFilter> = {
-    beds: { in: [2] },
-    baths: { in: [1] },
+    // beds: { in: [2] },
+    // baths: { in: [1] },
   };
-  if (locationId) whereFilter["locationId"] = locationId;
+  // if (locationId) whereFilter["locationId"] = locationId;
   if (!filterQuery) return whereFilter;
   const filter: Filter = JSON.parse(filterQuery);
-  // PROPERTY TYPES
-  const propertyTypeValues = Object.values(filter.propertyTypes);
-  const selectAllTypes =
-    propertyTypeValues.every((value) => !value) ||
-    propertyTypeValues.every((value) => value);
-  if (!selectAllTypes) {
-    const showPropertTypes: string[] = Object.entries(
-      filter.propertyTypes
-    ).reduce((result: string[], entry: [string, boolean]) => {
-      if (entry[1]) {
-        result.push(entry[0]);
-      }
-      return result;
-    }, []);
+  // // PROPERTY TYPES
+  // const propertyTypeValues = Object.values(filter.propertyTypes);
+  // const selectAllTypes =
+  //   propertyTypeValues.every((value) => !value) ||
+  //   propertyTypeValues.every((value) => value);
+  // if (!selectAllTypes) {
+  //   const showPropertTypes: string[] = Object.entries(
+  //     filter.propertyTypes
+  //   ).reduce((result: string[], entry: [string, boolean]) => {
+  //     if (entry[1]) {
+  //       result.push(entry[0]);
+  //     }
+  //     return result;
+  //   }, []);
 
-    whereFilter["type"] = {
-      in: showPropertTypes,
-    };
+  //   whereFilter["type"] = {
+  //     in: showPropertTypes,
+  //   };
+  // }
+  // // PRICE RANGE
+  // if (
+  //   filter.priceRange[0] !== MIN_FILTER_PRICE ||
+  //   filter.priceRange[1] !== MAX_FILTER_PRICE
+  // ) {
+  //   whereFilter["price"] = {
+  //     gte: filter.priceRange[0],
+  //     lte: filter.priceRange[1],
+  //   };
+  // }
+  // // SIZE RANGE
+  // if (
+  //   filter.sizeRange[0] !== MIN_FILTER_SIZE ||
+  //   filter.sizeRange[1] !== MAX_FILTER_SIZE
+  // ) {
+  //   whereFilter["size"] = {
+  //     gte: filter.sizeRange[0],
+  //     lte: filter.sizeRange[1],
+  //   };
+  // }
+
+  // // BEDROOMS
+  // whereFilter["beds"] = {
+  //   in: getRoomsNumber(filter.bedrooms),
+  // };
+
+  // // BATHDROOMS
+  // whereFilter["baths"] = {
+  //   in: getRoomsNumber(filter.bathrooms),
+  // };
+
+  // // ADDITIONAL
+  // const keys = Object.keys(AdditionalFiltersStringMap);
+  // keys.forEach((key) => {
+  //   const isImportant = filter.additional[key as AdditionalFilterKeys];
+  //   if (isImportant) {
+  //     whereFilter[key as AdditionalFilterKeys] = {
+  //       equals: true,
+  //     };
+  //   }
+  // });
+
+  // // FOR
+  // // fix case toUpper case
+  // whereFilter["for"] = {
+  //   equals: filter.for.toUpperCase(),
+  // };
+
+  // MAP COORDINATES
+  console.log("here");
+  const { minLat, maxLat, minLng, maxLng } = filter.mapCoordinates;
+  if (minLng || maxLng || minLat || maxLat) {
+    console.log("set latt");
+    // whereFilter["lat"] = {
+    //   gte: minLat,
+    //   lte: maxLat,
+    // };
+    // whereFilter["long"] = {
+    //   gte: minLng,
+    //   lte: maxLng,
+    // };
   }
-  // PRICE RANGE
-  if (
-    filter.priceRange[0] !== MIN_FILTER_PRICE ||
-    filter.priceRange[1] !== MAX_FILTER_PRICE
-  ) {
-    whereFilter["price"] = {
-      gte: filter.priceRange[0],
-      lte: filter.priceRange[1],
-    };
-  }
-  // SIZE RANGE
-  if (
-    filter.sizeRange[0] !== MIN_FILTER_SIZE ||
-    filter.sizeRange[1] !== MAX_FILTER_SIZE
-  ) {
-    whereFilter["size"] = {
-      gte: filter.sizeRange[0],
-      lte: filter.sizeRange[1],
-    };
-  }
-
-  // BEDROOMS
-  whereFilter["beds"] = {
-    in: getRoomsNumber(filter.bedrooms),
-  };
-
-  // BATHDROOMS
-  whereFilter["baths"] = {
-    in: getRoomsNumber(filter.bathrooms),
-  };
-
-  // ADDITIONAL
-  const keys = Object.keys(AdditionalFiltersStringMap);
-  keys.forEach((key) => {
-    const isImportant = filter.additional[key as AdditionalFilterKeys];
-    if (isImportant) {
-      whereFilter[key as AdditionalFilterKeys] = {
-        equals: true,
-      };
-    }
-  });
-
-  // FOR
-  // fix case toUpper case
-  whereFilter["for"] = {
-    equals: filter.for.toUpperCase(),
-  };
 
   return whereFilter;
 };
 export const resolvers = {
   RootQuery: {
     properties: async (_parent: any, { locationId, filter }: any, ctx: any) => {
+      // console.log(coordinates);
+      console.log(filter);
       const where = composeWhere(locationId, filter);
-      const data = await ctx.prisma.property.findMany({ where });
+      console.log(where);
+      const data = await ctx.prisma.property.findMany({});
       console.log(filter, locationId);
       console.log(data.length);
+      console.log("fetch");
       return data.map(async (entry: Listing) => {
         const { city, country } = await ctx.prisma.location.findUnique({
           where: { id: entry.locationId },

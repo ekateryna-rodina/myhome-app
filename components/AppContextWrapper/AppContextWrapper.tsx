@@ -10,7 +10,7 @@ import { PropertyFor, PropertyType } from "../../src/utils/enums";
 import { Filter, Listing, Location } from "../../src/utils/types";
 type ContextPropsType = {
   locations: Location[];
-  properties: Listing[];
+  properties: Listing[] | null;
   isFilterOpen: boolean;
   loading: boolean;
   filter: Filter;
@@ -36,10 +36,11 @@ const initialFilter: Filter = {
   bathrooms: [FILTER_BATHROOM],
   additional: FILTER_ADDITIONAL_DEFAULT,
   for: PropertyFor.RENT,
+  mapCoordinates: { minLat: 0, maxLat: 0, minLng: 0, maxLng: 0 },
 };
 const initialState: ContextPropsType = {
   locations: [],
-  properties: [],
+  properties: null,
   isFilterOpen: false,
   loading: false,
   filter: initialFilter,
@@ -63,7 +64,7 @@ const AppContextWrapper: React.FC<AppContextProviderProps> = ({
   const [locations, setLocations] = useState<Location[]>(
     injectedLocations || []
   );
-  const [properties, setProperties] = useState<Listing[]>([]);
+  const [properties, setProperties] = useState<Listing[] | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [filter, setFilter] = useState<Filter>(initialFilter);
   const [selectedLocationId, setSelectedLocationId] = useState<number>(0);
