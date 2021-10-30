@@ -54,7 +54,7 @@ const Map = () => {
     mapRef.current = map;
     setMap(map);
   }, []);
-  const { properties } = useContext(AppContext);
+  const { properties, filter, handleFilter } = useContext(AppContext);
   const loadBounds = function () {
     if (!mapRef.current || !properties?.length) return;
     const bounds = new window.google.maps.LatLngBounds();
@@ -71,22 +71,8 @@ const Map = () => {
     (mapRef.current as any).fitBounds(bounds);
   };
   useEffect(() => {
-    // console.log("here");
-    // console.log(mapRef.current);
-    // if (!mapRef.current) return;
-    // const bounds = new window.google.maps.LatLngBounds();
-    // console.log(properties);
-    // if (properties?.length) {
-    //   let markers = properties.map(
-    //     (p) =>
-    //       new window.google.maps.LatLng(parseFloat(p.lat), parseFloat(p.long))
-    //   );
-    //   for (let i = 0; i < markers.length; i++) {
-    //     bounds.extend(markers[i]);
-    //   }
-    // }
-    // (mapRef.current as any).fitBounds(bounds);
     loadBounds();
+    console.log("we don");
   }, [properties, map]);
   const [boundaries, setBoundaries] = useState<{
     minLat: number;
@@ -99,6 +85,13 @@ const Map = () => {
     index: number;
     data: any;
   } | null>(null);
+  useEffect(() => {
+    if (!boundaries) return;
+    handleFilter({ ...filter, mapCoordinates: boundaries });
+  }, [boundaries]);
+  useEffect(() => {
+    console.log(filter.mapCoordinates);
+  }, [filter.mapCoordinates]);
   const setBoundariesForProperties = () => {
     if (!mapRef.current) return;
     const bounds = (mapRef.current as any).getBounds();

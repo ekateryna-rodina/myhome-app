@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   FILTER_ADDITIONAL_DEFAULT,
   FILTER_BATHROOM,
@@ -80,9 +80,9 @@ const AppContextWrapper: React.FC<AppContextProviderProps> = ({
   const handleLoading = (show: boolean) => {
     setLoading(show);
   };
-  const handleFilter = (filter: Filter) => {
+  const handleFilter = useCallback((filter: Filter) => {
     setFilter(filter);
-  };
+  }, []);
   const handleSelectedLocationId = (locationId: number) => {
     setSelectedLocationId(locationId);
   };
