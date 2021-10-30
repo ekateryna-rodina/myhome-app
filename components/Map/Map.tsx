@@ -1,3 +1,4 @@
+import { useLazyQuery } from "@apollo/client";
 import {
   GoogleMap,
   InfoWindow,
@@ -13,6 +14,7 @@ import React, {
   useRef,
   useState,
 } from "react";
+import { GET_PROPERTIES_QUERY } from "src/utils/constants";
 import { respondTo } from "src/utils/_respondTo";
 import styled from "styled-components";
 const MapContainer = styled.div`
@@ -70,6 +72,8 @@ const Map = () => {
     }
     (mapRef.current as any).fitBounds(bounds);
   };
+  const [getPropertiesByCoordinates, { loading, data, error }] =
+    useLazyQuery(GET_PROPERTIES_QUERY);
   useEffect(() => {
     loadBounds();
     console.log("we don");
@@ -91,6 +95,17 @@ const Map = () => {
   }, [boundaries]);
   useEffect(() => {
     console.log(filter.mapCoordinates);
+    // load new properties
+    const newFilter = JSON.stringify({
+      ...filter,
+      mapCoordinates: filter.mapCoordinates,
+    });
+    getPropertiesByCoordinates({
+      variables: {
+        locationId: 0,
+        filter: newFilter,
+      },
+    });
   }, [filter.mapCoordinates]);
   const setBoundariesForProperties = () => {
     if (!mapRef.current) return;

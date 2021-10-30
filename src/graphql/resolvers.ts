@@ -23,6 +23,7 @@ interface WhereFilter {
   isWithFireplace: {};
   lat: {};
   long: {};
+  AND: {};
 }
 
 const getRoomsNumber = (original: number[]) => {
@@ -207,14 +208,16 @@ const composeWhere = (locationId: number, filterQuery: string) => {
   console.log("here");
   const { minLat, maxLat, minLng, maxLng } = filter.mapCoordinates;
   if (minLng || maxLng || minLat || maxLat) {
-    console.log("set latt");
-    // whereFilter["lat"] = {
-    //   gte: minLat,
-    //   lte: maxLat,
-    // };
+    console.log(`set latt to ${minLng}`);
+    whereFilter["AND"] = [
+      { lat: { gte: minLat } },
+      { lat: { lte: maxLat } },
+      { long: { gte: minLng } },
+      { long: { lte: maxLng } },
+    ];
     // whereFilter["long"] = {
-    //   gte: minLng,
-    //   lte: maxLng,
+    //   AND: {long: {}} [gte: minLng,
+    //     lte: maxLng,]
     // };
   }
 
@@ -223,14 +226,20 @@ const composeWhere = (locationId: number, filterQuery: string) => {
 export const resolvers = {
   RootQuery: {
     properties: async (_parent: any, { locationId, filter }: any, ctx: any) => {
-      // console.log(coordinates);
-      console.log(filter);
       const where = composeWhere(locationId, filter);
-      console.log(where);
-      const data = await ctx.prisma.property.findMany({});
-      console.log(filter, locationId);
-      console.log(data.length);
-      console.log("fetch");
+
+      const data = await ctx.prisma.property.findMany({
+        where: {
+          AND: [
+            // { price: { gte: 1000 } },
+            // { price: { lte: 2000 } },
+            // { lat: { gte: (40.324254528849266).toString() } },
+            // { lat: { lte: (42.01048546398658).toString() } },
+            // { long: { gte: -(74.41453335320331).toString() } },
+            // { long: { lte: -(71.83975431954242).toString() } },
+          ],
+        },
+      });
       return data.map(async (entry: Listing) => {
         const { city, country } = await ctx.prisma.location.findUnique({
           where: { id: entry.locationId },
