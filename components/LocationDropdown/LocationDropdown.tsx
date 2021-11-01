@@ -122,7 +122,6 @@ const LocationDropdown = () => {
     setState({ ...state, value });
   };
   const searchLocationsHandler = () => {
-    console.log("from search");
     getPropertiesByLocation({
       variables: { locationId: Number(state.activeOption) },
     });

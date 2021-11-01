@@ -222,7 +222,7 @@ const composeWhere = (locationId: number, filterQuery: string) => {
     //     lte: maxLng,]
     // };
   }
-  console.log(queryList);
+
   return { AND: queryList };
 };
 export const resolvers = {
@@ -232,7 +232,7 @@ export const resolvers = {
       const data = await ctx.prisma.property.findMany({
         where,
       });
-      console.log(data.length);
+
       return data.map(async (entry: Listing) => {
         const { city, country } = await ctx.prisma.location.findUnique({
           where: { id: entry.locationId },

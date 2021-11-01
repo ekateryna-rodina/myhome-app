@@ -51,7 +51,6 @@ const COMPOSITE_QUERY = gql`
   }
 `;
 const Home: NextPage<{ initialApolloState: any }> = (props) => {
-  console.log("from index");
   const key: string = process.env.NEXT_PUBLIC_GMAP_KEY || "";
   const data = props.initialApolloState;
   const locations = data.ROOT_QUERY.locations.map(
@@ -63,7 +62,6 @@ const Home: NextPage<{ initialApolloState: any }> = (props) => {
 
   const { handleLocations, handleProperties } = useContext(AppContext);
   useEffect(() => {
-    console.log("handle againf");
     handleLocations(
       locations.map((location: Location) => {
         return { ...location, __typename: "" };
