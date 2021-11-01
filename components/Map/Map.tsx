@@ -92,6 +92,8 @@ const Map = () => {
     handleFilter({ ...filter, mapCoordinates: boundaries });
   }, [boundaries]);
   useEffect(() => {
+    console.log(filter.mapCoordinates);
+    if (Object.values(filter.mapCoordinates).every((c) => !c)) return;
     // load new properties
     const newFilter = JSON.stringify({
       ...filter,
@@ -107,15 +109,17 @@ const Map = () => {
   useEffect(() => {
     if (error) console.log(error);
     handleLoading(loading);
-    if (!data?.properties) return;
-    handleProperties(data.properties);
   }, [data, error, loading]);
+  useEffect(() => {
+    if (!data?.properties) return;
+    console.log("data");
+    handleProperties(data.properties);
+  }, [data]);
   const setBoundariesForProperties = () => {
     if (!mapRef.current) return;
     const bounds = (mapRef.current as any).getBounds();
 
     if (!bounds) return;
-    console.log("center changed");
     const { Pa, yb } = bounds;
     const [minLng, maxLng] = [
       +Pa["g"] + markerBoundariesOffset(Pa["h"] - Pa["g"]),
@@ -130,6 +134,7 @@ const Map = () => {
     });
   };
   const onDragEndHandler = () => {
+    console.log("here");
     setBoundariesForProperties();
   };
   if (loadError) return <div>{loadError}</div>;
