@@ -71,3 +71,28 @@ export type Coordinates = {
   lat: number;
   lng: number;
 };
+
+export interface WhereFilter {
+  locationId: number;
+  type?: {};
+  price?: {};
+  size?: {};
+  beds?: {};
+  baths?: {};
+  for: {};
+  isPetsFriendly: {};
+  isFurnished: {};
+  isParkingAccessible: {};
+  isWithKitchen: {};
+  isWithAirCondition: {};
+  isWithLaundry: {};
+  isWithBabyBed: {};
+  isNearbyBeach: {};
+  isWithOfficeZone: {};
+  isWithSmokingZone: {};
+  isWithWiFi: {};
+  isWithBreakfast: {};
+  isWithFireplace: {};
+  lat: {};
+  long: {};
+}
