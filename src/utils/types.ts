@@ -47,8 +47,8 @@ export type Listing = {
   photo: string;
   for: string;
   additional: AdditionalFilterMap;
-  lat: string;
-  long: string;
+  lat: number;
+  long: number;
 };
 
 export interface Filter {

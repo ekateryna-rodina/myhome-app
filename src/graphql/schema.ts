@@ -11,8 +11,8 @@ export const typeDefs = gql`
     for: String!
     location: Location!
     locationId: Int!
-    lat: String
-    long: String
+    lat: Float!
+    long: Float!
   }
   type Location {
     id: ID

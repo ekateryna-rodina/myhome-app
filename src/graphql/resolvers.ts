@@ -130,12 +130,14 @@ const getRoomsNumber = (original: number[]) => {
 //   return whereFilter;
 // };
 const composeWhere = (locationId: number, filterQuery: string) => {
-  const whereFilter: Partial<WhereFilter> = {
-    // beds: { in: [2] },
-    // baths: { in: [1] },
-  };
-  // if (locationId) whereFilter["locationId"] = locationId;
-  if (!filterQuery) return whereFilter;
+  const queryList = [];
+  if (locationId) {
+    queryList.push({ locationId: { equals: locationId } });
+  }
+  if (!filterQuery)
+    return {
+      AND: queryList,
+    };
   const filter: Filter = JSON.parse(filterQuery);
   // // PROPERTY TYPES
   // const propertyTypeValues = Object.values(filter.propertyTypes);
@@ -205,41 +207,32 @@ const composeWhere = (locationId: number, filterQuery: string) => {
   // };
 
   // MAP COORDINATES
-  console.log("here");
   const { minLat, maxLat, minLng, maxLng } = filter.mapCoordinates;
   if (minLng || maxLng || minLat || maxLat) {
-    console.log(`set latt to ${minLng}`);
-    whereFilter["AND"] = [
-      { lat: { gte: minLat } },
-      { lat: { lte: maxLat } },
-      { long: { gte: minLng } },
-      { long: { lte: maxLng } },
-    ];
+    queryList.push(
+      ...[
+        { lat: { gte: minLat } },
+        { lat: { lte: maxLat } },
+        { long: { gte: minLng } },
+        { long: { lte: maxLng } },
+      ]
+    );
     // whereFilter["long"] = {
     //   AND: {long: {}} [gte: minLng,
     //     lte: maxLng,]
     // };
   }
-
-  return whereFilter;
+  console.log(queryList);
+  return { AND: queryList };
 };
 export const resolvers = {
   RootQuery: {
     properties: async (_parent: any, { locationId, filter }: any, ctx: any) => {
       const where = composeWhere(locationId, filter);
-
       const data = await ctx.prisma.property.findMany({
-        where: {
-          AND: [
-            // { price: { gte: 1000 } },
-            // { price: { lte: 2000 } },
-            // { lat: { gte: (40.324254528849266).toString() } },
-            // { lat: { lte: (42.01048546398658).toString() } },
-            // { long: { gte: -(74.41453335320331).toString() } },
-            // { long: { lte: -(71.83975431954242).toString() } },
-          ],
-        },
+        where,
       });
+      console.log(data.length);
       return data.map(async (entry: Listing) => {
         const { city, country } = await ctx.prisma.location.findUnique({
           where: { id: entry.locationId },

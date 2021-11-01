@@ -3,7 +3,7 @@ import {
   GoogleMap,
   InfoWindow,
   Marker,
-  useJsApiLoader,
+  useJsApiLoader
 } from "@react-google-maps/api";
 import { AppContext } from "components/AppContextWrapper/AppContextWrapper";
 import { InfoWindowContent } from "components/InfoWindowContent";
@@ -12,7 +12,7 @@ import React, {
   useContext,
   useEffect,
   useRef,
-  useState,
+  useState
 } from "react";
 import { GET_PROPERTIES_QUERY } from "src/utils/constants";
 import { respondTo } from "src/utils/_respondTo";
@@ -56,15 +56,14 @@ const Map = () => {
     mapRef.current = map;
     setMap(map);
   }, []);
-  const { properties, filter, handleFilter } = useContext(AppContext);
+  const { properties, filter, handleFilter, handleLoading, handleProperties } =
+    useContext(AppContext);
   const loadBounds = function () {
     if (!mapRef.current || !properties?.length) return;
     const bounds = new window.google.maps.LatLngBounds();
-    console.log(properties);
     if (properties?.length) {
       let markers = properties.map(
-        (p) =>
-          new window.google.maps.LatLng(parseFloat(p.lat), parseFloat(p.long))
+        (p) => new window.google.maps.LatLng(p.lat, p.long)
       );
       for (let i = 0; i < markers.length; i++) {
         bounds.extend(markers[i]);
@@ -91,6 +90,7 @@ const Map = () => {
   } | null>(null);
   useEffect(() => {
     if (!boundaries) return;
+    console.log("handle filter");
     handleFilter({ ...filter, mapCoordinates: boundaries });
   }, [boundaries]);
   useEffect(() => {
@@ -100,6 +100,7 @@ const Map = () => {
       ...filter,
       mapCoordinates: filter.mapCoordinates,
     });
+    console.log("handle properties");
     getPropertiesByCoordinates({
       variables: {
         locationId: 0,
@@ -107,6 +108,12 @@ const Map = () => {
       },
     });
   }, [filter.mapCoordinates]);
+  useEffect(() => {
+    if (error) console.log(error);
+    handleLoading(loading);
+    if(!data?.properties) return;
+    handleProperties(data.properties);
+  }, [data, error, loading]);
   const setBoundariesForProperties = () => {
     if (!mapRef.current) return;
     const bounds = (mapRef.current as any).getBounds();

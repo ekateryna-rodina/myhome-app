@@ -29,14 +29,16 @@ const ListingsContainer = styled.div`
 
 const Listings = () => {
   const { properties, loading } = useContext(AppContext);
-  if (loading) return <div>Loading</div>;
   return (
     <>
       <ListingsContainer>
-        {properties &&
+        {properties && !loading ? (
           properties.map((item: any, index: any) => (
             <ListingItem key={index} {...item} />
-          ))}
+          ))
+        ) : (
+          <div>Loading</div>
+        )}
       </ListingsContainer>
     </>
   );
