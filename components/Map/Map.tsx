@@ -56,8 +56,14 @@ const Map = () => {
     mapRef.current = map;
     setMap(map);
   }, []);
-  const { properties, filter, handleFilter, handleLoading, handleProperties } =
-    useContext(AppContext);
+  const {
+    properties,
+    filter,
+    handleFilter,
+    handleLoading,
+    handleProperties,
+    focusItemListId,
+  } = useContext(AppContext);
   const loadBounds = function () {
     if (!mapRef.current || !properties?.length) return;
     const bounds = new window.google.maps.LatLngBounds();
@@ -67,9 +73,9 @@ const Map = () => {
       );
       for (let i = 0; i < markers.length; i++) {
         bounds.extend(markers[i]);
+        (mapRef.current as any).fitBounds(bounds);
       }
     }
-    (mapRef.current as any).fitBounds(bounds);
   };
   const [getPropertiesByCoordinates, { loading, data, error }] =
     useLazyQuery(GET_PROPERTIES_QUERY);
@@ -109,10 +115,9 @@ const Map = () => {
   useEffect(() => {
     if (error) console.log(error);
     handleLoading(loading);
-  }, [data, error, loading]);
+  }, [error, loading]);
   useEffect(() => {
     if (!data?.properties) return;
-    console.log("data");
     handleProperties(data.properties);
   }, [data]);
   const setBoundariesForProperties = () => {
@@ -157,7 +162,10 @@ const Map = () => {
                 position={new google.maps.LatLng(+prop.lat, +prop.long)}
                 icon={{
                   url: "https://res.cloudinary.com/kariecloud/image/upload/v1635431425/home_xbygk3.png",
-                  scaledSize: new window.google.maps.Size(30, 30),
+                  scaledSize: new window.google.maps.Size(
+                    focusItemListId === prop.id ? 30 : 45,
+                    focusItemListId === prop.id ? 30 : 45
+                  ),
                   origin: new window.google.maps.Point(0, 0),
                   anchor: new window.google.maps.Point(32, 65),
                 }}

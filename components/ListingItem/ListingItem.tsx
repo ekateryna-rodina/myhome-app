@@ -1,9 +1,9 @@
 import Image from "next/image";
 import React from "react";
-import { respondTo } from "src/utils/_respondTo";
 import styled, { useTheme } from "styled-components";
-import { Icons } from "../src/utils/enums";
-import Icon from "./Icon.style";
+import { Icons } from "../../src/utils/enums";
+import { respondTo } from "../../src/utils/_respondTo";
+import Icon from "../Icon.style";
 const ListingItemContainer = styled.div`
   width: 16rem;
   height: 20rem;
@@ -94,12 +94,9 @@ const Price = styled.div`
   }
 `;
 interface ListingItemProps {
-  city: string;
-  country: string;
-  superHost: boolean;
+  id: number;
+  superHost?: boolean;
   title: string;
-  rating: number;
-  maxGuests: number;
   type: string;
   beds: number;
   baths: number;
@@ -108,11 +105,10 @@ interface ListingItemProps {
 }
 const ListingItem = (props: ListingItemProps) => {
   const {
+    id,
     location: { city, country },
     superHost,
     title,
-    rating,
-    maxGuests,
     type,
     baths,
     beds,
@@ -120,7 +116,7 @@ const ListingItem = (props: ListingItemProps) => {
   } = props;
   const theme = useTheme();
   return (
-    <ListingItemContainer>
+    <ListingItemContainer data-testid={`listItemIdTestId_${id}`}>
       <ImageContainer>
         {photo && (
           <Image src={photo} alt="" layout="fill" objectFit="cover"></Image>

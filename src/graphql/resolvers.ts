@@ -1,4 +1,4 @@
-import { composeWhere } from "src/utils/helpers";
+import { composeWhere } from "../../src/utils/helpers";
 import { Listing } from "../../src/utils/types";
 
 export const resolvers = {

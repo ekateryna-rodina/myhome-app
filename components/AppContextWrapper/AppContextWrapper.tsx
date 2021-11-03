@@ -15,12 +15,14 @@ type ContextPropsType = {
   loading: boolean;
   filter: Filter;
   selectedLocationId: number;
+  focusItemListId: number | null;
   handleFilter: (filter: Filter) => void;
   handleLoading: (value: boolean) => void;
   handleLocations: (locations: Location[]) => void;
   handleIsFilterOpen: (value: boolean) => void;
   handleProperties: (properties: Listing[]) => void;
   handleSelectedLocationId: (locationId: number) => void;
+  handleFocusItemListId: (id: number) => void;
 };
 
 const initialFilter: Filter = {
@@ -45,6 +47,7 @@ const initialState: ContextPropsType = {
   loading: false,
   filter: initialFilter,
   selectedLocationId: 0,
+  focusItemListId: null,
   handleFilter: (filter: Filter) => {
     return initialFilter;
   },
@@ -53,6 +56,7 @@ const initialState: ContextPropsType = {
   handleLocations: (locations: Location[]) => {},
   handleProperties: (properties: Listing[]) => {},
   handleSelectedLocationId: (id: number) => {},
+  handleFocusItemListId: (id: number) => {},
 };
 export const AppContext = React.createContext(initialState);
 type AppContextProviderProps = { locations: Location[] };
@@ -67,6 +71,7 @@ const AppContextWrapper: React.FC<AppContextProviderProps> = ({
   const [properties, setProperties] = useState<Listing[] | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [filter, setFilter] = useState<Filter>(initialFilter);
+  const [focusItemListId, setFocusItemListId] = useState<number | null>(null);
   const [selectedLocationId, setSelectedLocationId] = useState<number>(0);
   const handleLocations = (locations: Location[]) => {
     setLocations(locations);
@@ -86,6 +91,9 @@ const AppContextWrapper: React.FC<AppContextProviderProps> = ({
   const handleSelectedLocationId = (locationId: number) => {
     setSelectedLocationId(locationId);
   };
+  const handleFocusItemListId = (id: number) => {
+    setFocusItemListId(id);
+  };
   const contextProps = {
     selectedLocationId,
     handleSelectedLocationId,
@@ -99,6 +107,8 @@ const AppContextWrapper: React.FC<AppContextProviderProps> = ({
     handleLoading,
     filter,
     handleFilter,
+    focusItemListId,
+    handleFocusItemListId,
   };
   return (
     <AppContext.Provider value={contextProps}>{children}</AppContext.Provider>
