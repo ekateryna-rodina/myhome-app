@@ -26,6 +26,7 @@ const Option = styled.div`
 
 const Label = styled.label<{ isSelected: boolean }>`
   cursor: pointer;
+  font-weight: ${({ isSelected }) => (isSelected ? "600" : "400")};
   color: ${({ theme, isSelected }) => (isSelected ? theme.white : theme.dark)};
 `;
 const Input = styled.input`
