@@ -13,12 +13,41 @@ import {
   MIN_FILTER_SIZE,
 } from "src/utils/constants";
 import { respondTo } from "src/utils/_respondTo";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { Unit } from "../../src/utils/enums";
+
+const rollOut = (orientation: "X" | "Y") => keyframes`
+0%{
+  opacity: 0;
+  transform: translate${orientation}(-60rem);
+}
+1%{
+  opacity: 1;
+}
+100%{
+  transform: translate${orientation}(0);
+}
+`;
+const rollIn = (initial: boolean, orientation: "X" | "Y") => keyframes`
+0%{
+  opacity: ${initial ? "0" : "1"};
+  transform: ${
+    initial ? `translate${orientation}(-60rem)` : `translate${orientation}(0)`
+  }; 
+}
+99%{
+  transform: translate${orientation}(-60rem);
+  opacity: ${initial ? "0" : "1"};
+}
+100%{
+  opacity: 0;
+}
+`;
 const Container = styled.div<{
-  isOpen: boolean;
+  isOpen: boolean | null;
   isInitialialized: boolean;
 }>`
+  pointer-events: ${({ isOpen }) => (isOpen ? "auto" : "none")};
   height: 100%;
   position: absolute;
   top: 0;
@@ -28,28 +57,25 @@ const Container = styled.div<{
   z-index: 5000;
   background: #fff;
   overflow-y: auto;
-  transition: 0.5s ease-out;
+  opacity: ${({ isOpen }) => (isOpen ? "1" : "0")};
+  animation-name: ${({ isOpen, isInitialialized }) =>
+    isOpen ? rollOut("Y") : rollIn(!isInitialialized, "Y")};
+  animation-fill-mode: forwards;
+  animation-duration: 0.5s;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
   padding: 0 1rem;
-  transform: ${({ isOpen }) =>
-    isOpen ? `translateX(0);` : `translateX(-60rem);`};
-  transform: translateX(0);
-  ${respondTo.tablet`
-    max-width: 15rem;
-    border-right: ${(props: any) => `1px solid ${props.theme.light}`}
-    right: 72%;
-    `}
+
   ${respondTo.laptopAndDesktop`
         max-width: 15rem;
         border-right: ${(props: any) => `1px solid ${props.theme.light}`}
         right: 72%;
+        padding: 0 2rem;
+        animation-name: ${({ isOpen, isInitialialized }: any) =>
+          isOpen ? rollOut("X") : rollIn(!isInitialialized, "X")};
         `}
-    ${respondTo.laptopAndDesktop`
-    padding: 0 2rem;
-    `}
 `;
 const Title = styled.span<{
   pushRight?: boolean;
@@ -117,8 +143,10 @@ const Filters = () => {
     useContext(AppContext);
   const [getFilteredProperties, { loading, data, error }] =
     useLazyQuery(GET_PROPERTIES_QUERY);
+
   useEffect(() => {
     setIsInitialized(true);
+    console.log("init");
   }, []);
   useEffect(() => {
     if (data == undefined) return;
@@ -225,7 +253,7 @@ const Filters = () => {
   const { isFilterOpen } = useContext(AppContext);
 
   return (
-    <Container isOpen={isFilterOpen} isInitialialized={isInitialialized}>
+    <Container isOpen={isFilterOpen} isInitialialized={isFilterOpen !== null}>
       <Title>Category</Title>
       <Categories>
         {Object.keys(filter.propertyTypes).map((category) => (

@@ -11,7 +11,7 @@ import { Filter, Listing, Location } from "../../src/utils/types";
 type ContextPropsType = {
   locations: Location[];
   properties: Listing[] | null;
-  isFilterOpen: boolean;
+  isFilterOpen: boolean | null;
   loading: boolean;
   filter: Filter;
   selectedLocationId: number;
@@ -64,7 +64,7 @@ const AppContextWrapper: React.FC<AppContextProviderProps> = ({
   children,
   locations: injectedLocations,
 }) => {
-  const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
+  const [isFilterOpen, setIsFilterOpen] = useState<boolean | null>(null);
   const [locations, setLocations] = useState<Location[]>(
     injectedLocations || []
   );
