@@ -18,11 +18,12 @@ const Container = styled.div`
   justify-content: space-between;
   align-items: center;
   padding-right: 0.3rem;
+  margin-left: 1rem;
   ${respondTo.tablet`
   
   `}
   ${respondTo.laptopAndDesktop`
-  margin-left: 1rem;
+  
   `}
 `;
 const LocationInput = styled.input`
