@@ -1,8 +1,8 @@
+import { DropDownSearch } from "components/DropDownSearch";
 import React, { useContext } from "react";
 import styled from "styled-components";
 import { Icons } from "../../src/utils/enums";
 import { AppContext } from "../AppContextWrapper/AppContextWrapper";
-import DropDownSearch from "../DropDownSearch/DropDownSearch";
 import HeaderButton from "../HeaderButton.style";
 
 const SearchContainer = styled.div`
@@ -16,9 +16,9 @@ const SearchContainer = styled.div`
 const FilterButtonContainer = styled.div`
   margin-left: 0.35rem;
 `;
+
 const Search = () => {
   const { isFilterOpen, handleIsFilterOpen } = useContext(AppContext);
-
   return (
     <SearchContainer data-testid="searchTestId">
       <DropDownSearch />

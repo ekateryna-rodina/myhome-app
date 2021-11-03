@@ -1,25 +1,25 @@
 import { useLazyQuery } from "@apollo/client";
+import HeaderButton from "components/HeaderButton.style";
+import Icon from "components/Icon.style";
+import { theme } from "pages/_app";
 import React, { useContext, useEffect, useState } from "react";
+import { Icons } from "src/utils/enums";
 import styled from "styled-components";
-import HeaderButton from "../../components/HeaderButton.style";
 import { GET_PROPERTIES_QUERY } from "../../src/utils/constants";
-import { Icons } from "../../src/utils/enums";
 import useAutocomplete from "../../src/utils/hooks/useAutocomplete";
 import { Location } from "../../src/utils/types";
 import { respondTo } from "../../src/utils/_respondTo";
 import { AppContext } from "../AppContextWrapper/AppContextWrapper";
 
 const Container = styled.div`
-  position: relative;
   flex: 4;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   padding-right: 0.3rem;
-  margin-left: 0;
   ${respondTo.tablet`
-  margin-left: 1rem;
+  
   `}
   ${respondTo.laptopAndDesktop`
   margin-left: 1rem;
@@ -36,18 +36,11 @@ const LocationInput = styled.input`
 
 const MarkerIcon = styled.div`
   color: ${(props) => props.theme.gray};
-  margin-right: 0.3rem;
   :after {
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
     content: "\f3c5";
   }
-`;
-const SearchButtonContainer = styled.div`
-  position: absolute;
-  top: 50%;
-  right: 0.35rem;
-  transform: translateY(-50%);
 `;
 
 const LocationsOptionsContainer = styled.div<{ show: boolean }>`
@@ -61,10 +54,23 @@ const LocationsOptionsContainer = styled.div<{ show: boolean }>`
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3);
   opacity: ${({ show }) => (show ? "1" : "0")};
 `;
+const SearchButtonContainer = styled.div`
+  position: absolute;
+  top: 50%;
+  right: 0.35rem;
+  transform: translateY(-50%);
+`;
 
 const OptionsList = styled.ul`
   list-style: none;
   padding: 0;
+`;
+
+const IconContainer = styled.div`
+  margin-right: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const LocationDropdown = () => {
@@ -126,9 +132,20 @@ const LocationDropdown = () => {
       variables: { locationId: Number(state.activeOption) },
     });
   };
+  const onCloseIconHandler = () => {
+    if (!state.value) return;
+    clearInput();
+  };
   return (
     <Container data-testid="locationDropdownTestId">
-      <MarkerIcon />
+      <IconContainer onClick={onCloseIconHandler}>
+        {!state.value ? (
+          <MarkerIcon />
+        ) : (
+          <Icon iconType={Icons.Close} color={theme.secondaryText} />
+        )}
+      </IconContainer>
+
       <LocationInput
         value={state.value}
         placeholder="Where should I search?"
@@ -136,9 +153,7 @@ const LocationDropdown = () => {
         onKeyDown={onKeyDownHandler}
         data-testid="locationInputTestId"
       />
-      <SearchButtonContainer>
-        <HeaderButton icon={Icons.Glass} handler={searchLocationsHandler} />
-      </SearchButtonContainer>
+
       <LocationsOptionsContainer
         data-testid="locationsOptionsContainerTestId"
         show={filteredOptions.length > 0}
@@ -155,6 +170,9 @@ const LocationDropdown = () => {
           )}
         </OptionsList>
       </LocationsOptionsContainer>
+      <SearchButtonContainer>
+        <HeaderButton icon={Icons.Glass} handler={searchLocationsHandler} />
+      </SearchButtonContainer>
     </Container>
   );
 };

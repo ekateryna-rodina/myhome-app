@@ -3,6 +3,7 @@ import styled from "styled-components";
 import BedIcon from "../assets/bed.svg";
 import NotificationIcon from "../assets/bell.svg";
 import ApartmentIcon from "../assets/building.svg";
+import CloseIcon from "../assets/close.svg";
 import MessageIcon from "../assets/email.svg";
 import VisiteIcon from "../assets/enter.svg";
 import FavouriteIcon from "../assets/favourite.svg";
@@ -38,6 +39,7 @@ const iconTypes: Record<Icons, any> = {
   [Icons.Size]: SizeIcon,
   [Icons.Favourite]: FavouriteIcon,
   [Icons.Visit]: VisiteIcon,
+  [Icons.Close]: CloseIcon,
 };
 
 const Icon = (props: IconProps) => {
