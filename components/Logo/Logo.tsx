@@ -10,7 +10,7 @@ const LogoHeader = styled.div`
   font-weight: 700;
   position: relative;
   color: ${(props) => props.theme.dark};
-  min-width: 6rem;
+  min-width: 4rem;
   ${respondTo.mobileL`
   display: block;
 `}

@@ -31,6 +31,7 @@ export const theme = {
   gray: "#979f9e",
   dark: "#063970",
   light: "#eeeee4",
+  white: "#fff",
   lightenDark: lighten(0.2, "#063970"),
   lightenPrimary: lighten(0.1, "#1e81b0"),
   lightenSecondary: lighten(0.1, "#e28743"),
