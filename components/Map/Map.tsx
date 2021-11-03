@@ -143,7 +143,11 @@ const Map = () => {
     });
   };
   const onDragEndHandler = () => {
-    console.log("here");
+    console.log("center chanded");
+    setBoundariesForProperties();
+  };
+  const onZoomChangedHandler = () => {
+    console.log("zoom changed");
     setBoundariesForProperties();
   };
   if (loadError) return <div>{loadError}</div>;
@@ -159,7 +163,7 @@ const Map = () => {
             onLoad={onMapLoad}
             options={options}
             onDragEnd={onDragEndHandler}
-            onZoomChanged={() => {}}
+            onZoomChanged={onZoomChangedHandler}
           >
             {properties.map((prop, index) => (
               <Marker
@@ -175,15 +179,6 @@ const Map = () => {
                   scale: 1,
                   anchor: new window.google.maps.Point(15, 30),
                 }}
-                // icon={{
-                //   url: "https://res.cloudinary.com/kariecloud/image/upload/v1635431425/home_xbygk3.png",
-                //   scaledSize: new window.google.maps.Size(
-                //     focusItemListId === prop.id ? 30 : 45,
-                //     focusItemListId === prop.id ? 30 : 45
-                //   ),
-                //   origin: new window.google.maps.Point(0, 0),
-                //   anchor: new window.google.maps.Point(32, 65),
-                // }}
                 onClick={(e) => setShowInfoWindow({ index, data: prop })}
               >
                 {showInfoWindow?.index == index && (

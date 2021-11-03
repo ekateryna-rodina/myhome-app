@@ -117,13 +117,17 @@ const ListingItem = (props: ListingItemProps) => {
   } = props;
   const theme = useTheme();
   const { handleFocusItemListId } = useContext(AppContext);
-  const onFocusHandler = () => {
+  const onHoverHandler = () => {
     handleFocusItemListId(id);
+  };
+  const onUnhoverHandler = () => {
+    handleFocusItemListId(0);
   };
   return (
     <ListingItemContainer
       data-testid={`listItemIdTestId_${id}`}
-      onMouseEnter={onFocusHandler}
+      onMouseEnter={onHoverHandler}
+      onMouseLeave={onUnhoverHandler}
     >
       <ImageContainer>
         {photo && (
