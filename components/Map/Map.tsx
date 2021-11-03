@@ -7,6 +7,7 @@ import {
 } from "@react-google-maps/api";
 import { AppContext } from "components/AppContextWrapper/AppContextWrapper";
 import { InfoWindowContent } from "components/InfoWindowContent";
+import { theme } from "pages/_app";
 import React, {
   useCallback,
   useContext,
@@ -94,6 +95,9 @@ const Map = () => {
     data: any;
   } | null>(null);
   useEffect(() => {
+    console.log(focusItemListId);
+  }, [focusItemListId]);
+  useEffect(() => {
     if (!boundaries) return;
     handleFilter({ ...filter, mapCoordinates: boundaries });
   }, [boundaries]);
@@ -143,6 +147,7 @@ const Map = () => {
     setBoundariesForProperties();
   };
   if (loadError) return <div>{loadError}</div>;
+
   return (
     <>
       <MapContainer>
@@ -161,14 +166,24 @@ const Map = () => {
                 key={prop.id}
                 position={new google.maps.LatLng(+prop.lat, +prop.long)}
                 icon={{
-                  url: "https://res.cloudinary.com/kariecloud/image/upload/v1635431425/home_xbygk3.png",
-                  scaledSize: new window.google.maps.Size(
-                    focusItemListId === prop.id ? 30 : 45,
-                    focusItemListId === prop.id ? 30 : 45
-                  ),
-                  origin: new window.google.maps.Point(0, 0),
-                  anchor: new window.google.maps.Point(32, 65),
+                  path: "M12.5,0A9.24,9.24,0,0,0,3,9.41c0,7.88,8.8,15.17,9.17,15.47a.5.5,0,0,0,.65,0C13.21,24.53,22,16.51,22,9.41A9.24,9.24,0,0,0,12.5,0Zm0,14A4.5,4.5,0,1,1,17,9.5,4.5,4.5,0,0,1,12.5,14Z",
+                  fillColor:
+                    focusItemListId === prop.id ? theme.secondary : theme.dark,
+                  fillOpacity: 1,
+                  strokeWeight: 0,
+                  rotation: 0,
+                  scale: 1,
+                  anchor: new window.google.maps.Point(15, 30),
                 }}
+                // icon={{
+                //   url: "https://res.cloudinary.com/kariecloud/image/upload/v1635431425/home_xbygk3.png",
+                //   scaledSize: new window.google.maps.Size(
+                //     focusItemListId === prop.id ? 30 : 45,
+                //     focusItemListId === prop.id ? 30 : 45
+                //   ),
+                //   origin: new window.google.maps.Point(0, 0),
+                //   anchor: new window.google.maps.Point(32, 65),
+                // }}
                 onClick={(e) => setShowInfoWindow({ index, data: prop })}
               >
                 {showInfoWindow?.index == index && (

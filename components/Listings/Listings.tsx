@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { respondTo } from "src/utils/_respondTo";
 import styled from "styled-components";
 import { AppContext } from "../AppContextWrapper/AppContextWrapper";
-import ListingItem from "../ListingItem";
+import { ListingItem } from "../ListingItem";
 // const ListingItem = dynamic(() => import("./ListingItem"), { ssr: false });
 
 const ListingsContainer = styled.div`

@@ -1,5 +1,6 @@
+import { AppContext } from "components/AppContextWrapper/AppContextWrapper";
 import Image from "next/image";
-import React from "react";
+import React, { useContext } from "react";
 import styled, { useTheme } from "styled-components";
 import { Icons } from "../../src/utils/enums";
 import { respondTo } from "../../src/utils/_respondTo";
@@ -115,8 +116,15 @@ const ListingItem = (props: ListingItemProps) => {
     photo,
   } = props;
   const theme = useTheme();
+  const { handleFocusItemListId } = useContext(AppContext);
+  const onFocusHandler = () => {
+    handleFocusItemListId(id);
+  };
   return (
-    <ListingItemContainer data-testid={`listItemIdTestId_${id}`}>
+    <ListingItemContainer
+      data-testid={`listItemIdTestId_${id}`}
+      onMouseEnter={onFocusHandler}
+    >
       <ImageContainer>
         {photo && (
           <Image src={photo} alt="" layout="fill" objectFit="cover"></Image>
