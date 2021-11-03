@@ -130,22 +130,25 @@ const Map = () => {
     const bounds = (mapRef.current as any).getBounds();
 
     if (!bounds) return;
-    const { Pa, yb } = bounds;
-    const [minLng, maxLng] = [
-      +Pa["g"] + markerBoundariesOffset(Pa["h"] - Pa["g"]),
-      +Pa["h"] - markerBoundariesOffset(Pa["h"] - Pa["g"]),
+    const northEast = bounds.getNorthEast();
+    const southWest = bounds.getSouthWest();
+    let [minLng, minLat, maxLng, maxLat] = [
+      southWest.lng(),
+      southWest.lat(),
+      northEast.lng(),
+      northEast.lat(),
     ];
-    const [minLat, maxLat] = [
-      +yb["g"] + markerBoundariesOffset(yb["h"] - yb["g"]),
-      +yb["h"] - markerBoundariesOffset(yb["h"] - yb["g"]),
-    ];
+    minLng = minLng + markerBoundariesOffset(maxLng - minLng);
+    maxLng = maxLng - markerBoundariesOffset(maxLng - minLng);
+    minLat = minLat + markerBoundariesOffset(maxLat - minLat);
+    maxLat = maxLat - markerBoundariesOffset(maxLat - minLat);
+
     setBoundaries((boundaries) => {
       return { minLng, maxLng, minLat, maxLat };
     });
     setInitialLoad(false);
   };
   const onDragEndHandler = () => {
-    // if (initialLoad) return;
     setBoundariesForProperties();
   };
   const onZoomChangedHandler = () => {
