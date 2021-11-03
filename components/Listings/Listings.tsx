@@ -1,9 +1,10 @@
+import dynamic from "next/dynamic";
 import React, { useContext } from "react";
 import { respondTo } from "src/utils/_respondTo";
 import styled from "styled-components";
 import { AppContext } from "../AppContextWrapper/AppContextWrapper";
-import { ListingItem } from "../ListingItem";
-// const ListingItem = dynamic(() => import("./ListingItem"), { ssr: false });
+// import { ListingItem } from "../ListingItem";
+const ListingItem = dynamic(() => import("../ListingItem/ListingItem"));
 
 const ListingsContainer = styled.div`
   margin-top: 40vh;
@@ -13,7 +14,7 @@ const ListingsContainer = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-start;
   gap: 1rem;
   z-index: 5;
   position: relative;
