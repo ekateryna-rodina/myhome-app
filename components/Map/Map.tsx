@@ -53,6 +53,7 @@ const Map = () => {
   });
   const mapRef = useRef();
   const [map, setMap] = useState<any>(null);
+  const [initialLoad, setInitialLoad] = useState<boolean>(true);
   const onMapLoad = useCallback(function callback(map) {
     mapRef.current = map;
     setMap(map);
@@ -141,13 +142,14 @@ const Map = () => {
     setBoundaries((boundaries) => {
       return { minLng, maxLng, minLat, maxLat };
     });
+    setInitialLoad(false);
   };
   const onDragEndHandler = () => {
-    console.log("center chanded");
+    // if (initialLoad) return;
     setBoundariesForProperties();
   };
   const onZoomChangedHandler = () => {
-    console.log("zoom changed");
+    if (initialLoad) return;
     setBoundariesForProperties();
   };
   if (loadError) return <div>{loadError}</div>;
