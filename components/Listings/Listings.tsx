@@ -3,8 +3,9 @@ import React, { useContext } from "react";
 import { respondTo } from "src/utils/_respondTo";
 import styled from "styled-components";
 import { AppContext } from "../AppContextWrapper/AppContextWrapper";
-// import { ListingItem } from "../ListingItem";
-const ListingItem = dynamic(() => import("../ListingItem/ListingItem"));
+const ListingItem = dynamic(() => import("../ListingItem/ListingItem"), {
+  loading: () => <p>...</p>,
+});
 
 const ListingsContainer = styled.div`
   margin-top: 40vh;
