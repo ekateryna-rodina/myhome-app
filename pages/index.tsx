@@ -1,5 +1,4 @@
 import { gql } from "@apollo/client";
-import { Filters } from "components/Filters";
 import { Listings } from "components/Listings";
 import { Map } from "components/Map";
 import type { NextPage } from "next";
@@ -76,7 +75,7 @@ const Home: NextPage<{ initialApolloState: any }> = (props) => {
     <>
       <Header data-testid="headerTestId" />
       <Main>
-        <Filters />
+        {/* <Filters /> */}
         <Listings />
         <Map />
         {/* <MobileMenu /> */}

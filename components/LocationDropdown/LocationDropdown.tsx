@@ -45,15 +45,19 @@ const MarkerIcon = styled.div`
 `;
 
 const LocationsOptionsContainer = styled.div<{ show: boolean }>`
+  opacity: ${({ show }) => (show ? "1" : "0")};
   position: absolute;
   left: 0;
   top: calc(100% + 0.6rem);
   width: 100%;
-  height: 10rem;
+  padding: 1rem 0 1rem 1rem;
   background: #fff;
   border-radius: 0.5rem;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3);
-  opacity: ${({ show }) => (show ? "1" : "0")};
+  box-sizing: border-box;
+  transition: all 100ms linear;
+  pointer-events: ${({ show }) => (show ? "auto" : "none")};
+  transform: ${({ show }) => (show ? "translateY(0)" : "translateY(-40px)")};
 `;
 const SearchButtonContainer = styled.div`
   position: absolute;
