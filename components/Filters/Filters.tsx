@@ -253,7 +253,10 @@ const Filters = () => {
   const { isFilterOpen } = useContext(AppContext);
 
   return (
-    <Container isOpen={isFilterOpen} isInitialialized={isFilterOpen !== null}>
+    <Container
+      isOpen={isFilterOpen}
+      isInitialialized={isFilterOpen !== null && isFilterOpen !== undefined}
+    >
       <Title>Category</Title>
       <Categories>
         {Object.keys(filter.propertyTypes).map((category) => (

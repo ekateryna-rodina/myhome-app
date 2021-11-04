@@ -77,6 +77,7 @@ const AppContextWrapper: React.FC<AppContextProviderProps> = ({
     setLocations(locations);
   };
   const handleIsFilterOpen = (open: boolean) => {
+    console.log("filter set");
     setIsFilterOpen(open);
   };
   const handleProperties = (listings: Listing[]) => {
