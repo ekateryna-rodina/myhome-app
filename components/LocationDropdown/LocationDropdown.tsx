@@ -8,7 +8,6 @@ import styled from "styled-components";
 import { GET_PROPERTIES_QUERY } from "../../src/utils/constants";
 import useAutocomplete from "../../src/utils/hooks/useAutocomplete";
 import { Location } from "../../src/utils/types";
-import { respondTo } from "../../src/utils/_respondTo";
 import { AppContext } from "../AppContextWrapper/AppContextWrapper";
 
 const Container = styled.div`
@@ -18,13 +17,7 @@ const Container = styled.div`
   justify-content: space-between;
   align-items: center;
   padding-right: 0.3rem;
-  margin-left: 1rem;
-  ${respondTo.tablet`
-  
-  `}
-  ${respondTo.laptopAndDesktop`
-  
-  `}
+  margin-left: 0.5rem;
 `;
 const LocationInput = styled.input`
   height: 90%;
@@ -72,7 +65,7 @@ const OptionsList = styled.ul`
 `;
 
 const IconContainer = styled.div`
-  margin-right: 1rem;
+  margin-right: 0.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
