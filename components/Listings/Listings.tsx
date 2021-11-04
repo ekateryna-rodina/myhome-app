@@ -9,7 +9,10 @@ const ListingItem = dynamic(() => import("../ListingItem/ListingItem"), {
   loading: () => <p>...</p>,
 });
 
-const ListingsContainer = styled.div<{ noResults: boolean }>`
+const ListingsContainer = styled.div<{
+  noResults: boolean;
+  isFilterOpen: boolean;
+}>`
   margin-top: 40vh;
   padding: 2rem 1rem 1rem 1rem;
   overflow-y: auto;
@@ -26,6 +29,8 @@ const ListingsContainer = styled.div<{ noResults: boolean }>`
   border-top-left-radius: 2rem;
   border-top-right-radius: 2rem;
   ${respondTo.laptopAndDesktop`
+  transition: margin .1s linear;
+  margin-left: ${({ isFilterOpen }: any) => (isFilterOpen ? "18rem" : "0")};
   margin-top: 0;
   width: 55vw;
   border-top-left-radius: 0;
@@ -54,7 +59,7 @@ const Label = styled.span`
   margin-top: 0.5rem;
 `;
 const Listings = () => {
-  const { properties, loading } = useContext(AppContext);
+  const { properties, loading, isFilterOpen } = useContext(AppContext);
   const [noResults, setNoResults] = useState<boolean>(false);
   const theme = useTheme();
   useEffect(() => {
@@ -62,7 +67,10 @@ const Listings = () => {
     setNoResults(noResults);
   }, [properties, loading]);
   return (
-    <ListingsContainer noResults={noResults}>
+    <ListingsContainer
+      noResults={noResults}
+      isFilterOpen={isFilterOpen ?? false}
+    >
       {noResults && (
         <NoResultsContainer>
           <Icon

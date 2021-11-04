@@ -61,7 +61,7 @@ const Container = styled.div<{
   animation-name: ${({ isOpen, isInitialialized }) =>
     isOpen ? rollOut("Y") : rollIn(!isInitialialized, "Y")};
   animation-fill-mode: forwards;
-  animation-duration: 0.5s;
+  animation-duration: 0.2s;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
