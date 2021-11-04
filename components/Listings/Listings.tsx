@@ -1,5 +1,5 @@
 import dynamic from "next/dynamic";
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import { respondTo } from "src/utils/_respondTo";
 import styled from "styled-components";
 import { AppContext } from "../AppContextWrapper/AppContextWrapper";
@@ -14,7 +14,7 @@ const ListingsContainer = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: flex-start;
   gap: 1rem;
   z-index: 5;
@@ -24,13 +24,17 @@ const ListingsContainer = styled.div`
   border-top-right-radius: 2rem;
   ${respondTo.laptopAndDesktop`
   margin-top: 0;
-  flex: 2;
+  width: 55vw;
   border-top-left-radius: 0;
-  border-top-right-radius: 0;`}
+  border-top-right-radius: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  `}
 `;
 
 const Listings = () => {
   const { properties, loading } = useContext(AppContext);
+  const itemRef = useRef(null);
   return (
     <>
       <ListingsContainer>

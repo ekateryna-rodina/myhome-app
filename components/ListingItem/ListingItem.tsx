@@ -3,19 +3,15 @@ import Image from "next/image";
 import React, { useContext } from "react";
 import styled, { useTheme } from "styled-components";
 import { Icons } from "../../src/utils/enums";
-import { respondTo } from "../../src/utils/_respondTo";
 import Icon from "../Icon.style";
 const ListingItemContainer = styled.div`
-  width: 16rem;
+  min-width: 16rem;
   height: 20rem;
   border: ${(props) => `1px solid ${props.theme.light}`};
   border-radius: 1rem;
   display: flex;
   flex-grow: 1;
   flex-direction: column;
-  ${respondTo.laptopAndDesktop`
-  flex-grow: 0;
-  `}
 `;
 
 const ImageContainer = styled.div`
