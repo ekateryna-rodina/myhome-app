@@ -1,21 +1,24 @@
+import Icon from "components/Icon.style";
 import dynamic from "next/dynamic";
-import React, { useContext, useRef } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { Icons } from "src/utils/enums";
 import { respondTo } from "src/utils/_respondTo";
-import styled from "styled-components";
+import styled, { useTheme } from "styled-components";
 import { AppContext } from "../AppContextWrapper/AppContextWrapper";
 const ListingItem = dynamic(() => import("../ListingItem/ListingItem"), {
   loading: () => <p>...</p>,
 });
 
-const ListingsContainer = styled.div`
+const ListingsContainer = styled.div<{ noResults: boolean }>`
   margin-top: 40vh;
   padding: 2rem 1rem 1rem 1rem;
   overflow-y: auto;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: flex-start;
+  justify-content: ${({ noResults }) =>
+    noResults ? "center" : "space-between"};
+  align-items: ${({ noResults }) => (noResults ? "center" : "flex-start")};
   gap: 1rem;
   z-index: 5;
   position: relative;
@@ -31,22 +34,54 @@ const ListingsContainer = styled.div`
   grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
   `}
 `;
+const NoResultsContainer = styled.div`
+  min-width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  ${respondTo.laptopAndDesktop`
+  min-width: 50vw;
+  `}
+`;
 
+const Label = styled.span`
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: ${(props) => props.theme.dark};
+  text-align: center;
+  margin-top: 0.5rem;
+`;
 const Listings = () => {
   const { properties, loading } = useContext(AppContext);
-  const itemRef = useRef(null);
+  const [noResults, setNoResults] = useState<boolean>(false);
+  const theme = useTheme();
+  useEffect(() => {
+    let noResults = !loading && properties !== null && !properties.length;
+    setNoResults(noResults);
+  }, [properties, loading]);
   return (
-    <>
-      <ListingsContainer>
-        {properties && !loading ? (
-          properties.map((item: any, index: any) => (
-            <ListingItem key={index} {...item} />
-          ))
-        ) : (
-          <div>Loading</div>
-        )}
-      </ListingsContainer>
-    </>
+    <ListingsContainer noResults={noResults}>
+      {noResults && (
+        <NoResultsContainer>
+          <Icon
+            iconType={Icons.Sad}
+            color={(theme as any)?.primary}
+            size={80}
+          />
+          <Label>
+            UPS... <br /> No results found for your request. <br /> Try other
+            locations or filters
+          </Label>
+        </NoResultsContainer>
+      )}
+      {loading && <div>Loading</div>}
+      {properties &&
+        properties.map((item: any, index: any) => (
+          <ListingItem key={index} {...item} />
+        ))}
+    </ListingsContainer>
   );
 };
 
