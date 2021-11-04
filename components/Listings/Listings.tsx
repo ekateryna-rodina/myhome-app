@@ -1,4 +1,5 @@
 import Icon from "components/Icon.style";
+import { ListingsHelper } from "components/ListingsHelper";
 import dynamic from "next/dynamic";
 import React, { useContext, useEffect, useState } from "react";
 import { Icons } from "src/utils/enums";
@@ -71,6 +72,9 @@ const Listings = () => {
       noResults={noResults}
       isFilterOpen={isFilterOpen ?? false}
     >
+      {!noResults && !loading && (
+        <ListingsHelper totalResults={properties?.length ?? 0} />
+      )}
       {noResults && (
         <NoResultsContainer>
           <Icon

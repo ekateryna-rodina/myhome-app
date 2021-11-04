@@ -15,10 +15,10 @@ enum Icons {
   Bed = "Beds",
   Bath = "Baths",
   Size = "sqft",
-  Sad = "",
-  Close = "",
-  Visit = "",
-  Favourite = "",
+  Sad = "sad",
+  Visit = "visit",
+  Close = "close",
+  Favourite = "favourite",
 }
 
 enum ServiceType {

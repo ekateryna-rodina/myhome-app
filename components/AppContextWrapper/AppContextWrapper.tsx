@@ -16,6 +16,7 @@ type ContextPropsType = {
   filter: Filter;
   selectedLocationId: number;
   focusItemListId: number | null;
+  resultsChanged: boolean;
   handleFilter: (filter: Filter) => void;
   handleLoading: (value: boolean) => void;
   handleLocations: (locations: Location[]) => void;
@@ -23,6 +24,7 @@ type ContextPropsType = {
   handleProperties: (properties: Listing[]) => void;
   handleSelectedLocationId: (locationId: number) => void;
   handleFocusItemListId: (id: number) => void;
+  handleResultsChanged: (isChanged: boolean) => void;
 };
 
 const initialFilter: Filter = {
@@ -48,6 +50,7 @@ const initialState: ContextPropsType = {
   filter: initialFilter,
   selectedLocationId: 0,
   focusItemListId: null,
+  resultsChanged: false,
   handleFilter: (filter: Filter) => {
     return initialFilter;
   },
@@ -57,6 +60,7 @@ const initialState: ContextPropsType = {
   handleProperties: (properties: Listing[]) => {},
   handleSelectedLocationId: (id: number) => {},
   handleFocusItemListId: (id: number) => {},
+  handleResultsChanged: (isChanged: boolean) => {},
 };
 export const AppContext = React.createContext(initialState);
 type AppContextProviderProps = { locations: Location[] };
@@ -68,6 +72,7 @@ const AppContextWrapper: React.FC<AppContextProviderProps> = ({
   const [locations, setLocations] = useState<Location[]>(
     injectedLocations || []
   );
+  const [resultsChanged, setResultsChanged] = useState<boolean>(false);
   const [properties, setProperties] = useState<Listing[] | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [filter, setFilter] = useState<Filter>(initialFilter);
@@ -77,7 +82,6 @@ const AppContextWrapper: React.FC<AppContextProviderProps> = ({
     setLocations(locations);
   };
   const handleIsFilterOpen = (open: boolean) => {
-    console.log("filter set");
     setIsFilterOpen(open);
   };
   const handleProperties = (listings: Listing[]) => {
@@ -95,6 +99,9 @@ const AppContextWrapper: React.FC<AppContextProviderProps> = ({
   const handleFocusItemListId = (id: number) => {
     setFocusItemListId(id);
   };
+  const handleResultsChanged = (isChanged: boolean) => {
+    setResultsChanged(isChanged);
+  };
   const contextProps = {
     selectedLocationId,
     handleSelectedLocationId,
@@ -110,6 +117,8 @@ const AppContextWrapper: React.FC<AppContextProviderProps> = ({
     handleFilter,
     focusItemListId,
     handleFocusItemListId,
+    resultsChanged,
+    handleResultsChanged,
   };
   return (
     <AppContext.Provider value={contextProps}>{children}</AppContext.Provider>
