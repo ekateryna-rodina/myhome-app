@@ -1,8 +1,8 @@
-import Icon from "components/Icon.style";
+// import Icon from "components/Icon.style";
 import { ListingsHelper } from "components/ListingsHelper";
 import dynamic from "next/dynamic";
 import React, { useContext, useEffect, useState } from "react";
-import { Icons } from "src/utils/enums";
+// import { Icons } from "src/utils/enums";
 import { respondTo } from "src/utils/_respondTo";
 import styled, { useTheme } from "styled-components";
 import { AppContext } from "../AppContextWrapper/AppContextWrapper";
@@ -15,15 +15,12 @@ const ListingsContainer = styled.div<{
   isFilterOpen: boolean;
 }>`
   margin-top: 40vh;
-  padding: 2rem 1rem 1rem 1rem;
+  padding: 0rem 1rem 1rem 1rem;
   overflow-y: auto;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: ${({ noResults }) =>
-    noResults ? "center" : "space-between"};
-  align-items: ${({ noResults }) => (noResults ? "center" : "flex-start")};
-  gap: 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  grid-gap: 1rem;
+  width: 95vw;
   z-index: 5;
   position: relative;
   background: #fff;
@@ -59,6 +56,14 @@ const Label = styled.span`
   text-align: center;
   margin-top: 0.5rem;
 `;
+const GridHeader = styled.div`
+  grid-column: 1/-1;
+  position: sticky;
+  top: 0;
+  z-index: 500;
+  background: ${(props) => props.theme.white};
+`;
+
 const Listings = () => {
   const { properties, loading, isFilterOpen } = useContext(AppContext);
   const [noResults, setNoResults] = useState<boolean>(false);
@@ -68,32 +73,38 @@ const Listings = () => {
     setNoResults(noResults);
   }, [properties, loading]);
   return (
-    <ListingsContainer
-      noResults={noResults}
-      isFilterOpen={isFilterOpen ?? false}
-    >
-      {!noResults && !loading && (
-        <ListingsHelper totalResults={properties?.length ?? 0} />
-      )}
-      {noResults && (
-        <NoResultsContainer>
-          <Icon
-            iconType={Icons.Sad}
-            color={(theme as any)?.primary}
-            size={80}
-          />
-          <Label>
-            UPS... <br /> No results found for your request. <br /> Try other
-            locations or filters
-          </Label>
-        </NoResultsContainer>
-      )}
-      {loading && <div>Loading</div>}
-      {properties &&
-        properties.map((item: any, index: any) => (
-          <ListingItem key={index} {...item} />
-        ))}
-    </ListingsContainer>
+    <>
+      <ListingsContainer
+        noResults={noResults}
+        isFilterOpen={isFilterOpen ?? false}
+      >
+        {/* {noResults && (
+          <NoResultsContainer>
+            <Icon
+              iconType={Icons.Sad}
+              color={(theme as any)?.primary}
+              size={80}
+            />
+            <Label>
+              UPS... <br /> No results found for your request. <br /> Try other
+              locations or filters
+            </Label>
+          </NoResultsContainer>
+        )} */}
+        {/* {loading && <div>Loading</div>} */}
+        {/* {!noResults && !loading && (
+          <ListingsHelper totalResults={properties?.length ?? null} />
+        )} */}
+        <GridHeader>
+          <ListingsHelper totalResults={properties?.length ?? null} />
+        </GridHeader>
+
+        {properties &&
+          properties.map((item: any, index: any) => (
+            <ListingItem key={index} {...item} />
+          ))}
+      </ListingsContainer>
+    </>
   );
 };
 

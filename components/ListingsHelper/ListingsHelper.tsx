@@ -3,10 +3,13 @@ import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { Location } from "../../src/utils/types";
 const Container = styled.div`
+  position: relative;
+  width: 100%;
+  height: 4rem;
   display: flex;
   flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
+  align-items: flex-end;
 `;
 const Label = styled.span`
   font-size: 1.5rem;
@@ -14,7 +17,7 @@ const Label = styled.span`
   color: ${(props) => props.theme.dark};
 `;
 type ListingsHelperProps = {
-  totalResults: number;
+  totalResults: number | null;
 };
 const ListingsHelper = ({ totalResults }: ListingsHelperProps) => {
   const { locations, selectedLocationId, resultsChanged } =

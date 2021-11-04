@@ -76,7 +76,7 @@ const MultichoiceDropdown = (props: MultichoiceDropdownProps) => {
   let theme = useTheme();
   const useClickOutsideCallback = useCallback(() => setShowOptions(false), []);
   useClickOutside(ref, useClickOutsideCallback);
-  const labelForMany = "4...";
+  const labelForMany = "4+";
   useEffect(() => {
     handleFilter({ ...filter, [typeOfFilterToUpdate]: selectedValues });
   }, [selectedValues]);
