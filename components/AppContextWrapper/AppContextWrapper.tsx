@@ -51,9 +51,7 @@ const initialState: ContextPropsType = {
   selectedLocationId: 0,
   focusItemListId: null,
   resultsChanged: false,
-  handleFilter: (filter: Filter) => {
-    return initialFilter;
-  },
+  handleFilter: (filter: Filter) => {},
   handleLoading: (value: boolean) => {},
   handleIsFilterOpen: (value: boolean) => {},
   handleLocations: (locations: Location[]) => {},
@@ -90,9 +88,15 @@ const AppContextWrapper: React.FC<AppContextProviderProps> = ({
   const handleLoading = (show: boolean) => {
     setLoading(show);
   };
-  const handleFilter = useCallback((filter: Filter) => {
-    setFilter(filter);
-  }, []);
+  const handleFilter = useCallback(
+    (filter: Filter) => {
+      // if user did not open the filters, additional calls on initial state setup will not be  executed
+      // support for SSR
+      if (isFilterOpen == null) return;
+      setFilter(filter);
+    },
+    [isFilterOpen]
+  );
   const handleSelectedLocationId = (locationId: number) => {
     setSelectedLocationId(locationId);
   };

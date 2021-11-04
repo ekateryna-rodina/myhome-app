@@ -146,7 +146,6 @@ const Filters = () => {
 
   useEffect(() => {
     setIsInitialized(true);
-    console.log("init");
   }, []);
   useEffect(() => {
     if (data == undefined) return;

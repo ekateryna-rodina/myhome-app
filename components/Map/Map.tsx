@@ -96,14 +96,10 @@ const Map = () => {
     data: any;
   } | null>(null);
   useEffect(() => {
-    console.log(focusItemListId);
-  }, [focusItemListId]);
-  useEffect(() => {
     if (!boundaries) return;
     handleFilter({ ...filter, mapCoordinates: boundaries });
   }, [boundaries]);
   useEffect(() => {
-    console.log(filter.mapCoordinates);
     if (Object.values(filter.mapCoordinates).every((c) => !c)) return;
     // load new properties
     const newFilter = JSON.stringify({

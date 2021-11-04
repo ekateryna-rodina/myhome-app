@@ -20,15 +20,15 @@ const FilterButtonContainer = styled.div`
 
 const Search = () => {
   const { isFilterOpen, handleIsFilterOpen } = useContext(AppContext);
+  const toggleFilter = () => {
+    handleIsFilterOpen(!isFilterOpen);
+  };
   return (
     <SearchContainer data-testid="searchTestId">
       <PropertyForRadio />
       <DropDownSearch />
       <FilterButtonContainer>
-        <HeaderButton
-          icon={Icons.Filter}
-          handler={() => handleIsFilterOpen(!isFilterOpen)}
-        />
+        <HeaderButton icon={Icons.Filter} handler={toggleFilter} />
       </FilterButtonContainer>
     </SearchContainer>
   );

@@ -40,7 +40,6 @@ const PropertyForRadio = () => {
     filter.for ?? PropertyFor.RENT
   );
   useEffect(() => {
-    console.log("handle filter");
     handleFilter({ ...filter, for: checkedOption });
   }, [checkedOption]);
   const getAvailableOptions = () => {

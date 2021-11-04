@@ -20,11 +20,9 @@ const ListingsHelper = ({ totalResults }: ListingsHelperProps) => {
   const { locations, selectedLocationId, resultsChanged } =
     useContext(AppContext);
   const [location, setLocation] = useState<string>("");
-  console.log(locations);
   useEffect(() => {
     const selected: { city: string; country: string } | undefined =
       locations.filter((l) => l.id == selectedLocationId)[0];
-    console.log(selected);
     if (!selected) {
       setLocation("");
       return;
