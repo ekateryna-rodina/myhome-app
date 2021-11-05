@@ -29,7 +29,7 @@ const Radio = styled.input`
   }
 `;
 const GridRadio = styled(Radio)<{ checked: boolean }>`
-  margin: 0 0 0 .5rem;
+  margin: 0 0 0 .25rem;
   background: ${({
     checked,
   }) => `url('data:image/svg+xml;utf8,<svg enable-background="new 0 0 32 32" version="1.1" viewBox="-2 0 36 36" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -92,11 +92,11 @@ const AutoRadio = styled(Radio)<{ checked: boolean }>`
   transition: all .5s;
 `;
 const MapRadio = styled(Radio)<{ checked: boolean }>`
-  margin: 0 .5rem 0 0;
+  margin: 0 .25rem 0 0;
   background: ${({
     checked,
   }) => `url('data:image/svg+xml;utf8,<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-  viewBox="-15 0 120 120" style="enable-background:new 0 0 99.313 99.313;" xml:space="preserve">
+  viewBox="-10 0 120 120" style="enable-background:new 0 0 99.313 99.313;" xml:space="preserve">
 <g fill="%23${checked ? "fff" : "063970"}">
  <path d="M69.693,38.046c0.005,0,0.011,0,0.016,0c2.087,0,4.049-0.812,5.527-2.286
      c1.482-1.479,2.3-3.445,2.302-5.539c0.004-4.323-3.508-7.844-7.828-7.85c-0.002,0-0.005,0-0.007,0c-4.319,0-7.835,3.508-7.84,7.823
@@ -135,17 +135,17 @@ const switcherStyles: Record<
   [ListingsFormat.Grid]: {
     left: 0,
     transform: 50,
-    margin: -0.25,
+    margin: -0.45,
   },
   [ListingsFormat.Auto]: {
     left: 50,
     transform: -50,
-    margin: 0.05,
+    margin: -0.02,
   },
   [ListingsFormat.Map]: {
     left: 100,
     transform: -100,
-    margin: -0.75,
+    margin: -0.55,
   },
 };
 const Switcher = styled.div<{ selected: ListingsFormat }>`
