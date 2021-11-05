@@ -3,8 +3,15 @@ import { Listing } from "../../src/utils/types";
 
 export const resolvers = {
   RootQuery: {
-    properties: async (_parent: any, { locationId, filter }: any, ctx: any) => {
+    properties: async (
+      _parent: any,
+      { locationId, filter }: { locationId: number; filter: string },
+      ctx: any
+    ) => {
+      filter = filter.replace(/'/g, '"');
+      locationId = Number(locationId);
       const where = composeWhere(locationId, filter);
+      console.error(where);
       const data = await ctx.prisma.property.findMany({
         where,
       });

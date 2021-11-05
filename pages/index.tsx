@@ -1,10 +1,13 @@
-import { gql } from "@apollo/client";
 import { Filters } from "components/Filters";
 import { Listings } from "components/Listings";
 import { Map } from "components/Map";
+import { gql } from "graphql-tag";
 import type { NextPage } from "next";
 import React, { useContext, useEffect } from "react";
 import { initializeApollo } from "src/lib/apollo";
+import { initialFilter } from "src/utils/constants";
+import { preprocessFilter } from "src/utils/helpers";
+import { Location } from "src/utils/types";
 import styled from "styled-components";
 import { AppContext } from "../components/AppContextWrapper/AppContextWrapper";
 import Header from "../components/Header/Header";
@@ -18,23 +21,25 @@ const Main = styled.main`
   margin-top: 4.2rem;
   padding: 0 1rem;
 `;
+let filter = preprocessFilter(initialFilter);
 
-const PPOPERTIES = `
-properties {
-  id
-  title
-  beds
-  baths
-  size
-  photo
-  lat
-  long
-  locationId
-  location{
-    city
-    country
-  }
-}
+const PROPERTIES = `
+    properties(locationId: 0, filter: ${filter}) {
+      id
+      title
+      beds
+      baths
+      size
+      photo
+      lat
+      long
+      locationId
+      location {
+        id
+        city
+        country
+      }
+    }
 `;
 const LOCATIONS = `
 locations {
@@ -44,22 +49,21 @@ locations {
   zip
 }
 `;
-
 const COMPOSITE_QUERY = gql`
   query {
+    ${PROPERTIES}
     ${LOCATIONS}
-    ${PPOPERTIES}
   }
 `;
+
 const Home: NextPage<{ initialApolloState: any }> = (props) => {
-  const key: string = process.env.NEXT_PUBLIC_GMAP_KEY || "";
   const data = props.initialApolloState;
-  const locations = data.ROOT_QUERY.locations.map(
-    (entry: any) => data[entry["__ref"]]
-  );
-  const properties = data.ROOT_QUERY.properties.map(
-    (entry: any) => data[entry["__ref"]]
-  );
+  const properties = Object.keys(data)
+    .filter((d) => d.startsWith("Property"))
+    .map((key) => data[key]);
+  const locations: Location[] = Object.keys(data)
+    .filter((d) => d.startsWith("Location"))
+    .map((key) => data[key]);
 
   const { handleLocations, handleProperties } = useContext(AppContext);
   useEffect(() => {
@@ -68,6 +72,7 @@ const Home: NextPage<{ initialApolloState: any }> = (props) => {
         return { ...location, __typename: "" };
       })
     );
+
     handleProperties(properties);
     //eslint-disable-next-line
   }, []);

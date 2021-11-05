@@ -9,7 +9,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  align-items: flex-end;
+  align-items: center;
 `;
 const Label = styled.span`
   font-size: 1.5rem;
@@ -34,6 +34,7 @@ const ListingsHelper = ({ totalResults }: ListingsHelperProps) => {
       `for ${(selected as Location).city} in ${(selected as Location).country}`
     );
   }, [locations, selectedLocationId]);
+  if (totalResults === 0 || totalResults == null) return <></>;
   return (
     <Container>
       <Label>

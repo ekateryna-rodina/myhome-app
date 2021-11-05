@@ -34,6 +34,7 @@ const AdditionalFilter = (props: AdditionalFilterProps) => {
   const [additional, setAdditional] = useState<AdditionalFilterMap>(data);
   const { filter, handleFilter } = useContext(AppContext);
   useEffect(() => {
+    if (!additional) return;
     handleFilter({ ...filter, additional: { ...additional } });
   }, [additional]);
   return (

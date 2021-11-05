@@ -1,8 +1,9 @@
 // import Icon from "components/Icon.style";
+import Icon from "components/Icon.style";
 import { ListingsHelper } from "components/ListingsHelper";
 import dynamic from "next/dynamic";
 import React, { useContext, useEffect, useState } from "react";
-// import { Icons } from "src/utils/enums";
+import { Icons } from "src/utils/enums";
 import { respondTo } from "src/utils/_respondTo";
 import styled, { useTheme } from "styled-components";
 import { AppContext } from "../AppContextWrapper/AppContextWrapper";
@@ -72,13 +73,14 @@ const Listings = () => {
     let noResults = !loading && properties !== null && !properties.length;
     setNoResults(noResults);
   }, [properties, loading]);
+
   return (
     <>
       <ListingsContainer
         noResults={noResults}
         isFilterOpen={isFilterOpen ?? false}
       >
-        {/* {noResults && (
+        {noResults && (
           <NoResultsContainer>
             <Icon
               iconType={Icons.Sad}
@@ -90,11 +92,8 @@ const Listings = () => {
               locations or filters
             </Label>
           </NoResultsContainer>
-        )} */}
-        {/* {loading && <div>Loading</div>} */}
-        {/* {!noResults && !loading && (
-          <ListingsHelper totalResults={properties?.length ?? null} />
-        )} */}
+        )}
+        {loading && <div>Loading</div>}
         <GridHeader>
           <ListingsHelper totalResults={properties?.length ?? null} />
         </GridHeader>

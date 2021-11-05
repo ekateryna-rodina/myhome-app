@@ -1,12 +1,5 @@
 import React, { useCallback, useState } from "react";
-import {
-  FILTER_ADDITIONAL_DEFAULT,
-  FILTER_BATHROOM,
-  FILTER_BEDROOM,
-  MAX_FILTER_PRICE,
-  MIN_FILTER_PRICE,
-} from "../../src/utils/constants";
-import { PropertyFor, PropertyType } from "../../src/utils/enums";
+import { initialFilter } from "../../src/utils/constants";
 import { Filter, Listing, Location } from "../../src/utils/types";
 type ContextPropsType = {
   locations: Location[];
@@ -27,21 +20,6 @@ type ContextPropsType = {
   handleResultsChanged: (isChanged: boolean) => void;
 };
 
-const initialFilter: Filter = {
-  propertyTypes: {
-    [PropertyType.Apartment]: false,
-    [PropertyType.House]: false,
-    [PropertyType.Landplot]: false,
-    [PropertyType.Office]: false,
-  },
-  priceRange: [MIN_FILTER_PRICE, MAX_FILTER_PRICE],
-  sizeRange: [MIN_FILTER_PRICE, MAX_FILTER_PRICE],
-  bedrooms: [FILTER_BEDROOM],
-  bathrooms: [FILTER_BATHROOM],
-  additional: FILTER_ADDITIONAL_DEFAULT,
-  for: PropertyFor.RENT,
-  mapCoordinates: { minLat: 0, maxLat: 0, minLng: 0, maxLng: 0 },
-};
 const initialState: ContextPropsType = {
   locations: [],
   properties: null,
@@ -90,9 +68,6 @@ const AppContextWrapper: React.FC<AppContextProviderProps> = ({
   };
   const handleFilter = useCallback(
     (filter: Filter) => {
-      // if user did not open the filters, additional calls on initial state setup will not be  executed
-      // support for SSR
-      if (isFilterOpen == null) return;
       setFilter(filter);
     },
     [isFilterOpen]

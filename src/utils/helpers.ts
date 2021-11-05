@@ -22,17 +22,24 @@ const getRoomsNumber = (original: number[]) => {
   ].concat(Array.from(Array(max).keys()).map((n) => n + startNumber));
   return roomsNumberAfterMaskRemoved;
 };
-
+export const preprocessFilter = (filter: {}) => {
+  let initial = JSON.stringify(filter).replace(/"/g, "'");
+  initial = `"${initial}"`;
+  return initial;
+};
 export const composeWhere = (locationId: number, filterQuery: string) => {
-  const queryList = [];
+  const queryList: any[] = [];
   if (locationId) {
     queryList.push({ locationId: { equals: locationId } });
   }
-  if (!filterQuery)
+  if (!filterQuery) {
+    queryList.push({ for: { equals: PropertyFor.RENT.toUpperCase() } });
     return {
       AND: queryList,
     };
+  }
   const filter: Filter = JSON.parse(filterQuery);
+
   // PROPERTY TYPES
   const propertyTypeValues = Object.values(filter.propertyTypes);
   const selectAllTypes =
