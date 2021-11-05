@@ -1,4 +1,5 @@
 import { AppContext } from "components/AppContextWrapper/AppContextWrapper";
+import { ListingsFormatSwitcher } from "components/ListingsFormatSwitcher";
 import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { Location } from "../../src/utils/types";
@@ -15,6 +16,12 @@ const Label = styled.span`
   font-size: 1.5rem;
   font-weight: 600;
   color: ${(props) => props.theme.dark};
+`;
+const ControlsContainer = styled.div`
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
 `;
 type ListingsHelperProps = {
   totalResults: number | null;
@@ -40,6 +47,9 @@ const ListingsHelper = ({ totalResults }: ListingsHelperProps) => {
       <Label>
         {totalResults} results {location}
       </Label>
+      <ControlsContainer>
+        <ListingsFormatSwitcher />
+      </ControlsContainer>
     </Container>
   );
 };

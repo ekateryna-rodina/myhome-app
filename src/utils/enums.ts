@@ -38,4 +38,10 @@ enum PropertyFor {
   BUY = "Buy",
 }
 
-export { Unit, Icons, ServiceType, PropertyType, PropertyFor };
+enum ListingsFormat {
+  Grid = 1,
+  Auto,
+  Map,
+}
+
+export { Unit, Icons, ServiceType, PropertyType, PropertyFor, ListingsFormat };

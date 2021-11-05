@@ -11,7 +11,6 @@ export const resolvers = {
       filter = filter.replace(/'/g, '"');
       locationId = Number(locationId);
       const where = composeWhere(locationId, filter);
-      console.error(where);
       const data = await ctx.prisma.property.findMany({
         where,
       });
