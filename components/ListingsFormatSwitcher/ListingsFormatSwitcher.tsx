@@ -28,9 +28,11 @@ const Radio = styled.input`
   background-repeat: no-repeat;
   background-size: 2rem;
 `;
-const GridRadio = styled(Radio)`
+const GridRadio = styled(Radio)<{ checked: boolean }>`
   margin: 0 0 0 1rem;
-  background: url('data:image/svg+xml;utf8,<svg enable-background="new 0 0 32 32" version="1.1" viewBox="0 0 36 36" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  background: ${({
+    checked,
+  }) => `url('data:image/svg+xml;utf8,<svg enable-background="new 0 0 32 32" version="1.1" viewBox="0 0 36 36" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
   <g>
       <g id="Grid"/>
       <g id="Meter"/>
@@ -40,40 +42,62 @@ const GridRadio = styled(Radio)`
       <g id="Inbox_Notification"/>
       <g id="List"/>
           <g id="Grid_1_">
-          <path d="M15.1,15.1H5V7c0-1.1,0.9-2,2-2h8.1V15.1z" fill="none" stroke="%23063970" stroke-miterlimit="10"/>
-          <path d="M27,15.1H16.9V5H25c1.1,0,2,0.9,2,2V15.1z" fill="none" stroke="%23063970" stroke-miterlimit="10"/>
-          <path d="M25,27h-8.1V16.9H27V25C27,26.1,26.1,27,25,27z" fill="none" stroke="%23063970" stroke-miterlimit="10"/>
-          <path d="M15.1,27H7c-1.1,0-2-0.9-2-2v-8.1h10.1V27z" fill="none" stroke="%23063970" stroke-miterlimit="10"/>
+          <path d="M15.1,15.1H5V7c0-1.1,0.9-2,2-2h8.1V15.1z" fill="none" stroke="%23${
+            checked ? "fff" : "063970"
+          }" stroke-miterlimit="10"/>
+          <path d="M27,15.1H16.9V5H25c1.1,0,2,0.9,2,2V15.1z" fill="none" stroke="%23${
+            checked ? "fff" : "063970"
+          }" stroke-miterlimit="10"/>
+          <path d="M25,27h-8.1V16.9H27V25C27,26.1,26.1,27,25,27z" fill="none" stroke="%23${
+            checked ? "fff" : "063970"
+          }" stroke-miterlimit="10"/>
+          <path d="M15.1,27H7c-1.1,0-2-0.9-2-2v-8.1h10.1V27z" fill="none" stroke="%23${
+            checked ? "fff" : "063970"
+          }" stroke-miterlimit="10"/>
           </g>
       <g id="Add"/>
       <g id="Minus"/>
       <g id="Basket"/>
   </g>
-  </svg>');
+  </svg>');`}
   background-position: center;
   background-repeat: no-repeat;
   background-size: 2rem;
   width: 3rem;
   height: 2rem;
+  transition: all 1s;
 `;
-const AutoRadio = styled(Radio)`
+const AutoRadio = styled(Radio)<{ checked: boolean }>`
   margin: 0;
-  background: url('data:image/svg+xml;utf8,<svg fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-  <path d="M19.6287 11.75L11.7778 11.7499" stroke="%23063970" stroke-linecap="round" stroke-width="0.8"/>
-  <path d="M4.36195 11.75L12.2129 11.7499" stroke="%23063970" stroke-linecap="round" stroke-width="0.8"/>
-  <path d="M15.8318 7.36897L20.2128 11.75L15.8318 16.1309" stroke="%23063970" stroke-linecap="round" stroke-width="0.8"/>
-  <path d="M8.15881 7.36897L3.77783 11.75L8.15881 16.1309" stroke="%23063970" stroke-linecap="round" stroke-width="0.8"/></svg>');
+  background: ${({
+    checked,
+  }) => `url('data:image/svg+xml;utf8,<svg fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+  <path d="M19.6287 11.75L11.7778 11.7499" stroke="%23${
+    checked ? "fff" : "063970"
+  }" stroke-linecap="round" stroke-width="0.8"/>
+  <path d="M4.36195 11.75L12.2129 11.7499" stroke="%23${
+    checked ? "fff" : "063970"
+  }" stroke-linecap="round" stroke-width="0.8"/>
+  <path d="M15.8318 7.36897L20.2128 11.75L15.8318 16.1309" stroke="%23${
+    checked ? "fff" : "063970"
+  }" stroke-linecap="round" stroke-width="0.8"/>
+  <path d="M8.15881 7.36897L3.77783 11.75L8.15881 16.1309" stroke="%23${
+    checked ? "fff" : "063970"
+  }" stroke-linecap="round" stroke-width="0.8"/></svg>');`}
   background-position: center;
   background-repeat: no-repeat;
   background-size: 2rem;
   width: 3rem;
   height: 2rem;
+  transition: all 1s;
 `;
-const MapRadio = styled(Radio)`
+const MapRadio = styled(Radio)<{ checked: boolean }>`
   margin: 0 1rem 0 0;
-  background: url('data:image/svg+xml;utf8,<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+  background: ${({
+    checked,
+  }) => `url('data:image/svg+xml;utf8,<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
   viewBox="0 0 115 115" style="enable-background:new 0 0 99.313 99.313;" xml:space="preserve">
-<g fill="%23063970">
+<g fill="%23${checked ? "fff" : "063970"}">
  <path d="M69.693,38.046c0.005,0,0.011,0,0.016,0c2.087,0,4.049-0.812,5.527-2.286
      c1.482-1.479,2.3-3.445,2.302-5.539c0.004-4.323-3.508-7.844-7.828-7.85c-0.002,0-0.005,0-0.007,0c-4.319,0-7.835,3.508-7.84,7.823
      c-0.004,2.096,0.811,4.068,2.292,5.552C65.634,37.229,67.602,38.046,69.693,38.046z M69.702,25.34c0.002,0,0.004,0,0.005,0
@@ -96,12 +120,13 @@ const MapRadio = styled(Radio)`
      c-0.944-1.611-2.848-2.441-4.688-3.244c-2.793-1.217-4.529-2.153-4.72-4.276h29.97l9.565,16.062c0.265,0.445,0.742,0.72,1.26,0.725
      c0.005,0,0.011,0,0.016,0c0.512,0,0.987-0.263,1.259-0.697l7.752-12.4L91.697,83.4H70.791z"/>
 </g>
-</svg>');
+</svg>');`}
   background-position: center;
   background-repeat: no-repeat;
   background-size: 2rem;
   width: 3rem;
   height: 2rem;
+  transition: all 1s;
 `;
 const Switcher = styled.div`
   position: absolute;
