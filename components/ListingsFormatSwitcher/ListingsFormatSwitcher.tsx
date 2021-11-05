@@ -3,7 +3,7 @@ import { ListingsFormat } from "src/utils/enums";
 import styled from "styled-components";
 
 const Container = styled.fieldset`
-  --width: 7rem;
+  --width: 10rem;
   position: relative;
   display: flex;
   flex-direction: row;
@@ -12,27 +12,27 @@ const Container = styled.fieldset`
   margin: 0;
   padding: 0;
   overflow: hidden;
-  border: ${(props) => `.5px solid ${props.theme.dark}`};
-  //   width: var(--width);
-  height: 2.3rem;
+  border: ${(props) => `.5px solid ${props.theme.light}`};
+  height: 2.5rem;
   border-radius: 0.5rem;
   background-color: ${(props) => props.theme.white};
 `;
 const Radio = styled.input`
   cursor: pointer;
   position: relative;
-  z-index: 1;
+  z-index: 5;
   -webkit-appearance: none;
   appearance: none;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: 2rem;
+  &:focus {
+    outline: thin dotted;
+    outline-color: ${(props) => props.theme.primary};
+  }
 `;
 const GridRadio = styled(Radio)<{ checked: boolean }>`
-  margin: 0 0 0 1rem;
+  margin: 0 0 0 .5rem;
   background: ${({
     checked,
-  }) => `url('data:image/svg+xml;utf8,<svg enable-background="new 0 0 32 32" version="1.1" viewBox="0 0 36 36" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  }) => `url('data:image/svg+xml;utf8,<svg enable-background="new 0 0 32 32" version="1.1" viewBox="-2 0 36 36" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
   <g>
       <g id="Grid"/>
       <g id="Meter"/>
@@ -63,9 +63,9 @@ const GridRadio = styled(Radio)<{ checked: boolean }>`
   background-position: center;
   background-repeat: no-repeat;
   background-size: 2rem;
-  width: 3rem;
+  width: 2.5rem;
   height: 2rem;
-  transition: all 1s;
+  transition: all .5s;
 `;
 const AutoRadio = styled(Radio)<{ checked: boolean }>`
   margin: 0;
@@ -87,16 +87,16 @@ const AutoRadio = styled(Radio)<{ checked: boolean }>`
   background-position: center;
   background-repeat: no-repeat;
   background-size: 2rem;
-  width: 3rem;
+  width: 2.5rem;
   height: 2rem;
-  transition: all 1s;
+  transition: all .5s;
 `;
 const MapRadio = styled(Radio)<{ checked: boolean }>`
-  margin: 0 1rem 0 0;
+  margin: 0 .5rem 0 0;
   background: ${({
     checked,
   }) => `url('data:image/svg+xml;utf8,<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-  viewBox="0 0 115 115" style="enable-background:new 0 0 99.313 99.313;" xml:space="preserve">
+  viewBox="-15 0 120 120" style="enable-background:new 0 0 99.313 99.313;" xml:space="preserve">
 <g fill="%23${checked ? "fff" : "063970"}">
  <path d="M69.693,38.046c0.005,0,0.011,0,0.016,0c2.087,0,4.049-0.812,5.527-2.286
      c1.482-1.479,2.3-3.445,2.302-5.539c0.004-4.323-3.508-7.844-7.828-7.85c-0.002,0-0.005,0-0.007,0c-4.319,0-7.835,3.508-7.84,7.823
@@ -124,25 +124,43 @@ const MapRadio = styled(Radio)<{ checked: boolean }>`
   background-position: center;
   background-repeat: no-repeat;
   background-size: 2rem;
-  width: 3rem;
+  width: 2.5rem;
   height: 2rem;
-  transition: all 1s;
+  transition: all .5s;
 `;
-const Switcher = styled.div`
+const switcherStyles: Record<
+  ListingsFormat,
+  { left: number; transform: number; margin: number }
+> = {
+  [ListingsFormat.Grid]: {
+    left: 0,
+    transform: 50,
+    margin: -0.25,
+  },
+  [ListingsFormat.Auto]: {
+    left: 50,
+    transform: -50,
+    margin: 0.05,
+  },
+  [ListingsFormat.Map]: {
+    left: 100,
+    transform: -100,
+    margin: -0.75,
+  },
+};
+const Switcher = styled.div<{ selected: ListingsFormat }>`
+  --x: ${({ selected }) => `${switcherStyles[selected].transform}%`};
   position: absolute;
-  //   background: url(/assets/bell.svg) repeat 0 0;
-  //   background-position: center;
-  //   background-repeat: no-repeat;
-  //   background-color: red;
-  //   background-size: 2rem;
-  //   width: 3rem;
-  //   height: 3rem;
-  //   top: 0;
-  //   left: 0;
-  //   width: 5rem;
-  //   height: 2rem;
-  //   border-radius: 10%;
-  //   background-color: ${(props) => props.theme.dark};
+  z-index: 2;
+  width: 2rem;
+  height: 2rem;
+  top: 50%;
+  left: ${({ selected }) => `${switcherStyles[selected].left}%`};
+  transform: ${({ selected }) =>
+    `translate(calc(var(--x) + ${switcherStyles[selected].margin}rem), -50%);`}
+  border-radius: 0.5rem;
+  background-color: ${(props) => props.theme.dark};
+  transition: all .5s;
 `;
 
 const ListingsFormatSwitcher = () => {
@@ -175,7 +193,7 @@ const ListingsFormatSwitcher = () => {
         onChange={onChangeHandler.bind(null, ListingsFormat.Map)}
         checked={format === ListingsFormat.Map}
       />
-      <Switcher />
+      <Switcher selected={format} />
     </Container>
   );
 };
