@@ -16,22 +16,70 @@ import React, {
   useState,
 } from "react";
 import { GET_PROPERTIES_QUERY } from "src/utils/constants";
+import { ListingsFormat } from "src/utils/enums";
 import { respondTo } from "src/utils/_respondTo";
 import styled from "styled-components";
-const MapContainer = styled.div`
+const containerVisibilitySettings: Record<
+  ListingsFormat,
+  Record<
+    "row" | "col",
+    { transform?: string; position?: string; left?: string }
+  >
+> = {
+  [ListingsFormat.Auto]: {
+    row: {},
+    col: {
+      position: "inherit",
+    },
+  },
+  [ListingsFormat.Map]: {
+    row: {
+      transform: "translateY(calc(100% + 3rem))",
+    },
+    col: {
+      transform: "translateX(calc(100% + 3rem))",
+      position: "absolute",
+      left: "0",
+    },
+  },
+  [ListingsFormat.Grid]: {
+    row: {
+      transform: "translateY(calc(100% + 3rem))",
+    },
+    col: {
+      transform: "translateX(calc(100% + 3rem))",
+    },
+  },
+};
+const MapContainer = styled.div<{ listingsFormat: ListingsFormat }>`
   position: fixed;
   top: 80px;
   left: 0;
   right: 0;
   height: 95vh;
-
+  -webkit-transition: -webkit-all 0.8s linear;
+  -moz-transition: -moz-all 0.8s linear;
+  -o-transition: -o-all 0.8s linear;
+  transition: all 0.8s linear;
   ${respondTo.laptopAndDesktop`
-      height:"calc(100vh - 4.5rem)";
-      position: inherit;
+    --left: ${({ listingsFormat }: { listingsFormat: ListingsFormat }) =>
+      listingsFormat === ListingsFormat.Map ? "calc(0rem + 2rem)" : "55vw"};
+    --transform: ${({ listingsFormat }: { listingsFormat: ListingsFormat }) =>
+      listingsFormat === ListingsFormat.Grid
+        ? "translateX(calc(100% + 3rem))"
+        : ""};
+      height:calc(100vh - 4.5rem);
+      position: absolute;
       top: 0;
       bottom: 0;
-      flex: 1;
-      `}
+      left: var(--left);
+      right: 4rem;
+      -webkit-transform: var(--transform);
+      -moz-transform: var(--transform);
+      -ms-transform: var(--transform);
+      -o-transform: var(--transform);
+      transform: var(--transform);
+      `};
 `;
 const mapContainerStyle = {
   width: "100%",
@@ -65,6 +113,7 @@ const Map = () => {
     handleLoading,
     handleProperties,
     focusItemListId,
+    listingsFormat,
   } = useContext(AppContext);
   const loadBounds = function () {
     if (!mapRef.current || !properties?.length) return;
@@ -155,7 +204,7 @@ const Map = () => {
 
   return (
     <>
-      <MapContainer>
+      <MapContainer listingsFormat={listingsFormat}>
         {isLoaded && properties ? (
           <GoogleMap
             mapContainerStyle={mapContainerStyle}

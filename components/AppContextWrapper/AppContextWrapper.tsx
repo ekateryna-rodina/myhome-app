@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from "react";
+import { ListingsFormat } from "src/utils/enums";
 import { initialFilter } from "../../src/utils/constants";
 import { Filter, Listing, Location } from "../../src/utils/types";
 type ContextPropsType = {
@@ -10,6 +11,8 @@ type ContextPropsType = {
   selectedLocationId: number;
   focusItemListId: number | null;
   resultsChanged: boolean;
+  listingsFormat: ListingsFormat;
+  handleListingsFormat: (format: ListingsFormat) => void;
   handleFilter: (filter: Filter) => void;
   handleLoading: (value: boolean) => void;
   handleLocations: (locations: Location[]) => void;
@@ -29,6 +32,8 @@ const initialState: ContextPropsType = {
   selectedLocationId: 0,
   focusItemListId: null,
   resultsChanged: false,
+  listingsFormat: ListingsFormat.Auto,
+  handleListingsFormat: (format: ListingsFormat) => {},
   handleFilter: (filter: Filter) => {},
   handleLoading: (value: boolean) => {},
   handleIsFilterOpen: (value: boolean) => {},
@@ -54,6 +59,9 @@ const AppContextWrapper: React.FC<AppContextProviderProps> = ({
   const [filter, setFilter] = useState<Filter>(initialFilter);
   const [focusItemListId, setFocusItemListId] = useState<number | null>(null);
   const [selectedLocationId, setSelectedLocationId] = useState<number>(0);
+  const [listingsFormat, setListingsFormat] = useState<ListingsFormat>(
+    ListingsFormat.Auto
+  );
   const handleLocations = (locations: Location[]) => {
     setLocations(locations);
   };
@@ -81,6 +89,9 @@ const AppContextWrapper: React.FC<AppContextProviderProps> = ({
   const handleResultsChanged = (isChanged: boolean) => {
     setResultsChanged(isChanged);
   };
+  const handleListingsFormat = (format: ListingsFormat) => {
+    setListingsFormat(format);
+  };
   const contextProps = {
     selectedLocationId,
     handleSelectedLocationId,
@@ -98,6 +109,8 @@ const AppContextWrapper: React.FC<AppContextProviderProps> = ({
     handleFocusItemListId,
     resultsChanged,
     handleResultsChanged,
+    listingsFormat,
+    handleListingsFormat,
   };
   return (
     <AppContext.Provider value={contextProps}>{children}</AppContext.Provider>

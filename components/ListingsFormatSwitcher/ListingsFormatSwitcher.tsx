@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import { AppContext } from "components/AppContextWrapper/AppContextWrapper";
+import React, { useContext } from "react";
 import { ListingsFormat } from "src/utils/enums";
 import styled from "styled-components";
 
 const Container = styled.fieldset`
-  --width: 10rem;
   position: relative;
   display: flex;
   flex-direction: row;
@@ -165,9 +165,10 @@ const Switcher = styled.div<{ selected: ListingsFormat }>`
 `;
 
 const ListingsFormatSwitcher = () => {
-  const [format, setFormat] = useState<ListingsFormat>(ListingsFormat.Auto);
+  //   const [format, setFormat] = useState<ListingsFormat>(ListingsFormat.Auto);
+  const { listingsFormat, handleListingsFormat } = useContext(AppContext);
   const onChangeHandler = (format: ListingsFormat | number) => {
-    setFormat(format);
+    handleListingsFormat(format);
   };
   return (
     <Container>
@@ -177,14 +178,14 @@ const ListingsFormatSwitcher = () => {
         value={ListingsFormat.Grid}
         title="Grid only"
         onChange={onChangeHandler.bind(null, ListingsFormat.Grid)}
-        checked={format === ListingsFormat.Grid}
+        checked={listingsFormat === ListingsFormat.Grid}
       />
       <AutoRadio
         type="radio"
         name="listings-format"
         value={ListingsFormat.Auto}
         onChange={onChangeHandler.bind(null, ListingsFormat.Auto)}
-        checked={format === ListingsFormat.Auto}
+        checked={listingsFormat === ListingsFormat.Auto}
       />
       <MapRadio
         type="radio"
@@ -192,9 +193,9 @@ const ListingsFormatSwitcher = () => {
         value={ListingsFormat.Map}
         title="Map only"
         onChange={onChangeHandler.bind(null, ListingsFormat.Map)}
-        checked={format === ListingsFormat.Map}
+        checked={listingsFormat === ListingsFormat.Map}
       />
-      <Switcher selected={format} />
+      <Switcher selected={listingsFormat} />
     </Container>
   );
 };
