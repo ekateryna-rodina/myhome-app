@@ -8,6 +8,7 @@ import { initializeApollo } from "src/lib/apollo";
 import { initialFilter } from "src/utils/constants";
 import { preprocessFilter } from "src/utils/helpers";
 import { Location } from "src/utils/types";
+import { respondTo } from "src/utils/_respondTo";
 import styled from "styled-components";
 import { AppContext } from "../components/AppContextWrapper/AppContextWrapper";
 import Header from "../components/Header/Header";
@@ -20,7 +21,10 @@ const Main = styled.main`
   display: flex;
   flex-direction: row;
   margin-top: 4.2rem;
+
+  ${respondTo.laptopAndDesktop`
   padding: 0 1rem;
+  `}
 `;
 let filter = preprocessFilter(initialFilter);
 

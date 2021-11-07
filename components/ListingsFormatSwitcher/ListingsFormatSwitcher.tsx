@@ -33,7 +33,7 @@ const GridRadio = styled(Radio)<{ checked: boolean }>`
   margin: 0 0 0 .25rem;
   background: ${({
     checked,
-  }) => `url('data:image/svg+xml;utf8,<svg enable-background="new 0 0 32 32" version="1.1" viewBox="-3 -1 36 36" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  }) => `url('data:image/svg+xml;utf8,<svg enable-background="new 0 0 32 32" version="1.1" viewBox="-2.5 -1 36 36" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
   <g>
       <g id="Grid"/>
       <g id="Meter"/>
@@ -72,7 +72,7 @@ const AutoRadio = styled(Radio)<{ checked: boolean }>`
   margin: 0;
   background: ${({
     checked,
-  }) => `url('data:image/svg+xml;utf8,<svg fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+  }) => `url('data:image/svg+xml;utf8,<svg fill="none" height="24" viewBox="0.5 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
   <path d="M19.6287 11.75L11.7778 11.7499" stroke="%23${
     checked ? "fff" : "063970"
   }" stroke-linecap="round" stroke-width="0.8"/>
@@ -97,7 +97,7 @@ const MapRadio = styled(Radio)<{ checked: boolean }>`
   background: ${({
     checked,
   }) => `url('data:image/svg+xml;utf8,<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-  viewBox="-10 -3 120 120" style="enable-background:new 0 0 99.313 99.313;" xml:space="preserve">
+  viewBox="-7 -3 120 120" style="enable-background:new 0 0 99.313 99.313;" xml:space="preserve">
 <g fill="%23${checked ? "fff" : "063970"}">
  <path d="M69.693,38.046c0.005,0,0.011,0,0.016,0c2.087,0,4.049-0.812,5.527-2.286
      c1.482-1.479,2.3-3.445,2.302-5.539c0.004-4.323-3.508-7.844-7.828-7.85c-0.002,0-0.005,0-0.007,0c-4.319,0-7.835,3.508-7.84,7.823

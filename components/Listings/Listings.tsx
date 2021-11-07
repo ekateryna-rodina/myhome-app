@@ -22,13 +22,15 @@ const ListingsContainer = styled.div<{
       : "none"};
   --transition: margin 0.1s linear, width 1s ease-in-out,
     transform 1s ease-in-out;
-  margin-top: 40vh;
+  --margin-top: ${({ listingsFormat }) =>
+    listingsFormat === ListingsFormat.Grid ? "0" : "40vh"};
   padding: 0rem 1rem 1rem 1rem;
   overflow-y: auto;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
   grid-gap: 1rem;
-  width: 95vw;
+  width: 90vw;
+  margin: var(--margin-top) auto 0 auto;
   z-index: 5;
   position: relative;
   background: #fff;

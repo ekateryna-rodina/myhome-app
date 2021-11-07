@@ -7,6 +7,7 @@ import {
 } from "@react-google-maps/api";
 import { AppContext } from "components/AppContextWrapper/AppContextWrapper";
 import { InfoWindowContent } from "components/InfoWindowContent";
+import { ListingsFormatSwitcher } from "components/ListingsFormatSwitcher";
 import { theme } from "pages/_app";
 import React, {
   useCallback,
@@ -19,41 +20,14 @@ import { GET_PROPERTIES_QUERY } from "src/utils/constants";
 import { ListingsFormat } from "src/utils/enums";
 import { respondTo } from "src/utils/_respondTo";
 import styled from "styled-components";
-const containerVisibilitySettings: Record<
-  ListingsFormat,
-  Record<
-    "row" | "col",
-    { transform?: string; position?: string; left?: string }
-  >
-> = {
-  [ListingsFormat.Auto]: {
-    row: {},
-    col: {
-      position: "inherit",
-    },
-  },
-  [ListingsFormat.Map]: {
-    row: {
-      transform: "translateY(calc(100% + 3rem))",
-    },
-    col: {
-      transform: "translateX(calc(100% + 3rem))",
-      position: "absolute",
-      left: "0",
-    },
-  },
-  [ListingsFormat.Grid]: {
-    row: {
-      transform: "translateY(calc(100% + 3rem))",
-    },
-    col: {
-      transform: "translateX(calc(100% + 3rem))",
-    },
-  },
-};
+
 const MapContainer = styled.div<{ listingsFormat: ListingsFormat }>`
+  --transform: ${({ listingsFormat }: { listingsFormat: ListingsFormat }) =>
+    listingsFormat === ListingsFormat.Grid
+      ? "translateY(calc(100% + 3rem))"
+      : ""};
   position: fixed;
-  top: 80px;
+  top: 2rem;
   left: 0;
   right: 0;
   height: 95vh;
@@ -61,6 +35,10 @@ const MapContainer = styled.div<{ listingsFormat: ListingsFormat }>`
   -moz-transition: -moz-all 0.8s linear;
   -o-transition: -o-all 0.8s linear;
   transition: all 0.8s linear;
+  -webkit-transform: var(--transform);
+  -moz-transform: var(--transform);
+  -o-transform: var(--transform);
+  transform: var(--transform);
   ${respondTo.laptopAndDesktop`
     --left: ${({ listingsFormat }: { listingsFormat: ListingsFormat }) =>
       listingsFormat === ListingsFormat.Map ? "calc(0rem + 2rem)" : "55vw"};
@@ -80,6 +58,18 @@ const MapContainer = styled.div<{ listingsFormat: ListingsFormat }>`
       -o-transform: var(--transform);
       transform: var(--transform);
       `};
+`;
+const ListingsFormatSwitcherContainer = styled.div<{ show: boolean }>`
+  position: fixed;
+  z-index: 30;
+  opacity: ${({ show }) => (show ? "1" : "0")};
+  left: 1rem;
+  top: 4rem;
+  transition: all 0.5s;
+  ${respondTo.laptopAndDesktop`
+  left: 3rem;
+  top: 1rem;
+  `}
 `;
 const mapContainerStyle = {
   width: "100%",
@@ -243,6 +233,11 @@ const Map = () => {
           <></>
         )}
       </MapContainer>
+      <ListingsFormatSwitcherContainer
+        show={listingsFormat == ListingsFormat.Map}
+      >
+        <ListingsFormatSwitcher />
+      </ListingsFormatSwitcherContainer>
     </>
   );
 };
