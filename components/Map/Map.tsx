@@ -68,7 +68,7 @@ const ListingsFormatSwitcherContainer = styled.div<{ show: boolean }>`
   transition: all 0.5s;
   ${respondTo.laptopAndDesktop`
   left: 3rem;
-  top: 1rem;
+  top: 5rem;
   `}
 `;
 const mapContainerStyle = {
