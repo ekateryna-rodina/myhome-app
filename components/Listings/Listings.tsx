@@ -63,15 +63,20 @@ const ListingsContainer = styled.div<{
   `}
 `;
 const NoResultsContainer = styled.div`
-  min-width: 100vw;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   display: flex;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 2rem;
-  ${respondTo.laptopAndDesktop`
-  min-width: 50vw;
-  `}
+  overflow: hidden;
 `;
 
 const Label = styled.span`
@@ -106,6 +111,16 @@ const Listings = () => {
         isFilterOpen={isFilterOpen ?? false}
         listingsFormat={listingsFormat}
       >
+        {loading && <div>Loading</div>}
+        <GridHeader>
+          <ListingsHelper totalResults={properties?.length ?? null} />
+        </GridHeader>
+
+        {properties &&
+          properties.map((item: any, index: any) => (
+            <ListingItem key={index} {...item} />
+          ))}
+
         {noResults && (
           <NoResultsContainer>
             <Icon
@@ -119,15 +134,6 @@ const Listings = () => {
             </Label>
           </NoResultsContainer>
         )}
-        {loading && <div>Loading</div>}
-        <GridHeader>
-          <ListingsHelper totalResults={properties?.length ?? null} />
-        </GridHeader>
-
-        {properties &&
-          properties.map((item: any, index: any) => (
-            <ListingItem key={index} {...item} />
-          ))}
       </ListingsContainer>
     </>
   );

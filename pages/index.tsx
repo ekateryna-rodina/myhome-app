@@ -77,7 +77,6 @@ const Home: NextPage<{ initialApolloState: any }> = (props) => {
         return { ...location, __typename: "" };
       })
     );
-
     handleProperties(properties);
     //eslint-disable-next-line
   }, []);

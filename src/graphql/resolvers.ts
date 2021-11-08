@@ -1,5 +1,4 @@
 import { composeWhere } from "../../src/utils/helpers";
-import { Listing } from "../../src/utils/types";
 
 export const resolvers = {
   RootQuery: {
@@ -8,32 +7,24 @@ export const resolvers = {
       { locationId, filter }: { locationId: number; filter: string },
       ctx: any
     ) => {
-      console.log("here");
-      console.log(locationId, filter);
       filter = filter.replace(/'/g, '"');
       locationId = Number(locationId);
       const where = composeWhere(locationId, filter);
       const data = await ctx.prisma.property.findMany({
         where,
+        include: {
+          location: true,
+        },
       });
 
-      return data.map(async (entry: Listing) => {
-        const { city, country } = await ctx.prisma.location.findUnique({
-          where: { id: entry.locationId },
-        });
-
-        return {
-          ...entry,
-          location: {
-            city,
-            country,
-          },
-        };
-      });
+      return data;
     },
     property: async (_parent: any, { id }: any, ctx: any) => {
       const data = await ctx.prisma.property.findUnique({
         where: { id },
+        include: {
+          location: true,
+        },
       });
       return data;
     },
