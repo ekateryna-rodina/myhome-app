@@ -8,6 +8,8 @@ export const resolvers = {
       { locationId, filter }: { locationId: number; filter: string },
       ctx: any
     ) => {
+      console.log("here");
+      console.log(locationId, filter);
       filter = filter.replace(/'/g, '"');
       locationId = Number(locationId);
       const where = composeWhere(locationId, filter);

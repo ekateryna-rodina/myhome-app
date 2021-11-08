@@ -127,7 +127,10 @@ const LocationDropdown = () => {
   };
   const searchLocationsHandler = () => {
     getPropertiesByLocation({
-      variables: { locationId: Number(state.activeOption) },
+      variables: {
+        locationId: Number(state.activeOption),
+        filter: JSON.stringify(filter),
+      },
     });
   };
   const onCloseIconHandler = () => {
