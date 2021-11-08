@@ -7,7 +7,7 @@ import {
 } from "@react-google-maps/api";
 import { AppContext } from "components/AppContextWrapper/AppContextWrapper";
 import { InfoWindowContent } from "components/InfoWindowContent";
-import { ListingsFormatSwitcher } from "components/ListingsFormatSwitcher";
+import Link from "next/link";
 import { theme } from "pages/_app";
 import React, {
   useCallback,
@@ -75,6 +75,7 @@ const ListingsFormatSwitcherContainer = styled.div<{ show: boolean }>`
       top: 5rem;
   `}
 `;
+
 const mapContainerStyle = {
   width: "100%",
   height: "100%",
@@ -236,10 +237,17 @@ const Map = () => {
           <></>
         )}
       </MapContainer>
-      <ListingsFormatSwitcherContainer
+      {/* <ListingsFormatSwitcherContainer
         show={listingsFormat == ListingsFormat.Map}
       >
         <ListingsFormatSwitcher />
+      </ListingsFormatSwitcherContainer> */}
+      <ListingsFormatSwitcherContainer show={true}>
+        <Link
+          href={{ pathname: "propertiesByIds", query: { ids: "47|48|49" } }}
+        >
+          <a>Show me selected only</a>
+        </Link>
       </ListingsFormatSwitcherContainer>
     </>
   );

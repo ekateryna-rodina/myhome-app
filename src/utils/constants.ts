@@ -63,3 +63,24 @@ export const GET_PROPERTIES_QUERY = gql`
     }
   }
 `;
+
+export const PROPERTIES_BY_IDS = gql`
+  query propertiesByIds($ids: String) {
+    propertiesByIds(ids: $ids) {
+      id
+      title
+      beds
+      baths
+      size
+      photo
+      locationId
+      lat
+      long
+      location {
+        id
+        city
+        country
+      }
+    }
+  }
+`;

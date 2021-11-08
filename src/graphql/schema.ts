@@ -47,6 +47,7 @@ export const typeDefs = gql`
     properties(locationId: ID, filter: String): [Property]
     locations: [Location!]
     property(id: Int): Property!
+    propertiesByIds(ids: String): [Property]
   }
   schema {
     query: RootQuery
