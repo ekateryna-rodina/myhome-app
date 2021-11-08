@@ -34,7 +34,7 @@ const MapContainer = styled.div<{ listingsFormat: ListingsFormat }>`
   -webkit-transition: -webkit-all 0.8s linear;
   -moz-transition: -moz-all 0.8s linear;
   -o-transition: -o-all 0.8s linear;
-  transition: all 0.8s linear;
+  transition: all 0.5s linear;
   -webkit-transform: var(--transform);
   -moz-transform: var(--transform);
   -o-transform: var(--transform);
@@ -57,6 +57,7 @@ const MapContainer = styled.div<{ listingsFormat: ListingsFormat }>`
       -ms-transform: var(--transform);
       -o-transform: var(--transform);
       transform: var(--transform);
+      border-radius: 1rem;
       `};
 `;
 const ListingsFormatSwitcherContainer = styled.div<{ show: boolean }>`
@@ -64,11 +65,14 @@ const ListingsFormatSwitcherContainer = styled.div<{ show: boolean }>`
   z-index: 30;
   opacity: ${({ show }) => (show ? "1" : "0")};
   left: 1rem;
-  top: 4rem;
+  top: 4.5rem;
   transition: all 0.5s;
+  ${respondTo.tablet`
+      top: 5rem;
+    `}
   ${respondTo.laptopAndDesktop`
-  left: 3rem;
-  top: 5rem;
+      left: 3rem;
+      top: 5rem;
   `}
 `;
 const mapContainerStyle = {
@@ -191,7 +195,6 @@ const Map = () => {
     setBoundariesForProperties();
   };
   if (loadError) return <div>{loadError}</div>;
-
   return (
     <>
       <MapContainer listingsFormat={listingsFormat}>

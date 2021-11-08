@@ -1,24 +1,46 @@
 import React, { useContext, useEffect, useState } from "react";
+import { respondTo } from "src/utils/_respondTo";
 import styled from "styled-components";
 import { AppContext } from "../../components/AppContextWrapper/AppContextWrapper";
 import { PropertyFor } from "../../src/utils/enums";
 const Container = styled.div<{ isLeftSelected: boolean }>`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  margin-right: 0.35rem;
-  border-radius: 0.5rem;
-  border: ${({ theme }) => `.5px solid ${theme.light}`};
-  background: ${({ theme, isLeftSelected }) => `
-  linear-gradient(
-    ${!isLeftSelected ? "to right" : "to left"},
-    rgba(255, 0, 0, 0) 0%,
-    rgba(255, 0, 0, 0) 50%,
-    ${theme.dark} 30%,
-    ${theme.dark} 100%
-  );
-  `};
+  display: none;
+  ${respondTo.tablet`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-right: 0.35rem;
+    border-radius: 0.5rem;
+    border: ${({ theme }: any) => `.5px solid ${theme.light}`};
+    background: ${({ theme, isLeftSelected }: any) => `
+    linear-gradient(
+      ${!isLeftSelected ? "to right" : "to left"},
+      rgba(255, 0, 0, 0) 0%,
+      rgba(255, 0, 0, 0) 50%,
+      ${theme.dark} 30%,
+      ${theme.dark} 100%
+    );
+    `};
+  `}
+  ${respondTo.laptopAndDesktop`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-right: 0.35rem;
+    border-radius: 0.5rem;
+    border: ${({ theme }: any) => `.5px solid ${theme.light}`};
+    background: ${({ theme, isLeftSelected }: any) => `
+    linear-gradient(
+      ${!isLeftSelected ? "to right" : "to left"},
+      rgba(255, 0, 0, 0) 0%,
+      rgba(255, 0, 0, 0) 50%,
+      ${theme.dark} 30%,
+      ${theme.dark} 100%
+    );
+    `};
+  `}
 `;
 const Option = styled.div`
   padding: 0.27rem 0.7rem;

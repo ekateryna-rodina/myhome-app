@@ -3,6 +3,7 @@ import { AdditionalFilter } from "components/AdditionalFilter";
 import { AppContext } from "components/AppContextWrapper/AppContextWrapper";
 import { Category } from "components/Category";
 import { MultichoiceDropdown } from "components/MultichoiceDropdown";
+import { PropertyForRadio } from "components/PropertyForRadio";
 import { Slider } from "components/Slider";
 import React, { useContext, useEffect, useState } from "react";
 import {
@@ -137,6 +138,17 @@ const PropertySize = styled.div`
     `}
 `;
 
+const PropertyForRadioContainer = styled.div`
+  display: block;
+  margin: 1rem auto;
+  ${respondTo.tablet`
+    display: none;
+`}
+  ${respondTo.laptopAndDesktop`
+    display: none;
+`}
+`;
+
 const Filters = () => {
   const [isInitialialized, setIsInitialized] = useState(false);
   const { handleProperties, handleLoading, filter, selectedLocationId } =
@@ -256,6 +268,10 @@ const Filters = () => {
       isOpen={isFilterOpen}
       isInitialialized={isFilterOpen !== null && isFilterOpen !== undefined}
     >
+      <PropertyForRadioContainer>
+        <PropertyForRadio />
+      </PropertyForRadioContainer>
+
       <Title>Category</Title>
       <Categories>
         {Object.keys(filter.propertyTypes).map((category) => (

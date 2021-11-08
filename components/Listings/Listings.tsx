@@ -20,7 +20,7 @@ const ListingsContainer = styled.div<{
     listingsFormat === ListingsFormat.Map
       ? "translateY(calc(100% - 3rem))"
       : "none"};
-  --transition: margin 0.1s linear, width 1s ease-in-out,
+  --transition: margin 0.1s linear, width 0.5s ease-in-out,
     transform 1s ease-in-out;
   --margin-top: ${({ listingsFormat }) =>
     listingsFormat === ListingsFormat.Grid ? "0" : "40vh"};

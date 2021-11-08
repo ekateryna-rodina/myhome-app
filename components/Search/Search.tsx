@@ -13,6 +13,7 @@ const SearchContainer = styled.div`
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
+  margin: 0.5rem auto;
 `;
 const FilterButtonContainer = styled.div`
   margin-left: 0.35rem;

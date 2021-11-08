@@ -13,6 +13,7 @@ import HouseIcon from "../public/assets/house.svg";
 import LandIcon from "../public/assets/land.svg";
 import GlassIcon from "../public/assets/loupe.svg";
 import OfficeIcon from "../public/assets/office-building.svg";
+import PinIcon from "../public/assets/pin2.svg";
 import SadIcon from "../public/assets/sad.svg";
 import BathIcon from "../public/assets/toilet.svg";
 import { Icons } from "../src/utils/enums";
@@ -42,6 +43,7 @@ const iconTypes: Record<Icons, any> = {
   [Icons.Visit]: VisiteIcon,
   [Icons.Close]: CloseIcon,
   [Icons.Sad]: SadIcon,
+  [Icons.Pin]: PinIcon,
 };
 
 const Icon = (props: IconProps) => {
