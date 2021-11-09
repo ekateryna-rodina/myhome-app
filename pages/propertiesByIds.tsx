@@ -37,8 +37,10 @@ const ProperiesByIds: NextPage<{ initialApolloState: NormalizedCacheObject }> =
     const [currentProperty, setCurrentProperty] = useState<Listing>(
       properties[current] as Listing
     );
+    const [randomKey, setRandomKey] = useState<number>(0);
     useEffect(() => {
       if (current === null || current === undefined) return;
+      setRandomKey(Math.random());
       setCurrentProperty(properties[current] as Listing);
     }, [current]);
     return (
@@ -48,7 +50,7 @@ const ProperiesByIds: NextPage<{ initialApolloState: NormalizedCacheObject }> =
           setCurrent={setCurrent}
           total={properties.length}
         >
-          <BriefListing data={currentProperty} />
+          <BriefListing data={currentProperty} key={randomKey} />
         </ListingsCarousel>
       </Container>
     );

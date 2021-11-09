@@ -20,6 +20,8 @@ enum Icons {
   Close = "close",
   Favourite = "favourite",
   Pin = " I am a pin, and You, have a wonderful day1",
+  ArrowLeft = "back",
+  ArrowRight = "forth",
 }
 
 enum ServiceType {

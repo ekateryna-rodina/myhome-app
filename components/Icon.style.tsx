@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import ArrowLeft from "../public/assets/arrowLeft.svg";
+import ArrowRight from "../public/assets/arrowRight.svg";
 import BedIcon from "../public/assets/bed.svg";
 import NotificationIcon from "../public/assets/bell.svg";
 import ApartmentIcon from "../public/assets/building.svg";
@@ -44,6 +46,8 @@ const iconTypes: Record<Icons, any> = {
   [Icons.Close]: CloseIcon,
   [Icons.Sad]: SadIcon,
   [Icons.Pin]: PinIcon,
+  [Icons.ArrowLeft]: ArrowLeft,
+  [Icons.ArrowRight]: ArrowRight,
 };
 
 const Icon = (props: IconProps) => {

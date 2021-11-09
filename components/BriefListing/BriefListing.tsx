@@ -68,11 +68,11 @@ const Description = styled.div`
   transform: translateX(var(--init-transform));
   animation: ${info} 0.2s ease-in-out forwards 1.1s;
 `;
-const EnterButton = styled.input`
-  width: 6rem;
-  height: 3rem;
+const EnterButton = styled.button`
+  width: max-content;
   background: ${(props) => props.theme.secondary};
   margin: auto 0 0 1rem;
+  padding: 0.5rem;
   cursor: pointer;
   color: white;
   font-size: 1.1rem;
@@ -90,6 +90,13 @@ const EnterButton = styled.input`
     outline: 0;
   }
 `;
+const ButtonLabel = styled.span`
+  color: ${(props) => props.theme.white};
+  text-transform: uppercase;
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.1rem;
+`;
 const Address = styled.div`
   transform: translateX(var(--init-transform));
   animation: ${info} 0.2s ease-in-out forwards 0.7s;
@@ -102,6 +109,7 @@ const BriefListing: React.FC<{ data: Listing }> = ({
     location: { country, city },
   },
 }) => {
+  console.log("new");
   return (
     <Grid>
       <Info>
@@ -120,7 +128,9 @@ const BriefListing: React.FC<{ data: Listing }> = ({
           officiis minus? Neque consequatur officia voluptatum ex, nisi sequi
           maiores, similique dicta nemo, inventore et!
         </Description>
-        <EnterButton type="button" />
+        <EnterButton>
+          <ButtonLabel>view Details</ButtonLabel>
+        </EnterButton>
       </Info>
       <ImageContainer>
         <Img src={photo} layout="fill" objectFit="cover" priority={true}></Img>
