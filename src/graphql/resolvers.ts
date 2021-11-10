@@ -29,7 +29,6 @@ export const resolvers = {
       return data;
     },
     propertiesByIds: async (_parent: any, { ids }: any, ctx: any) => {
-      console.log(ids);
       if (!ids) return [];
       const idsList = ids.split("|").map((id: string) => +id);
       const data = await ctx.prisma.property.findMany({
@@ -38,7 +37,7 @@ export const resolvers = {
           location: true,
         },
       });
-      console.log(data);
+
       return data;
     },
     locations: async (_parent: any, _args: any, ctx: any) => {

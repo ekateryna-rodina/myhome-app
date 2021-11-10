@@ -13,12 +13,13 @@ const Button = styled.button<{ isDisabled: boolean }>`
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.5);
-  align-items: center;
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: row;
   justify-content: center;
+  align-items: center;
   z-index: 100;
+  opacity: ${({ isDisabled }) => (isDisabled ? "0" : "1")};
   border: ${(props) =>
     `1px solid ${props.isDisabled ? props.theme.gray : props.theme.dark}`};
   color: ${(props) => props.theme.dark};
@@ -53,9 +54,15 @@ type ImagesCarouselWrappedProps = {
 const ImagesCarouselWrapped: React.FC<ImagesCarouselWrappedProps> = ({
   onClickLeftHandler,
   onClickRightHandler,
+  total,
+  current,
   disabled,
   children,
 }) => {
+  // const [currentDot, setCurrentDot] = useState<number>(current);
+  // useEffect(() => {
+  //   setCurrentDot(current);
+  // }, [current]);
   const theme = useTheme();
   return (
     <Container>
@@ -86,7 +93,7 @@ const ImagesCarouselWrapped: React.FC<ImagesCarouselWrappedProps> = ({
           />
         </Button>
       </ControlsContainer>
-      <DotNavigation total={3} current={2} />
+      <DotNavigation total={total} current={current} />
     </Container>
   );
 };

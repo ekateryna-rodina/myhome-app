@@ -57,7 +57,6 @@ const Carousel = (WrappedComponent: any, props: any) => {
     const theme = useTheme();
     const [disabled, setDisabled] = useState<"left" | "right" | null>("left");
     useEffect(() => {
-      console.log(current);
       if (current > 0 && current < total - 1) setDisabled(null);
       if (current <= 0) {
         setDisabled("left");
@@ -78,7 +77,10 @@ const Carousel = (WrappedComponent: any, props: any) => {
       onClickLeftHandler,
       onClickRightHandler,
       disabled,
+      total,
+      current,
     };
+
     return (
       <>
         <WrappedComponent {...propsInjected}>{children}</WrappedComponent>

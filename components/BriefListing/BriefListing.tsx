@@ -91,7 +91,6 @@ const BriefListing: React.FC<{ data: Listing }> = ({
     location: { country, city },
   },
 }) => {
-  console.log("new");
   return (
     <Grid>
       <Info>
