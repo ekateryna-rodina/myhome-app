@@ -10,12 +10,12 @@ import { PROPERTIES_BY_IDS } from "src/utils/constants";
 import { Listing } from "src/utils/types";
 import styled from "styled-components";
 
-const initTransform = "-150%";
+const initTransform = "-180%";
 const Container = styled.div`
   --init-transform: ${initTransform};
   width: 100vw;
   height: 100vh;
-  padding: 3rem;
+  padding: 2rem;
   box-sizing: border-box;
 `;
 const Header = styled.div`
@@ -23,6 +23,7 @@ const Header = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
 `;
 const Features = styled.div`
   display: flex;

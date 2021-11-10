@@ -18,11 +18,11 @@ const Button = styled.button<{ isDisabled: boolean }>`
   flex-direction: row;
   justify-content: center;
   opacity: ${({ isDisabled }) => (isDisabled ? "0" : "1")};
-  border: ${(props) => `2px solid ${props.theme.dark}`};
+  border: ${(props) => `1px solid ${props.theme.dark}`};
   transition: background 0.2s linear;
   &:hover,
   &:focus-visible {
-    border: ${(props) => `2px solid ${props.theme.secondary}`};
+    border: ${(props) => `1px solid ${props.theme.secondary}`};
     outline: none;
   }
 `;
@@ -32,6 +32,7 @@ const ControlsContainer = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  margin-top: -1rem;
   & ${Button}:nth-child(1) {
     margin-right: 2rem;
   }

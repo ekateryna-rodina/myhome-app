@@ -6,15 +6,15 @@ import Icon from "./Icon.style";
 
 const Container = styled.div`
   display: grid;
-  width: 5.5rem;
-  height: 7rem;
+  width: 5rem;
+  height: 5.5rem;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
   align-items: center;
 `;
 const Label = styled.span`
   text-transform: capitalize;
-  font-size: 1.2rem;
+  font-size: 1rem;
   color: ${(props) => props.theme.dark};
 `;
 type RoomsInfoProps = {
