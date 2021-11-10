@@ -18,7 +18,7 @@ const Button = styled.button<{ isDisabled: boolean }>`
   flex-direction: row;
   justify-content: center;
   opacity: ${({ isDisabled }) => (isDisabled ? "0" : "1")};
-  color: ${(props) => props.theme.dark};
+  border: ${(props) => `2px solid ${props.theme.dark}`};
   transition: background 0.2s linear;
   &:hover,
   &:focus-visible {

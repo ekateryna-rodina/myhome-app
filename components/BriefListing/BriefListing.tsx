@@ -1,4 +1,5 @@
 import { Images } from "components/Images";
+import RoomsInfo from "components/RoomsInfo.style";
 import React from "react";
 import { Listing } from "src/utils/types";
 import styled, { keyframes } from "styled-components";
@@ -27,9 +28,12 @@ const Grid = styled.div`
   grid-gap: 3em;
 `;
 
-const Price = styled.div`
+const Price = styled.span`
   transform: translateX(var(--init-transform));
   animation: ${info} 0.2s ease-in-out forwards 0.5s;
+  font-size: 2.5rem;
+  color: ${(props) => props.theme.dark};
+  padding-left: 1rem;
 `;
 const Features = styled.div`
   transform: translateX(var(--init-transform));
@@ -49,6 +53,8 @@ const Info = styled.div`
 const Description = styled.div`
   transform: translateX(var(--init-transform));
   animation: ${info} 0.2s ease-in-out forwards 1.1s;
+  font-size: 1.2rem;
+  color: ${(props) => props.theme.dark};
 `;
 const EnterButton = styled.button`
   width: max-content;
@@ -79,15 +85,21 @@ const ButtonLabel = styled.span`
   font-weight: 600;
   letter-spacing: 0.1rem;
 `;
-const Address = styled.div`
+const Address = styled.span`
   transform: translateX(var(--init-transform));
   animation: ${info} 0.2s ease-in-out forwards 0.7s;
+  font-size: 1.5rem;
+  color: ${(props) => props.theme.secondary};
+  padding-left: 1rem;
+  margin-top: -2rem;
 `;
 
 const BriefListing: React.FC<{ data: Listing }> = ({
   data: {
     id,
     photo,
+    beds,
+    baths,
     location: { country, city },
   },
 }) => {
@@ -97,17 +109,22 @@ const BriefListing: React.FC<{ data: Listing }> = ({
         <Price>{"$3400.00"}</Price>
         <Address>{`${city}, ${country}`}</Address>
         <Features>
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cumque porro
-          repudiandae error temporibus iusto voluptate esse voluptas
+          <RoomsInfo {...{ beds, baths }} />
         </Features>
 
         <Description>
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ex fugiat
-          molestias sequi optio ad consequatur assumenda pariatur vel
-          perspiciatis voluptates distinctio sint sit impedit quos, quia
-          dignissimos aliquid facere rerum, possimus, porro vitae quis error
-          officiis minus? Neque consequatur officia voluptatum ex, nisi sequi
-          maiores, similique dicta nemo, inventore et!
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae
+          labore similique modi nobis eaque voluptatum omnis temporibus, quas
+          quasi recusandae delectus at commodi optio quis mollitia libero totam
+          quibusdam sapiente! Praesentium error, mollitia blanditiis alias
+          perferendis repellat debitis, illum, aliquam quam doloremque velit
+          iste ad. Iste eaque in officia natus? Adipisci rem assumenda in quae
+          ea vero odit labore nihil molestiae, quo, dolorum et similique?
+          Accusantium neque ducimus alias doloribus aperiam soluta optio sequi
+          harum, molestias assumenda, expedita dicta sit eligendi. Possimus
+          officia excepturi expedita beatae qui dolorum nisi sequi labore
+          cupiditate sint voluptatibus, consectetur accusantium natus ratione
+          reiciendis a?
         </Description>
         <EnterButton>
           <ButtonLabel>view Details</ButtonLabel>
