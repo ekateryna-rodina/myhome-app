@@ -3,6 +3,7 @@ import "@atlaskit/css-reset/dist/bundle.css";
 import { AppProps } from "next/dist/shared/lib/router/router";
 import { lighten } from "polished";
 import React from "react";
+import { respondTo } from "src/utils/_respondTo";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import AppContextProvider from "../components/AppContextWrapper/AppContextWrapper";
 import { useApollo } from "../src/lib/apollo";
@@ -18,7 +19,22 @@ body{
   min-height:100vh;
   font-family: 'Roboto', sans-serif;
   overflow: hidden;
-  font-size: 100%;
+  font-size: 80%;
+    ${respondTo.tablet`
+    font-size: 90%;
+    `}
+    ${respondTo.laptopAndDesktop`
+    font-size: 100%;
+    `}
+}
+*{
+    font-size: 80%;
+    ${respondTo.tablet`
+    font-size: 90%;
+    `}
+    ${respondTo.laptopAndDesktop`
+    font-size: 100%;
+    `}
 }
 
 `;
