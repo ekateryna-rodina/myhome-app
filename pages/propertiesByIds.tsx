@@ -1,6 +1,8 @@
 import { NormalizedCacheObject } from "@apollo/client";
 import BriefListing from "components/BriefListing/BriefListing";
+import Feature from "components/Feature.styled";
 import { ListingsCarousel } from "components/ListingsCarousel";
+import { Logo } from "components/Logo";
 import type { NextPage } from "next";
 import React, { useEffect, useState } from "react";
 import { initializeApollo } from "src/lib/apollo";
@@ -16,7 +18,18 @@ const Container = styled.div`
   padding: 3rem;
   box-sizing: border-box;
 `;
-
+const Header = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`;
+const Features = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+`;
 const ProperiesByIds: NextPage<{ initialApolloState: NormalizedCacheObject }> =
   (props) => {
     const data = props.initialApolloState;
@@ -37,6 +50,12 @@ const ProperiesByIds: NextPage<{ initialApolloState: NormalizedCacheObject }> =
     const [currentProperty, setCurrentProperty] = useState<Listing>(
       properties[current] as Listing
     );
+    const [features, setFeatures] = useState<string[]>([
+      "baby bed",
+      "pets friendly",
+      "breakfast included",
+      "with parking",
+    ]);
     const [randomKey, setRandomKey] = useState<number>(0);
     useEffect(() => {
       if (current === null || current === undefined) return;
@@ -45,6 +64,14 @@ const ProperiesByIds: NextPage<{ initialApolloState: NormalizedCacheObject }> =
     }, [current]);
     return (
       <Container>
+        <Header>
+          <Logo />
+          <Features>
+            {features.map((f) => (
+              <Feature key={f} feature={f} />
+            ))}
+          </Features>
+        </Header>
         <ListingsCarousel
           current={current}
           setCurrent={setCurrent}
