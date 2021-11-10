@@ -1,16 +1,8 @@
-import Img from "next/image";
+import { Images } from "components/Images";
 import React from "react";
 import { Listing } from "src/utils/types";
 import styled, { keyframes } from "styled-components";
 
-const image = keyframes`
-from{
-  transform: translateX(150%);
-}
-to{
-  transform: translateX(0);
-}
-`;
 const info = keyframes`
 from{
   transform: translateX(-150%);
@@ -53,17 +45,7 @@ const Info = styled.div`
     padding: 0 1em;
   }
 `;
-const ImageContainer = styled.div`
-  width: 100%;
-  height: 80%;
-  margin: auto;
-  position: relative;
-  overflow: hidden;
-  border-radius: 0.5rem;
-  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.3);
-  transform: translateX(150%);
-  animation: ${image} 0.5s ease-in-out forwards;
-`;
+
 const Description = styled.div`
   transform: translateX(var(--init-transform));
   animation: ${info} 0.2s ease-in-out forwards 1.1s;
@@ -132,9 +114,7 @@ const BriefListing: React.FC<{ data: Listing }> = ({
           <ButtonLabel>view Details</ButtonLabel>
         </EnterButton>
       </Info>
-      <ImageContainer>
-        <Img src={photo} layout="fill" objectFit="cover" priority={true}></Img>
-      </ImageContainer>
+      <Images images={[photo, photo, photo, photo]} />
     </Grid>
   );
 };

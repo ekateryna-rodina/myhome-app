@@ -1,10 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import ArrowLeft from "../public/assets/arrowLeft.svg";
-import ArrowRight from "../public/assets/arrowRight.svg";
 import BedIcon from "../public/assets/bed.svg";
 import NotificationIcon from "../public/assets/bell.svg";
 import ApartmentIcon from "../public/assets/building.svg";
+import ChevronLeft from "../public/assets/chevronLeft.svg";
+import ChevronRight from "../public/assets/chevronRight.svg";
 import CloseIcon from "../public/assets/close.svg";
 import MessageIcon from "../public/assets/email.svg";
 import VisiteIcon from "../public/assets/enter.svg";
@@ -46,8 +46,8 @@ const iconTypes: Record<Icons, any> = {
   [Icons.Close]: CloseIcon,
   [Icons.Sad]: SadIcon,
   [Icons.Pin]: PinIcon,
-  [Icons.ArrowLeft]: ArrowLeft,
-  [Icons.ArrowRight]: ArrowRight,
+  [Icons.ChevronLeft]: ChevronLeft,
+  [Icons.ChevronRight]: ChevronRight,
 };
 
 const Icon = (props: IconProps) => {

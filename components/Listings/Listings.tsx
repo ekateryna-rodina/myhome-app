@@ -29,7 +29,6 @@ const ListingsContainer = styled.div<{
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
   grid-gap: 1rem;
-  grid-auto-rows: minmax(3rem, auto);
   width: 90vw;
   margin: var(--margin-top) auto 0 auto;
   z-index: 5;

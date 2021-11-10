@@ -1,6 +1,6 @@
 import { NormalizedCacheObject } from "@apollo/client";
 import BriefListing from "components/BriefListing/BriefListing";
-import { ListingsCarousel } from "components/ListingsCarousel";
+import ListingsCarousel_ from "components/ListingsCarousel_/ListingsCarousel_";
 import type { NextPage } from "next";
 import React, { useEffect, useState } from "react";
 import { initializeApollo } from "src/lib/apollo";
@@ -45,13 +45,20 @@ const ProperiesByIds: NextPage<{ initialApolloState: NormalizedCacheObject }> =
     }, [current]);
     return (
       <Container>
-        <ListingsCarousel
+        {/* <ListingsCarousel
           current={current}
           setCurrent={setCurrent}
           total={properties.length}
         >
           <BriefListing data={currentProperty} key={randomKey} />
-        </ListingsCarousel>
+        </ListingsCarousel> */}
+        <ListingsCarousel_
+          current={current}
+          setCurrent={setCurrent}
+          total={properties.length}
+        >
+          <BriefListing data={currentProperty} key={randomKey} />
+        </ListingsCarousel_>
       </Container>
     );
   };
