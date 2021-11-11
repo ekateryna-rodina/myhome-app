@@ -1,13 +1,15 @@
 import { NormalizedCacheObject } from "@apollo/client";
 import BriefListing from "components/BriefListing/BriefListing";
-import Feature from "components/Feature.styled";
+import { Features } from "components/Features";
 import { ListingsCarousel } from "components/ListingsCarousel";
 import { Logo } from "components/Logo";
+import { ToggleFeatures } from "components/ToggleFeatures";
 import type { NextPage } from "next";
 import React, { useEffect, useState } from "react";
 import { initializeApollo } from "src/lib/apollo";
 import { PROPERTIES_BY_IDS } from "src/utils/constants";
 import { Listing } from "src/utils/types";
+import { respondTo } from "src/utils/_respondTo";
 import styled from "styled-components";
 
 const initTransform = "-180%";
@@ -15,8 +17,11 @@ const Container = styled.div`
   --init-transform: ${initTransform};
   width: 100vw;
   height: 100vh;
-  padding: 2rem;
+  padding: 1.3rem;
   box-sizing: border-box;
+  ${respondTo.laptopAndDesktop`
+  padding: 2rem;
+  `};
 `;
 const Header = styled.div`
   display: flex;
@@ -24,12 +29,14 @@ const Header = styled.div`
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
+  position: relative;
 `;
-const Features = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
+
+const FeaturesVisibility = styled.div`
+  display: none;
+  ${respondTo.laptopAndDesktop`
+    display: block;
+  `};
 `;
 const ProperiesByIds: NextPage<{ initialApolloState: NormalizedCacheObject }> =
   (props) => {
@@ -66,12 +73,11 @@ const ProperiesByIds: NextPage<{ initialApolloState: NormalizedCacheObject }> =
     return (
       <Container>
         <Header>
-          <Logo />
-          <Features>
-            {features.map((f) => (
-              <Feature key={f} feature={f} />
-            ))}
-          </Features>
+          <Logo hide={false} size={45} />
+          <FeaturesVisibility>
+            <Features features={features} />
+          </FeaturesVisibility>
+          <ToggleFeatures features={features} />
         </Header>
         <ListingsCarousel
           current={current}

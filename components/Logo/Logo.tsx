@@ -3,8 +3,9 @@ import React from "react";
 import styled from "styled-components";
 import { respondTo } from "../../src/utils/_respondTo";
 
-const LogoHeader = styled.div`
-  display: none;
+const LogoHeader = styled.div<{ hidden?: boolean }>`
+  display: ${({ hidden }) =>
+    hidden !== undefined && !hidden ? "block" : "none"};
   font-size: 1rem;
   text-transform: uppercase;
   font-weight: 700;
@@ -20,6 +21,10 @@ const LogoHeader = styled.div`
   ${respondTo.tablet`
     display: block;
   `}
+  & > img {
+    width: 200px;
+    height: 100px;
+  }
 `;
 const Link = styled.a`
   display: none;
@@ -38,13 +43,13 @@ const Link = styled.a`
     display: block;
   `}
 `;
-const Logo = () => {
+const Logo = ({ hide, size }: { hide?: boolean; size?: number }) => {
   return (
-    <LogoHeader data-testid="logoTestId">
+    <LogoHeader data-testid="logoTestId" hidden={hide ?? undefined}>
       <Img
         src="https://res.cloudinary.com/kariecloud/image/upload/v1631839251/2021-09-16_20.27.45-removebg_op1mio.png"
-        width="60"
-        height="60"
+        width={size ?? "60"}
+        height={size ?? "60"}
       ></Img>
       <Link data-testid="linkTestId" href="#">
         MYHOME
